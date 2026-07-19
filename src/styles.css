@@ -260,3 +260,88 @@
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
+
+/* ============================================================
+ * Light-theme compatibility overrides
+ * The platform components were authored for dark mode. On light
+ * theme (root html without .dark), remap hardcoded white/black
+ * tints to foreground-based tokens so contrast stays readable.
+ * ============================================================ */
+html:not(.dark) {
+  /* Surfaces that use bg-white/N — swap to muted foreground tint */
+  .bg-white\/5      { background-color: hsl(var(--foreground) / 0.04) !important; }
+  .bg-white\/\[0\.02\] { background-color: hsl(var(--foreground) / 0.025) !important; }
+  .bg-white\/10     { background-color: hsl(var(--foreground) / 0.06) !important; }
+  .bg-white\/20     { background-color: hsl(var(--foreground) / 0.10) !important; }
+  .hover\:bg-white\/5:hover  { background-color: hsl(var(--foreground) / 0.05) !important; }
+  .hover\:bg-white\/10:hover { background-color: hsl(var(--foreground) / 0.08) !important; }
+  .group-hover\:bg-white\/10 { background-color: transparent; }
+  .bg-black\/10 { background-color: hsl(var(--foreground) / 0.05) !important; }
+
+  /* Borders / rings that use white — swap to border token */
+  .border-white\/5, .border-white\/10, .border-white\/15,
+  .border-white\/20, .border-white\/25, .border-white\/30 {
+    border-color: hsl(var(--border)) !important;
+  }
+  .ring-white\/10 { --tw-ring-color: hsl(var(--border)); box-shadow: 0 0 0 1px hsl(var(--border)) inset; }
+  .divide-white\/10 > * + * { border-color: hsl(var(--border)) !important; }
+
+  /* Foreground text that used white — swap to real foreground */
+  .text-white,
+  .text-white\/50, .text-white\/60, .text-white\/70, .text-white\/75,
+  .text-white\/80, .text-white\/85, .text-white\/90 {
+    color: hsl(var(--foreground)) !important;
+  }
+  .hover\:text-white:hover { color: hsl(var(--foreground)) !important; }
+
+  /* Hero big number ghost on dark → subtle foreground on light */
+  .text-white\/5, .text-white\/10 { color: hsl(var(--foreground) / 0.06) !important; }
+
+  /* Gradient dark panels stay dark on purpose — force their inner text
+   * back to white so on-dark contrast holds. */
+  .bg-gradient-dark,
+  .bg-gradient-dark * ,
+  .bg-gradient-hero,
+  .bg-gradient-hero * {
+    color: unset;
+  }
+  .bg-gradient-dark { color: #fff; }
+  .bg-gradient-dark .text-white,
+  .bg-gradient-dark .text-white\/50,
+  .bg-gradient-dark .text-white\/60,
+  .bg-gradient-dark .text-white\/70,
+  .bg-gradient-dark .text-white\/75,
+  .bg-gradient-dark .text-white\/80,
+  .bg-gradient-dark .text-white\/85,
+  .bg-gradient-dark .text-white\/90 { color: rgb(255 255 255 / var(--tw-text-opacity, 0.85)) !important; }
+  .bg-gradient-dark .text-white { color: #fff !important; }
+  .bg-gradient-dark .border-white\/5,
+  .bg-gradient-dark .border-white\/10,
+  .bg-gradient-dark .border-white\/15,
+  .bg-gradient-dark .border-white\/20,
+  .bg-gradient-dark .border-white\/25,
+  .bg-gradient-dark .border-white\/30 { border-color: rgb(255 255 255 / 0.2) !important; }
+  .bg-gradient-dark .bg-white\/5,
+  .bg-gradient-dark .bg-white\/10 { background-color: rgb(255 255 255 / 0.08) !important; }
+
+  /* Hero component uses bg-gradient-hero as its root */
+  .bg-gradient-hero { color: #fff; }
+  .bg-gradient-hero .text-white,
+  .bg-gradient-hero .text-white\/70,
+  .bg-gradient-hero .text-white\/75,
+  .bg-gradient-hero .text-white\/85,
+  .bg-gradient-hero .text-white\/90 { color: rgb(255 255 255 / 0.9) !important; }
+  .bg-gradient-hero .border-white\/10,
+  .bg-gradient-hero .border-white\/20,
+  .bg-gradient-hero .border-white\/25,
+  .bg-gradient-hero .border-white\/30 { border-color: rgb(255 255 255 / 0.28) !important; }
+  .bg-gradient-hero .bg-white\/5,
+  .bg-gradient-hero .bg-white\/10 { background-color: rgb(255 255 255 / 0.14) !important; }
+  .bg-gradient-hero .bg-white { background-color: #fff !important; }
+  .bg-gradient-hero .text-white\/5,
+  .bg-gradient-hero .text-white\/10 { color: rgb(255 255 255 / 0.08) !important; }
+
+  /* Surface tints referencing dark surfaces — lighten */
+  .bg-surface-2\/60, .bg-surface-2\/80 { background-color: hsl(var(--surface-2)) !important; }
+  .bg-surface-1\/80 { background-color: hsl(var(--surface-1)) !important; }
+}
