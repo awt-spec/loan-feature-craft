@@ -29,11 +29,11 @@ import {
 } from "lucide-react";
 
 const modelStyles: Record<string, string> = {
-  SaaS: "bg-primary/10 text-primary ring-primary/25",
-  "On Premise": "bg-slate-500/10 text-slate-700 ring-slate-500/25 dark:text-slate-300",
+  SaaS: "bg-primary/15 text-primary ring-primary/30",
+  "On Premise": "bg-slate-500/15 text-slate-800 ring-slate-500/30 dark:text-slate-200",
 };
 function pillForModel(m: string) {
-  if (m.includes("/")) return "bg-amber-500/10 text-amber-800 ring-amber-500/25 dark:text-amber-300";
+  if (m.includes("/")) return "bg-amber-500/15 text-amber-900 ring-amber-500/40 dark:text-amber-200";
   return modelStyles[m] ?? "bg-muted text-foreground ring-border";
 }
 
@@ -104,32 +104,32 @@ export function ReferenciasSection() {
   }, []);
 
   return (
-    <div className="space-y-10 pb-20">
+    <div className="space-y-8 pb-16 sm:space-y-10 sm:pb-20">
       {/* ─────────────────── HERO ─────────────────── */}
-      <header className="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark text-white shadow-sysde">
+      <header className="relative overflow-hidden rounded-2xl border border-border bg-gradient-dark text-white shadow-sysde sm:rounded-3xl">
         <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-40 mask-radial-fade" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-primary/40 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
 
-        <div className="relative grid gap-8 p-6 md:grid-cols-[1fr_auto] md:p-10">
-          <div>
-            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.28em] text-white/70">
-              <span className="inline-flex h-1.5 w-1.5 rounded-full bg-primary pulse-dot" />
-              Anexo · Casos verificables
+        <div className="relative grid gap-6 p-5 sm:p-6 md:grid-cols-[1fr_auto] md:gap-8 md:p-10">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.24em] text-white/85">
+              <span className="inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-primary pulse-dot" />
+              <span className="truncate">Anexo · Casos verificables</span>
             </div>
-            <h1 className="mt-4 font-heading text-3xl font-black leading-tight tracking-tight md:text-5xl">
+            <h1 className="mt-3 font-heading text-2xl font-black leading-[1.1] tracking-tight sm:text-3xl md:text-5xl">
               Referencias SYSDE ordenadas
               <br className="hidden md:inline" />
               <span className="text-gradient-sysde"> desde Paraguay hacia afuera</span>
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+            <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-white/90 sm:text-sm md:text-base">
               Instituciones financieras, AFP, cooperativas y microfinanzas operando sobre las
               plataformas SYSDE. La lista abre con los mercados más cercanos a Banco Atlas —
               Cono Sur, Brasil y región Andina — y se expande hacia Mesoamérica, Caribe y África.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 md:min-w-[280px]">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:min-w-[280px]">
             <Kpi icon={Building2} label="Instituciones" value={String(kpis.total)} />
             <Kpi icon={Globe2} label="Países" value={String(kpis.countries)} />
             <Kpi icon={Users} label="Pensiones" value={String(kpis.pensions)} />
@@ -139,18 +139,18 @@ export function ReferenciasSection() {
       </header>
 
       {/* ─────────────────── FOOTPRINT ─────────────────── */}
-      <section className="rounded-3xl border border-border bg-card p-6 shadow-card-soft md:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
+      <section className="rounded-2xl border border-border bg-card p-5 shadow-card-soft sm:rounded-3xl sm:p-6 md:p-8">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between">
+          <div className="min-w-0">
             <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
-              <MapPin className="h-3.5 w-3.5" /> Presencia operativa SYSDE
+              <MapPin className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">Presencia operativa SYSDE</span>
             </div>
-            <h2 className="mt-2 font-heading text-xl font-black tracking-tight md:text-2xl">
+            <h2 className="mt-2 font-heading text-lg font-black tracking-tight sm:text-xl md:text-2xl">
               Huella instalada para atender Paraguay
             </h2>
           </div>
-          <div className="text-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            8 mercados · 1 aliado local
+          <div className="text-mono shrink-0 text-[10px] uppercase tracking-wider text-foreground/70">
+            8 mercados · 1 aliado
           </div>
         </div>
 
@@ -189,8 +189,8 @@ export function ReferenciasSection() {
                     className={[
                       "rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
                       f.highlight
-                        ? "border-white/30 text-white/90"
-                        : "border-border text-muted-foreground",
+                        ? "border-white/40 bg-white/10 text-white"
+                        : "border-border bg-muted/60 text-foreground/80",
                     ].join(" ")}
                   >
                     {r}
@@ -201,7 +201,7 @@ export function ReferenciasSection() {
                 <div
                   className={[
                     "relative mt-3 text-[11px] leading-snug",
-                    f.highlight ? "text-white/85" : "text-muted-foreground",
+                    f.highlight ? "text-white/95" : "text-foreground/70",
                   ].join(" ")}
                 >
                   {f.note}
@@ -213,32 +213,32 @@ export function ReferenciasSection() {
       </section>
 
       {/* ─────────────────── CONTROLS ─────────────────── */}
-      <section className="rounded-3xl border border-border bg-card p-4 shadow-card-soft md:p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="relative max-w-md flex-1">
-            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <section className="rounded-2xl border border-border bg-card p-4 shadow-card-soft sm:rounded-3xl md:p-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="relative w-full md:max-w-md md:flex-1">
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Buscar por institución, país o producto…"
-              className="w-full rounded-xl border border-border bg-background px-10 py-2.5 text-sm text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+              placeholder="Buscar institución, país o producto…"
+              className="w-full rounded-xl border border-border bg-background px-10 py-2.5 text-sm text-foreground shadow-sm outline-none transition placeholder:text-foreground/50 focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
             />
             {q && (
               <button
                 onClick={() => setQ("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-foreground/60 transition hover:bg-muted hover:text-foreground"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
           </div>
-          <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <div className="text-mono flex items-center gap-2 text-[10px] uppercase tracking-wider text-foreground/70">
             <Filter className="h-3 w-3" />
-            {filtered.length} de {references.length}
+            <span className="font-bold text-primary">{filtered.length}</span> de {references.length}
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           {filterGroups.map((f) => {
             const active = filter === f.key;
             return (
@@ -247,10 +247,10 @@ export function ReferenciasSection() {
                 onClick={() => setFilter(f.key)}
                 title={f.hint}
                 className={[
-                  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
+                  "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                   active
                     ? "border-primary bg-gradient-hero text-white shadow-sysde"
-                    : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground",
+                    : "border-border bg-background text-foreground/85 hover:border-primary/40 hover:text-primary",
                 ].join(" ")}
               >
                 {f.key === "near-py" && <Sparkles className="h-3 w-3" />}
@@ -271,20 +271,21 @@ export function ReferenciasSection() {
       {grouped.map(([region, list], gIdx) => (
         <section key={region} className="relative">
           {/* Region rail */}
-          <div className="mb-5 flex items-center gap-3">
-            <div className="text-mono flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-hero text-[11px] font-black text-white shadow-sysde">
+          <div className="mb-4 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:mb-5">
+            <div className="text-mono flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-hero text-[11px] font-black text-white shadow-sysde">
               {String(gIdx + 1).padStart(2, "0")}
             </div>
-            <div className="flex-1">
-              <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+            <div className="min-w-0">
+              <div className="text-mono truncate text-[10px] uppercase tracking-[0.22em] text-primary">
                 Región · {regionMeta[region].short}
               </div>
-              <h2 className="font-heading text-xl font-black tracking-tight md:text-2xl">
+              <h2 className="truncate font-heading text-lg font-black tracking-tight sm:text-xl md:text-2xl">
                 {regionMeta[region].label}
               </h2>
             </div>
-            <div className="text-mono rounded-full border border-border bg-background px-3 py-1 text-[11px] font-bold text-muted-foreground">
-              {list.length} {list.length === 1 ? "referencia" : "referencias"}
+            <div className="text-mono shrink-0 rounded-full border border-border bg-background px-2.5 py-1 text-[10px] font-bold text-foreground/80 sm:px-3 sm:text-[11px]">
+              {list.length}
+              <span className="hidden sm:inline"> {list.length === 1 ? "referencia" : "referencias"}</span>
             </div>
           </div>
 
@@ -317,16 +318,16 @@ function Kpi({
   value: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] p-4 backdrop-blur">
+    <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/[0.08] p-3 backdrop-blur sm:rounded-2xl sm:p-4">
       <div className="flex items-center gap-2">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-hero text-white shadow-sysde ring-1 ring-white/25">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-hero text-white shadow-sysde ring-1 ring-white/30 sm:h-8 sm:w-8">
           <Icon className="h-3.5 w-3.5" strokeWidth={2.25} />
         </div>
-        <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-white/70">
+        <div className="text-mono truncate text-[9px] uppercase tracking-[0.2em] text-white/85 sm:text-[10px]">
           {label}
         </div>
       </div>
-      <div className="text-mono mt-2 font-heading text-2xl font-black text-white">{value}</div>
+      <div className="text-mono mt-1.5 font-heading text-xl font-black text-white sm:mt-2 sm:text-2xl">{value}</div>
     </div>
   );
 }
@@ -344,14 +345,14 @@ function ReferenceCard({
     <button
       onClick={onOpen}
       className={[
-        "group relative overflow-hidden rounded-2xl border bg-card p-5 text-left shadow-card-soft transition",
+        "group relative overflow-hidden rounded-2xl border bg-card p-4 text-left shadow-card-soft transition sm:p-5",
         "hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sysde",
-        highlight ? "border-primary/25" : "border-border",
+        highlight ? "border-primary/30" : "border-border",
       ].join(" ")}
     >
       {highlight && (
-        <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/25">
-          <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} /> Cerca de PY
+        <div className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/30">
+          <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} /> <span className="hidden sm:inline">Cerca de </span>PY
         </div>
       )}
       <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/5 blur-2xl transition group-hover:bg-primary/15" />
@@ -359,13 +360,13 @@ function ReferenceCard({
       <div className="relative">
         {/* Head */}
         <div className="flex items-start gap-3">
-          <div className="text-2xl leading-none">{getFlag(r.country)}</div>
-          <div className="min-w-0 flex-1 pr-16">
-            <h3 className="font-heading text-base font-black leading-tight text-foreground transition group-hover:text-primary">
+          <div className="shrink-0 text-2xl leading-none">{getFlag(r.country)}</div>
+          <div className={["min-w-0 flex-1", highlight ? "pr-12 sm:pr-16" : ""].join(" ")}>
+            <h3 className="font-heading text-[15px] font-black leading-tight text-foreground transition group-hover:text-primary sm:text-base">
               {r.name}
             </h3>
-            <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-              <MapPin className="h-3 w-3" strokeWidth={2.25} />
+            <div className="mt-1 flex items-center gap-1.5 text-[11px] text-foreground/70">
+              <MapPin className="h-3 w-3 shrink-0" strokeWidth={2.25} />
               <span className="line-clamp-1">
                 {r.countries ? `${r.countries.length} países · ${r.country}` : r.country}
               </span>
@@ -375,7 +376,7 @@ function ReferenceCard({
 
         {/* Meta pills */}
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/25">
+          <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/30">
             {r.product}
           </span>
           <span
@@ -387,7 +388,7 @@ function ReferenceCard({
             <Layers className="h-2.5 w-2.5" strokeWidth={2.5} /> {r.model}
           </span>
           {r.status === "en-implementacion" && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-700 ring-1 ring-amber-500/25 dark:text-amber-300">
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-800 ring-1 ring-amber-500/40 dark:text-amber-200">
               <Clock className="h-2.5 w-2.5" strokeWidth={2.5} /> En impl.
             </span>
           )}
@@ -397,8 +398,8 @@ function ReferenceCard({
         {(r.affiliates || r.funds) && (
           <div className="mt-3 grid grid-cols-2 gap-2">
             {r.affiliates && (
-              <div className="rounded-lg border border-border bg-muted/40 p-2">
-                <div className="text-mono flex items-center gap-1 text-[9px] uppercase tracking-wider text-muted-foreground">
+              <div className="rounded-lg border border-border bg-muted/60 p-2">
+                <div className="text-mono flex items-center gap-1 text-[9px] uppercase tracking-wider text-foreground/70">
                   <Users className="h-2.5 w-2.5" /> Afiliados
                 </div>
                 <div className="text-mono mt-0.5 font-heading text-sm font-black text-foreground">
@@ -407,7 +408,7 @@ function ReferenceCard({
               </div>
             )}
             {r.funds && (
-              <div className="rounded-lg border border-primary/20 bg-primary/5 p-2">
+              <div className="rounded-lg border border-primary/30 bg-primary/10 p-2">
                 <div className="text-mono flex items-center gap-1 text-[9px] uppercase tracking-wider text-primary">
                   <DollarSign className="h-2.5 w-2.5" /> Fondos
                 </div>
@@ -420,16 +421,16 @@ function ReferenceCard({
         )}
 
         {/* Detail */}
-        <p className="mt-3 line-clamp-2 text-[13px] leading-relaxed text-foreground/80">
+        <p className="mt-3 line-clamp-2 text-[13px] leading-relaxed text-foreground/85">
           {r.detail}
         </p>
 
         {/* Footer */}
-        <div className="mt-4 flex items-center justify-between text-[11px] text-muted-foreground">
-          <span className="text-mono uppercase tracking-wider">
+        <div className="mt-4 flex items-center justify-between gap-2 text-[11px] text-foreground/70">
+          <span className="text-mono truncate uppercase tracking-wider">
             #{r.distanceRank.toString().padStart(2, "0")} desde PY
           </span>
-          <span className="inline-flex items-center gap-1 font-semibold text-primary opacity-0 transition group-hover:opacity-100">
+          <span className="inline-flex shrink-0 items-center gap-1 font-semibold text-primary sm:opacity-0 sm:transition sm:group-hover:opacity-100">
             Ver detalle <ChevronRight className="h-3 w-3" strokeWidth={2.5} />
           </span>
         </div>
