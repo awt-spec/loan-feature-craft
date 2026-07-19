@@ -139,18 +139,18 @@ export function ReferenciasSection() {
       </header>
 
       {/* ─────────────────── FOOTPRINT ─────────────────── */}
-      <section className="rounded-3xl border border-border bg-card p-6 shadow-card-soft md:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
+      <section className="rounded-2xl border border-border bg-card p-5 shadow-card-soft sm:rounded-3xl sm:p-6 md:p-8">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between">
+          <div className="min-w-0">
             <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
-              <MapPin className="h-3.5 w-3.5" /> Presencia operativa SYSDE
+              <MapPin className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">Presencia operativa SYSDE</span>
             </div>
-            <h2 className="mt-2 font-heading text-xl font-black tracking-tight md:text-2xl">
+            <h2 className="mt-2 font-heading text-lg font-black tracking-tight sm:text-xl md:text-2xl">
               Huella instalada para atender Paraguay
             </h2>
           </div>
-          <div className="text-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            8 mercados · 1 aliado local
+          <div className="text-mono shrink-0 text-[10px] uppercase tracking-wider text-foreground/70">
+            8 mercados · 1 aliado
           </div>
         </div>
 
