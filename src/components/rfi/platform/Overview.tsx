@@ -261,8 +261,10 @@ function Kpi({
   return (
     <div className="glass-panel group relative overflow-hidden rounded-2xl p-5">
       <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition group-hover:bg-primary/20" />
-      <Icon className="h-4 w-4 text-primary" />
-      <div className="text-mono mt-3 font-heading text-3xl font-black text-foreground">{value}</div>
+      <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+        <Icon className="h-4.5 w-4.5" strokeWidth={2.25} />
+      </div>
+      <div className="text-mono mt-4 font-heading text-3xl font-black text-foreground">{value}</div>
       <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
     </div>
   );
@@ -304,7 +306,9 @@ function SmallHeader({
 }) {
   return (
     <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-      <Icon className="h-3.5 w-3.5 text-primary" />
+      <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-primary/10 text-primary ring-1 ring-primary/20">
+        <Icon className="h-3.5 w-3.5" strokeWidth={2.25} />
+      </span>
       {children}
     </div>
   );
