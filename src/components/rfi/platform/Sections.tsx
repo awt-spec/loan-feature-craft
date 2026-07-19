@@ -7,7 +7,7 @@ import {
   otrasInstituciones,
   condiciones,
 } from "@/lib/rfi-content";
-import { Calendar, Building2, Mail, Phone, ClipboardList, Globe2, ScrollText, Users } from "lucide-react";
+import { CalendarClock, Building2, Mail, Phone, ClipboardCheck, Globe2, ScrollText, Users, AtSign, IdCard } from "lucide-react";
 
 function PageHeader({
   kicker,

@@ -1,8 +1,8 @@
 import { instrucciones } from "@/lib/rfi-content";
 import { SectionTitle } from "./SectionTitle";
-import { FileText, Sparkles, ScanSearch, Send, MessagesSquare } from "lucide-react";
+import { FileCheck2, ShieldCheck, ScanSearch, SendHorizonal, MessagesSquare, FileText } from "lucide-react";
 
-const icons = [FileText, Sparkles, ScanSearch, Send, MessagesSquare];
+const icons = [FileCheck2, ShieldCheck, ScanSearch, SendHorizonal, MessagesSquare];
 
 export function Instructions() {
   return (
