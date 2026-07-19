@@ -213,28 +213,28 @@ export function ReferenciasSection() {
       </section>
 
       {/* ─────────────────── CONTROLS ─────────────────── */}
-      <section className="rounded-3xl border border-border bg-card p-4 shadow-card-soft md:p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="relative max-w-md flex-1">
-            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <section className="rounded-2xl border border-border bg-card p-4 shadow-card-soft sm:rounded-3xl md:p-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="relative w-full md:max-w-md md:flex-1">
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Buscar por institución, país o producto…"
-              className="w-full rounded-xl border border-border bg-background px-10 py-2.5 text-sm text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+              placeholder="Buscar institución, país o producto…"
+              className="w-full rounded-xl border border-border bg-background px-10 py-2.5 text-sm text-foreground shadow-sm outline-none transition placeholder:text-foreground/50 focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
             />
             {q && (
               <button
                 onClick={() => setQ("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-foreground/60 transition hover:bg-muted hover:text-foreground"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
           </div>
-          <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <div className="text-mono flex items-center gap-2 text-[10px] uppercase tracking-wider text-foreground/70">
             <Filter className="h-3 w-3" />
-            {filtered.length} de {references.length}
+            <span className="font-bold text-primary">{filtered.length}</span> de {references.length}
           </div>
         </div>
 
