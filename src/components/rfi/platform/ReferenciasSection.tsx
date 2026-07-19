@@ -271,20 +271,21 @@ export function ReferenciasSection() {
       {grouped.map(([region, list], gIdx) => (
         <section key={region} className="relative">
           {/* Region rail */}
-          <div className="mb-5 flex items-center gap-3">
-            <div className="text-mono flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-hero text-[11px] font-black text-white shadow-sysde">
+          <div className="mb-4 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:mb-5">
+            <div className="text-mono flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-hero text-[11px] font-black text-white shadow-sysde">
               {String(gIdx + 1).padStart(2, "0")}
             </div>
-            <div className="flex-1">
-              <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+            <div className="min-w-0">
+              <div className="text-mono truncate text-[10px] uppercase tracking-[0.22em] text-primary">
                 Región · {regionMeta[region].short}
               </div>
-              <h2 className="font-heading text-xl font-black tracking-tight md:text-2xl">
+              <h2 className="truncate font-heading text-lg font-black tracking-tight sm:text-xl md:text-2xl">
                 {regionMeta[region].label}
               </h2>
             </div>
-            <div className="text-mono rounded-full border border-border bg-background px-3 py-1 text-[11px] font-bold text-muted-foreground">
-              {list.length} {list.length === 1 ? "referencia" : "referencias"}
+            <div className="text-mono shrink-0 rounded-full border border-border bg-background px-2.5 py-1 text-[10px] font-bold text-foreground/80 sm:px-3 sm:text-[11px]">
+              {list.length}
+              <span className="hidden sm:inline"> {list.length === 1 ? "referencia" : "referencias"}</span>
             </div>
           </div>
 
