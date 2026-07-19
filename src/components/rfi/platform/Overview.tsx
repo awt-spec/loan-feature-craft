@@ -217,7 +217,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
       {/* Stack tape */}
       <section className="rounded-2xl border border-white/10 bg-surface-2/60 p-6">
         <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          <Layers className="h-3.5 w-3.5 text-primary" /> Stack de referencia · SAF+
+          <Layers3 className="h-3.5 w-3.5 text-primary" strokeWidth={2.25} /> Stack de referencia · SAF+
         </div>
         <div className="mt-4 flex flex-wrap gap-2 text-mono text-xs">
           {[
