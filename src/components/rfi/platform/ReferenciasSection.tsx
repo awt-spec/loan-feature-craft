@@ -29,11 +29,11 @@ import {
 } from "lucide-react";
 
 const modelStyles: Record<string, string> = {
-  SaaS: "bg-primary/10 text-primary ring-primary/25",
-  "On Premise": "bg-slate-500/10 text-slate-700 ring-slate-500/25 dark:text-slate-300",
+  SaaS: "bg-primary/15 text-primary ring-primary/30",
+  "On Premise": "bg-slate-500/15 text-slate-800 ring-slate-500/30 dark:text-slate-200",
 };
 function pillForModel(m: string) {
-  if (m.includes("/")) return "bg-amber-500/10 text-amber-800 ring-amber-500/25 dark:text-amber-300";
+  if (m.includes("/")) return "bg-amber-500/15 text-amber-900 ring-amber-500/40 dark:text-amber-200";
   return modelStyles[m] ?? "bg-muted text-foreground ring-border";
 }
 
