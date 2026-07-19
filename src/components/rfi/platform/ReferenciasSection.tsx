@@ -318,16 +318,16 @@ function Kpi({
   value: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] p-4 backdrop-blur">
+    <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/[0.08] p-3 backdrop-blur sm:rounded-2xl sm:p-4">
       <div className="flex items-center gap-2">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-hero text-white shadow-sysde ring-1 ring-white/25">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-hero text-white shadow-sysde ring-1 ring-white/30 sm:h-8 sm:w-8">
           <Icon className="h-3.5 w-3.5" strokeWidth={2.25} />
         </div>
-        <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-white/70">
+        <div className="text-mono truncate text-[9px] uppercase tracking-[0.2em] text-white/85 sm:text-[10px]">
           {label}
         </div>
       </div>
-      <div className="text-mono mt-2 font-heading text-2xl font-black text-white">{value}</div>
+      <div className="text-mono mt-1.5 font-heading text-xl font-black text-white sm:mt-2 sm:text-2xl">{value}</div>
     </div>
   );
 }
