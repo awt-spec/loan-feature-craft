@@ -171,7 +171,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
             <div className="mt-2 space-y-2">
               {vendor.contactos.map((c) => (
                 <div key={c.email} className="flex items-center gap-3">
-                  <div className="text-mono flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 text-[11px] font-bold text-primary-foreground ring-1 ring-primary/40">
+                  <div className="text-mono flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 text-[11px] font-bold text-primary ring-1 ring-primary/40">
                     {c.iniciales}
                   </div>
                   <div className="min-w-0 text-xs">
