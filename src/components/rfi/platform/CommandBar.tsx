@@ -40,7 +40,7 @@ export function CommandBar({ active, onNavigate }: { active: SectionId; onNaviga
           <StatusPill />
           <DeadlinePill days={days} closes={process.cierre} />
           <button className="hidden items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground md:inline-flex">
-            <Download className="h-3.5 w-3.5" />
+            <FileDown className="h-3.5 w-3.5" />
             Exportar .docx
           </button>
         </div>
@@ -52,7 +52,7 @@ export function CommandBar({ active, onNavigate }: { active: SectionId; onNaviga
 function StatusPill() {
   return (
     <div className="hidden items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/5 px-3 py-1 text-[11px] font-medium text-emerald-300 md:inline-flex">
-      <Radio className="h-3 w-3 pulse-dot" />
+      <Signal className="h-3 w-3 pulse-dot" />
       <span className="text-mono uppercase tracking-[0.18em]">En preparación</span>
     </div>
   );
@@ -61,7 +61,7 @@ function StatusPill() {
 function DeadlinePill({ days, closes }: { days: number; closes: string }) {
   return (
     <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px]">
-      <Clock className="h-3 w-3 text-primary" />
+      <Timer className="h-3 w-3 text-primary" />
       <span className="text-mono uppercase tracking-[0.18em] text-muted-foreground">Cierre</span>
       <span className="text-mono font-semibold text-foreground">{days} días</span>
       <span className="hidden text-muted-foreground md:inline">· {closes}</span>
