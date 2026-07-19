@@ -41,7 +41,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
 
         <div className="relative">
           <div className="flex items-center gap-2 text-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            <Radar className="h-3.5 w-3.5 text-primary" strokeWidth={2.25} />
             Documento vivo · Confidencial
           </div>
           <h1 className="mt-4 max-w-3xl font-heading text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">
@@ -61,7 +61,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
               className="group inline-flex items-center gap-2 rounded-xl bg-gradient-hero px-5 py-3 text-sm font-semibold text-white shadow-sysde transition hover:brightness-110"
             >
               Abrir las 6 preguntas
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.5} />
             </button>
             <button
               onClick={() => onNavigate("proveedor")}
@@ -81,10 +81,10 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
           subtitle="Dimensión operativa y capacidad instalada del proveedor."
         />
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Kpi icon={TrendingUp} value="USD 10M" label="Facturación anual" />
-          <Kpi icon={Users} value="160" label="Especialistas técnicos" />
-          <Kpi icon={Building2} value="800+" label="Instituciones en producción" />
-          <Kpi icon={Calendar} value="35+" label="Años de operación continua" />
+          <Kpi icon={CircleDollarSign} value="USD 10M" label="Facturación anual" />
+          <Kpi icon={Code2} value="160" label="Especialistas técnicos" />
+          <Kpi icon={Landmark} value="800+" label="Instituciones en producción" />
+          <Kpi icon={History} value="35+" label="Años de operación continua" />
         </div>
       </section>
 
@@ -127,7 +127,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
                     {q.title}
                   </div>
                   <div className="mt-3 flex items-center gap-1.5 text-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground group-hover:text-primary">
-                    Abrir respuesta <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
+                    Abrir respuesta <ArrowUpRight className="h-3 w-3 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.5} />
                   </div>
                 </div>
               </div>
@@ -139,7 +139,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
       {/* Process + Vendor summary two-column */}
       <section className="grid gap-5 lg:grid-cols-3">
         <div className="glass-panel rounded-2xl p-6 lg:col-span-2">
-          <SmallHeader icon={Calendar}>Datos del proceso</SmallHeader>
+          <SmallHeader icon={CalendarClock}>Datos del proceso</SmallHeader>
           <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
             <Row k="Institución" v={proc.institucion} />
             <Row k="Tipo" v={proc.tipo} />
