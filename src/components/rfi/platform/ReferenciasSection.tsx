@@ -345,14 +345,14 @@ function ReferenceCard({
     <button
       onClick={onOpen}
       className={[
-        "group relative overflow-hidden rounded-2xl border bg-card p-5 text-left shadow-card-soft transition",
+        "group relative overflow-hidden rounded-2xl border bg-card p-4 text-left shadow-card-soft transition sm:p-5",
         "hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sysde",
-        highlight ? "border-primary/25" : "border-border",
+        highlight ? "border-primary/30" : "border-border",
       ].join(" ")}
     >
       {highlight && (
-        <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/25">
-          <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} /> Cerca de PY
+        <div className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/30">
+          <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} /> <span className="hidden sm:inline">Cerca de </span>PY
         </div>
       )}
       <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/5 blur-2xl transition group-hover:bg-primary/15" />
@@ -360,13 +360,13 @@ function ReferenceCard({
       <div className="relative">
         {/* Head */}
         <div className="flex items-start gap-3">
-          <div className="text-2xl leading-none">{getFlag(r.country)}</div>
-          <div className="min-w-0 flex-1 pr-16">
-            <h3 className="font-heading text-base font-black leading-tight text-foreground transition group-hover:text-primary">
+          <div className="shrink-0 text-2xl leading-none">{getFlag(r.country)}</div>
+          <div className={["min-w-0 flex-1", highlight ? "pr-12 sm:pr-16" : ""].join(" ")}>
+            <h3 className="font-heading text-[15px] font-black leading-tight text-foreground transition group-hover:text-primary sm:text-base">
               {r.name}
             </h3>
-            <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-              <MapPin className="h-3 w-3" strokeWidth={2.25} />
+            <div className="mt-1 flex items-center gap-1.5 text-[11px] text-foreground/70">
+              <MapPin className="h-3 w-3 shrink-0" strokeWidth={2.25} />
               <span className="line-clamp-1">
                 {r.countries ? `${r.countries.length} países · ${r.country}` : r.country}
               </span>
@@ -376,7 +376,7 @@ function ReferenceCard({
 
         {/* Meta pills */}
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/25">
+          <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/30">
             {r.product}
           </span>
           <span
@@ -388,7 +388,7 @@ function ReferenceCard({
             <Layers className="h-2.5 w-2.5" strokeWidth={2.5} /> {r.model}
           </span>
           {r.status === "en-implementacion" && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-700 ring-1 ring-amber-500/25 dark:text-amber-300">
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-800 ring-1 ring-amber-500/40 dark:text-amber-200">
               <Clock className="h-2.5 w-2.5" strokeWidth={2.5} /> En impl.
             </span>
           )}
@@ -398,8 +398,8 @@ function ReferenceCard({
         {(r.affiliates || r.funds) && (
           <div className="mt-3 grid grid-cols-2 gap-2">
             {r.affiliates && (
-              <div className="rounded-lg border border-border bg-muted/40 p-2">
-                <div className="text-mono flex items-center gap-1 text-[9px] uppercase tracking-wider text-muted-foreground">
+              <div className="rounded-lg border border-border bg-muted/60 p-2">
+                <div className="text-mono flex items-center gap-1 text-[9px] uppercase tracking-wider text-foreground/70">
                   <Users className="h-2.5 w-2.5" /> Afiliados
                 </div>
                 <div className="text-mono mt-0.5 font-heading text-sm font-black text-foreground">
@@ -408,7 +408,7 @@ function ReferenceCard({
               </div>
             )}
             {r.funds && (
-              <div className="rounded-lg border border-primary/20 bg-primary/5 p-2">
+              <div className="rounded-lg border border-primary/30 bg-primary/10 p-2">
                 <div className="text-mono flex items-center gap-1 text-[9px] uppercase tracking-wider text-primary">
                   <DollarSign className="h-2.5 w-2.5" /> Fondos
                 </div>
@@ -421,16 +421,16 @@ function ReferenceCard({
         )}
 
         {/* Detail */}
-        <p className="mt-3 line-clamp-2 text-[13px] leading-relaxed text-foreground/80">
+        <p className="mt-3 line-clamp-2 text-[13px] leading-relaxed text-foreground/85">
           {r.detail}
         </p>
 
         {/* Footer */}
-        <div className="mt-4 flex items-center justify-between text-[11px] text-muted-foreground">
-          <span className="text-mono uppercase tracking-wider">
+        <div className="mt-4 flex items-center justify-between gap-2 text-[11px] text-foreground/70">
+          <span className="text-mono truncate uppercase tracking-wider">
             #{r.distanceRank.toString().padStart(2, "0")} desde PY
           </span>
-          <span className="inline-flex items-center gap-1 font-semibold text-primary opacity-0 transition group-hover:opacity-100">
+          <span className="inline-flex shrink-0 items-center gap-1 font-semibold text-primary sm:opacity-0 sm:transition sm:group-hover:opacity-100">
             Ver detalle <ChevronRight className="h-3 w-3" strokeWidth={2.5} />
           </span>
         </div>
