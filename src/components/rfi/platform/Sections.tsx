@@ -46,7 +46,7 @@ export function ProcesoSection() {
   return (
     <div className="space-y-8 pb-16">
       <PageHeader
-        icon={Calendar}
+        icon={CalendarClock}
         kicker="Sección 1"
         title="Datos del proceso"
         subtitle="Parámetros formales del RFI publicado por Banco Atlas S.A."
@@ -172,7 +172,7 @@ export function InstruccionesSection() {
   return (
     <div className="space-y-8 pb-16">
       <PageHeader
-        icon={ClipboardList}
+        icon={ClipboardCheck}
         kicker="Sección 5"
         title="Instrucciones de respuesta"
         subtitle="Criterios formales aplicables a la elaboración y envío de la respuesta."
