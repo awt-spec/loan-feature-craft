@@ -104,7 +104,7 @@ export function ReferenciasSection() {
   }, []);
 
   return (
-    <div className="space-y-10 pb-20">
+    <div className="space-y-8 pb-16 sm:space-y-10 sm:pb-20">
       {/* ─────────────────── HERO ─────────────────── */}
       <header className="relative overflow-hidden rounded-2xl border border-border bg-gradient-dark text-white shadow-sysde sm:rounded-3xl">
         <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-40 mask-radial-fade" />
