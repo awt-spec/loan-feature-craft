@@ -95,7 +95,7 @@ export function QuestionView({
               return (
                 <div
                   key={i}
-                  className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-100/90"
+                  className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-900 dark:text-amber-100/90"
                 >
                   {b.text}
                 </div>
