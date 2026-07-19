@@ -238,7 +238,7 @@ export function ReferenciasSection() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           {filterGroups.map((f) => {
             const active = filter === f.key;
             return (
@@ -247,10 +247,10 @@ export function ReferenciasSection() {
                 onClick={() => setFilter(f.key)}
                 title={f.hint}
                 className={[
-                  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
+                  "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                   active
                     ? "border-primary bg-gradient-hero text-white shadow-sysde"
-                    : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground",
+                    : "border-border bg-background text-foreground/85 hover:border-primary/40 hover:text-primary",
                 ].join(" ")}
               >
                 {f.key === "near-py" && <Sparkles className="h-3 w-3" />}
