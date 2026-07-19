@@ -3,11 +3,9 @@ import {
   vendor,
   canales,
   instrucciones,
-  clientes,
-  otrasInstituciones,
   condiciones,
 } from "@/lib/rfi-content";
-import { CalendarClock, Building2, Mail, Phone, ClipboardCheck, Globe2, ScrollText, Users, AtSign, IdCard } from "lucide-react";
+import { CalendarClock, Building2, Mail, Phone, ClipboardCheck, Globe2, ScrollText, Users } from "lucide-react";
 
 function PageHeader({
   kicker,
@@ -237,41 +235,6 @@ export function InstruccionesSection() {
   );
 }
 
-export function ReferenciasSection() {
-  return (
-    <div className="space-y-8 pb-16">
-      <PageHeader
-        icon={Globe2}
-        kicker="Anexo"
-        title="Referencias regionales"
-        subtitle="Instituciones prioritarias con la solución SAF+ desplegada; referencias verificables."
-      />
-      <div className="grid gap-4 md:grid-cols-2">
-        {clientes.map((c) => (
-          <div key={c.n} className="glass-panel rounded-2xl p-5">
-            <div className="flex items-center gap-4">
-              <div className="text-mono flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-sm font-bold ring-1 ring-white/10">
-                0{c.n}
-              </div>
-              <div className="min-w-0">
-                <div className="font-heading text-lg font-bold">{c.nombre}</div>
-                <div className="text-xs text-muted-foreground">
-                  {c.tipo} · {c.pais}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="glass-panel rounded-2xl p-5 text-sm text-foreground/85">
-        <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          Otras instituciones divulgables
-        </div>
-        <div className="mt-2">{otrasInstituciones}</div>
-      </div>
-    </div>
-  );
-}
 
 export function CondicionesSection() {
   return (
