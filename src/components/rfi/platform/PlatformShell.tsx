@@ -8,9 +8,9 @@ import {
   ProveedorSection,
   ContactosSection,
   InstruccionesSection,
-  ReferenciasSection,
   CondicionesSection,
 } from "./Sections";
+import { ReferenciasSection } from "./ReferenciasSection";
 import { questions } from "@/lib/rfi-content";
 
 export type SectionId =
