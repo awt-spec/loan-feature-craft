@@ -1,18 +1,22 @@
 import type { SectionId } from "./PlatformShell";
 import { questions, process as proc, vendor, canales } from "@/lib/rfi-content";
 import {
-  ArrowRight,
-  Building2,
-  Users,
-  Calendar,
+  ArrowUpRight,
+  Landmark,
+  Code2,
+  CalendarClock,
   Mail,
   BadgeCheck,
   ShieldCheck,
   CircleDot,
-  Sparkles,
-  TrendingUp,
+  Radar,
+  CircleDollarSign,
   Globe2,
-  Layers,
+  Layers3,
+  ClipboardCheck,
+  BookOpenCheck,
+  History,
+  Users,
 } from "lucide-react";
 
 const nivelStyles: Record<string, string> = {
