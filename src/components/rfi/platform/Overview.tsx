@@ -255,7 +255,7 @@ function Kpi({
   value,
   label,
 }: {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   value: string;
   label: string;
 }) {
@@ -302,7 +302,7 @@ function SmallHeader({
   icon: Icon,
   children,
 }: {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   children: React.ReactNode;
 }) {
   return (
