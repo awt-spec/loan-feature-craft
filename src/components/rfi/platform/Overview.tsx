@@ -21,15 +21,15 @@ import {
 } from "lucide-react";
 
 const nivelStyles: Record<string, string> = {
-  Sí: "bg-emerald-500/10 text-emerald-300 ring-emerald-500/30",
-  Parcial: "bg-amber-500/10 text-amber-300 ring-amber-500/30",
-  No: "bg-rose-500/10 text-rose-300 ring-rose-500/30",
+  Sí: "bg-emerald-500/15 text-emerald-700 ring-emerald-500/40 dark:text-emerald-300",
+  Parcial: "bg-amber-500/15 text-amber-700 ring-amber-500/40 dark:text-amber-300",
+  No: "bg-rose-500/15 text-rose-700 ring-rose-500/40 dark:text-rose-300",
 };
 
 const madurezStyles: Record<string, string> = {
-  Avanzado: "bg-primary/15 text-primary-foreground ring-primary/40",
-  Intermedio: "bg-sky-500/10 text-sky-300 ring-sky-500/30",
-  Básico: "bg-slate-500/10 text-slate-300 ring-slate-500/30",
+  Avanzado: "bg-primary/15 text-primary ring-primary/40 dark:text-primary-foreground",
+  Intermedio: "bg-sky-500/15 text-sky-700 ring-sky-500/40 dark:text-sky-300",
+  Básico: "bg-slate-500/15 text-slate-700 ring-slate-500/40 dark:text-slate-300",
 };
 
 export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }) {
