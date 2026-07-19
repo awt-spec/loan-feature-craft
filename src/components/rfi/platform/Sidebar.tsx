@@ -5,7 +5,7 @@ import {
   CalendarClock,
   Building2,
   Users,
-  ClipboardList,
+  ClipboardCheck,
   BadgeCheck,
   Globe2,
   ScrollText,
