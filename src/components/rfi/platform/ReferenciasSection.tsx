@@ -189,8 +189,8 @@ export function ReferenciasSection() {
                     className={[
                       "rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
                       f.highlight
-                        ? "border-white/30 text-white/90"
-                        : "border-border text-muted-foreground",
+                        ? "border-white/40 bg-white/10 text-white"
+                        : "border-border bg-muted/60 text-foreground/80",
                     ].join(" ")}
                   >
                     {r}
@@ -201,7 +201,7 @@ export function ReferenciasSection() {
                 <div
                   className={[
                     "relative mt-3 text-[11px] leading-snug",
-                    f.highlight ? "text-white/85" : "text-muted-foreground",
+                    f.highlight ? "text-white/95" : "text-foreground/70",
                   ].join(" ")}
                 >
                   {f.note}
