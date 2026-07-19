@@ -1,5 +1,6 @@
 import type { SectionId } from "./PlatformShell";
 import { questions, process as proc, vendor, canales } from "@/lib/rfi-content";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowUpRight,
   Landmark,
