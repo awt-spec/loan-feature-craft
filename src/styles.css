@@ -49,32 +49,36 @@
   --secondary: 220 13% 18%;
   --secondary-foreground: 0 0% 100%;
 
-  --background: 0 0% 100%;
-  --foreground: 220 13% 14%;
+  --background: 220 30% 98%;
+  --foreground: 220 25% 12%;
 
   --card: 0 0% 100%;
-  --card-foreground: 220 13% 14%;
+  --card-foreground: 220 25% 12%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 220 13% 14%;
+  --popover-foreground: 220 25% 12%;
 
-  --muted: 220 14% 96%;
-  --muted-foreground: 220 9% 42%;
+  --muted: 220 20% 95%;
+  --muted-foreground: 220 12% 42%;
 
-  --accent: 352 85% 97%;
-  --accent-foreground: 352 85% 43%;
+  --accent: 352 85% 96%;
+  --accent-foreground: 352 85% 38%;
 
-  --destructive: 0 84% 60%;
+  --destructive: 0 84% 55%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 220 13% 91%;
-  --input: 220 13% 91%;
+  --border: 220 18% 88%;
+  --input: 220 18% 88%;
   --ring: 352 85% 43%;
 
+  --surface-1: 0 0% 100%;
+  --surface-2: 220 25% 97%;
+  --surface-3: 220 22% 94%;
+
   --gradient-hero: linear-gradient(135deg, hsl(352 85% 43%) 0%, hsl(352 85% 32%) 100%);
-  --gradient-dark: linear-gradient(135deg, hsl(220 13% 14%) 0%, hsl(220 13% 22%) 100%);
-  --shadow-red: 0 10px 40px -10px hsl(352 85% 43% / 0.3);
-  --shadow-card: 0 1px 2px hsl(220 13% 14% / 0.04), 0 8px 24px -8px hsl(220 13% 14% / 0.08);
+  --gradient-dark: linear-gradient(180deg, hsl(220 30% 99%) 0%, hsl(220 25% 95%) 100%);
+  --shadow-red: 0 20px 60px -20px hsl(352 85% 43% / 0.35);
+  --shadow-card: 0 1px 2px hsl(220 25% 12% / 0.04), 0 12px 32px -12px hsl(220 25% 12% / 0.10);
 }
 
 .dark {
@@ -185,6 +189,15 @@
 
 @utility bg-platform {
   background:
+    radial-gradient(1200px 600px at 85% -10%, hsl(352 85% 55% / 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, hsl(220 90% 55% / 0.06), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, hsl(352 85% 50% / 0.08), transparent 60%),
+    hsl(var(--background));
+}
+
+.dark .bg-platform,
+.dark.bg-platform {
+  background:
     radial-gradient(1200px 600px at 85% -10%, hsl(352 90% 55% / 0.18), transparent 60%),
     radial-gradient(900px 500px at -10% 30%, hsl(220 90% 40% / 0.10), transparent 60%),
     radial-gradient(700px 400px at 50% 110%, hsl(352 90% 40% / 0.12), transparent 60%),
@@ -196,16 +209,24 @@
 @utility bg-surface-3 { background-color: hsl(var(--surface-3)); }
 
 @utility glass-panel {
+  background: linear-gradient(180deg, hsl(var(--card) / 0.85), hsl(var(--card) / 0.6));
+  border: 1px solid hsl(var(--border) / 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 1px 0 hsl(0 0% 100% / 0.6) inset,
+    0 20px 40px -20px hsl(220 25% 12% / 0.15);
+}
+
+.dark .glass-panel {
   background: linear-gradient(180deg, hsl(0 0% 100% / 0.04), hsl(0 0% 100% / 0.015));
   border: 1px solid hsl(0 0% 100% / 0.08);
-  backdrop-filter: blur(12px);
   box-shadow:
     0 1px 0 hsl(0 0% 100% / 0.05) inset,
     0 30px 60px -30px hsl(0 0% 0% / 0.6);
 }
 
 @utility ring-glow {
-  box-shadow: 0 0 0 1px hsl(352 90% 55% / 0.5), 0 0 40px -5px hsl(352 90% 55% / 0.55);
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.5), 0 0 40px -5px hsl(var(--primary) / 0.4);
 }
 
 @utility text-mono {
@@ -215,14 +236,14 @@
 
 @utility scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: hsl(0 0% 100% / 0.12) transparent;
+  scrollbar-color: hsl(var(--foreground) / 0.15) transparent;
 }
 .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: hsl(0 0% 100% / 0.10);
+  background: hsl(var(--foreground) / 0.15);
   border-radius: 999px;
 }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: hsl(0 0% 100% / 0.2); }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: hsl(var(--foreground) / 0.3); }
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -238,4 +259,89 @@
   background: linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.06) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
+}
+
+/* ============================================================
+ * Light-theme compatibility overrides
+ * The platform components were authored for dark mode. On light
+ * theme (root html without .dark), remap hardcoded white/black
+ * tints to foreground-based tokens so contrast stays readable.
+ * ============================================================ */
+html:not(.dark) {
+  /* Surfaces that use bg-white/N — swap to muted foreground tint */
+  .bg-white\/5      { background-color: hsl(var(--foreground) / 0.04) !important; }
+  .bg-white\/\[0\.02\] { background-color: hsl(var(--foreground) / 0.025) !important; }
+  .bg-white\/10     { background-color: hsl(var(--foreground) / 0.06) !important; }
+  .bg-white\/20     { background-color: hsl(var(--foreground) / 0.10) !important; }
+  .hover\:bg-white\/5:hover  { background-color: hsl(var(--foreground) / 0.05) !important; }
+  .hover\:bg-white\/10:hover { background-color: hsl(var(--foreground) / 0.08) !important; }
+  .group-hover\:bg-white\/10 { background-color: transparent; }
+  .bg-black\/10 { background-color: hsl(var(--foreground) / 0.05) !important; }
+
+  /* Borders / rings that use white — swap to border token */
+  .border-white\/5, .border-white\/10, .border-white\/15,
+  .border-white\/20, .border-white\/25, .border-white\/30 {
+    border-color: hsl(var(--border)) !important;
+  }
+  .ring-white\/10 { --tw-ring-color: hsl(var(--border)); box-shadow: 0 0 0 1px hsl(var(--border)) inset; }
+  .divide-white\/10 > * + * { border-color: hsl(var(--border)) !important; }
+
+  /* Foreground text that used white — swap to real foreground */
+  .text-white,
+  .text-white\/50, .text-white\/60, .text-white\/70, .text-white\/75,
+  .text-white\/80, .text-white\/85, .text-white\/90 {
+    color: hsl(var(--foreground)) !important;
+  }
+  .hover\:text-white:hover { color: hsl(var(--foreground)) !important; }
+
+  /* Hero big number ghost on dark → subtle foreground on light */
+  .text-white\/5, .text-white\/10 { color: hsl(var(--foreground) / 0.06) !important; }
+
+  /* Gradient dark panels stay dark on purpose — force their inner text
+   * back to white so on-dark contrast holds. */
+  .bg-gradient-dark,
+  .bg-gradient-dark * ,
+  .bg-gradient-hero,
+  .bg-gradient-hero * {
+    color: unset;
+  }
+  .bg-gradient-dark { color: #fff; }
+  .bg-gradient-dark .text-white,
+  .bg-gradient-dark .text-white\/50,
+  .bg-gradient-dark .text-white\/60,
+  .bg-gradient-dark .text-white\/70,
+  .bg-gradient-dark .text-white\/75,
+  .bg-gradient-dark .text-white\/80,
+  .bg-gradient-dark .text-white\/85,
+  .bg-gradient-dark .text-white\/90 { color: rgb(255 255 255 / var(--tw-text-opacity, 0.85)) !important; }
+  .bg-gradient-dark .text-white { color: #fff !important; }
+  .bg-gradient-dark .border-white\/5,
+  .bg-gradient-dark .border-white\/10,
+  .bg-gradient-dark .border-white\/15,
+  .bg-gradient-dark .border-white\/20,
+  .bg-gradient-dark .border-white\/25,
+  .bg-gradient-dark .border-white\/30 { border-color: rgb(255 255 255 / 0.2) !important; }
+  .bg-gradient-dark .bg-white\/5,
+  .bg-gradient-dark .bg-white\/10 { background-color: rgb(255 255 255 / 0.08) !important; }
+
+  /* Hero component uses bg-gradient-hero as its root */
+  .bg-gradient-hero { color: #fff; }
+  .bg-gradient-hero .text-white,
+  .bg-gradient-hero .text-white\/70,
+  .bg-gradient-hero .text-white\/75,
+  .bg-gradient-hero .text-white\/85,
+  .bg-gradient-hero .text-white\/90 { color: rgb(255 255 255 / 0.9) !important; }
+  .bg-gradient-hero .border-white\/10,
+  .bg-gradient-hero .border-white\/20,
+  .bg-gradient-hero .border-white\/25,
+  .bg-gradient-hero .border-white\/30 { border-color: rgb(255 255 255 / 0.28) !important; }
+  .bg-gradient-hero .bg-white\/5,
+  .bg-gradient-hero .bg-white\/10 { background-color: rgb(255 255 255 / 0.14) !important; }
+  .bg-gradient-hero .bg-white { background-color: #fff !important; }
+  .bg-gradient-hero .text-white\/5,
+  .bg-gradient-hero .text-white\/10 { color: rgb(255 255 255 / 0.08) !important; }
+
+  /* Surface tints referencing dark surfaces — lighten */
+  .bg-surface-2\/60, .bg-surface-2\/80 { background-color: hsl(var(--surface-2)) !important; }
+  .bg-surface-1\/80 { background-color: hsl(var(--surface-1)) !important; }
 }
