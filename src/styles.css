@@ -294,6 +294,17 @@ html:not(.dark) {
   }
   .hover\:text-white:hover { color: hsl(var(--foreground)) !important; }
 
+  /* Same-element override: red/dark gradient chips & buttons keep white text+icons */
+  .bg-gradient-hero.text-white,
+  .bg-gradient-hero.text-primary-foreground,
+  .bg-primary.text-white,
+  .bg-primary.text-primary-foreground,
+  .bg-gradient-dark.text-white,
+  .bg-gradient-hero .text-primary-foreground,
+  .bg-primary .text-primary-foreground {
+    color: #fff !important;
+  }
+
   /* Hero big number ghost on dark → subtle foreground on light */
   .text-white\/5, .text-white\/10 { color: hsl(var(--foreground) / 0.06) !important; }
 
