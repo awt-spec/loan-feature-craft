@@ -5,7 +5,7 @@ import {
   CalendarClock,
   Building2,
   Users,
-  ClipboardList,
+  ClipboardCheck,
   BadgeCheck,
   Globe2,
   ScrollText,
@@ -29,7 +29,7 @@ export function Sidebar({
     { id: "proceso", label: "Datos del proceso", icon: CalendarClock },
     { id: "proveedor", label: "Proveedor", icon: Building2 },
     { id: "contactos", label: "Contactos", icon: Users },
-    { id: "instrucciones", label: "Instrucciones", icon: ClipboardList },
+    { id: "instrucciones", label: "Instrucciones", icon: ClipboardCheck },
   ];
 
   const tail: { id: SectionId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
