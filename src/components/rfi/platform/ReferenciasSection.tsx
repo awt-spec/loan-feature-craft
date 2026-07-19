@@ -106,30 +106,30 @@ export function ReferenciasSection() {
   return (
     <div className="space-y-10 pb-20">
       {/* ─────────────────── HERO ─────────────────── */}
-      <header className="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark text-white shadow-sysde">
+      <header className="relative overflow-hidden rounded-2xl border border-border bg-gradient-dark text-white shadow-sysde sm:rounded-3xl">
         <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-40 mask-radial-fade" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-primary/40 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
 
-        <div className="relative grid gap-8 p-6 md:grid-cols-[1fr_auto] md:p-10">
-          <div>
-            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.28em] text-white/70">
-              <span className="inline-flex h-1.5 w-1.5 rounded-full bg-primary pulse-dot" />
-              Anexo · Casos verificables
+        <div className="relative grid gap-6 p-5 sm:p-6 md:grid-cols-[1fr_auto] md:gap-8 md:p-10">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.24em] text-white/85">
+              <span className="inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-primary pulse-dot" />
+              <span className="truncate">Anexo · Casos verificables</span>
             </div>
-            <h1 className="mt-4 font-heading text-3xl font-black leading-tight tracking-tight md:text-5xl">
+            <h1 className="mt-3 font-heading text-2xl font-black leading-[1.1] tracking-tight sm:text-3xl md:text-5xl">
               Referencias SYSDE ordenadas
               <br className="hidden md:inline" />
               <span className="text-gradient-sysde"> desde Paraguay hacia afuera</span>
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+            <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-white/90 sm:text-sm md:text-base">
               Instituciones financieras, AFP, cooperativas y microfinanzas operando sobre las
               plataformas SYSDE. La lista abre con los mercados más cercanos a Banco Atlas —
               Cono Sur, Brasil y región Andina — y se expande hacia Mesoamérica, Caribe y África.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 md:min-w-[280px]">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:min-w-[280px]">
             <Kpi icon={Building2} label="Instituciones" value={String(kpis.total)} />
             <Kpi icon={Globe2} label="Países" value={String(kpis.countries)} />
             <Kpi icon={Users} label="Pensiones" value={String(kpis.pensions)} />
