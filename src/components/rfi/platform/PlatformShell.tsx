@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { CommandBar } from "./CommandBar";
 import { Overview } from "./Overview";
@@ -88,10 +89,82 @@ export function PlatformShell() {
             key={active}
             className="scrollbar-thin flex-1 overflow-y-auto px-4 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-8 sm:pb-[calc(2rem+env(safe-area-inset-bottom))] md:px-10 md:pt-10 md:pb-[calc(2.5rem+env(safe-area-inset-bottom))] animate-in fade-in slide-in-from-bottom-2 duration-500"
           >
-            <div className="mx-auto max-w-6xl">{content}</div>
+            <div className="mx-auto max-w-6xl">
+              {content}
+              {/* Espacio para el bottom nav móvil de preguntas */}
+              {active.startsWith("q") && <div aria-hidden className="h-20 lg:hidden" />}
+            </div>
           </main>
         </div>
       </div>
+
+      {/* Bottom nav de preguntas — solo móvil, zona del pulgar */}
+      {active.startsWith("q") && (
+        <QuestionBottomNav
+          current={parseInt(active.slice(1), 10)}
+          onNavigate={handleNavigate}
+        />
+      )}
     </div>
+  );
+}
+
+function QuestionBottomNav({
+  current,
+  onNavigate,
+}: {
+  current: number;
+  onNavigate: (id: SectionId) => void;
+}) {
+  return (
+    <nav
+      aria-label="Navegación de preguntas"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-background/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl animate-in slide-in-from-bottom-4 duration-300 lg:hidden"
+    >
+      <div className="flex items-center gap-1.5 px-3 py-2">
+        <button
+          type="button"
+          aria-label="Pregunta anterior"
+          disabled={current <= 1}
+          onClick={() => onNavigate(`q${current - 1}` as SectionId)}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground transition active:scale-95 disabled:opacity-30"
+        >
+          <ChevronLeft className="h-4 w-4" strokeWidth={2.5} />
+        </button>
+
+        <div className="flex min-w-0 flex-1 items-center gap-1">
+          {questions.map((q) => {
+            const isActive = q.n === current;
+            return (
+              <button
+                key={q.n}
+                type="button"
+                aria-label={`Pregunta ${q.n}`}
+                aria-current={isActive ? "page" : undefined}
+                onClick={() => onNavigate(`q${q.n}` as SectionId)}
+                className={[
+                  "text-mono h-11 min-w-0 flex-1 rounded-xl text-[12px] font-bold transition active:scale-95",
+                  isActive
+                    ? "bg-gradient-hero text-white shadow-sysde"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                ].join(" ")}
+              >
+                0{q.n}
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          type="button"
+          aria-label="Pregunta siguiente"
+          disabled={current >= questions.length}
+          onClick={() => onNavigate(`q${current + 1}` as SectionId)}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground transition active:scale-95 disabled:opacity-30"
+        >
+          <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+        </button>
+      </div>
+    </nav>
   );
 }
