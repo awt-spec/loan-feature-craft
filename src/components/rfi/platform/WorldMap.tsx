@@ -5,7 +5,7 @@ const tierStyle: Record<
   WorldPin["tier"],
   { dot: string; size: number; ping?: string; z: number; label: string }
 > = {
-  hub: { dot: "bg-white ring-2 ring-primary", size: 16, ping: "bg-white/70", z: 40, label: "Casa matriz" },
+  hub: { dot: "bg-white ring-2 ring-primary", size: 16, ping: "bg-white/70", z: 40, label: "Holding regional" },
   target: { dot: "bg-amber-300 ring-2 ring-white", size: 15, ping: "bg-amber-300/70", z: 45, label: "Destino · Paraguay" },
   office: { dot: "bg-primary ring-1 ring-white/70", size: 11, ping: "bg-primary/60", z: 30, label: "Oficina / Fábrica" },
   sva: { dot: "bg-rose-400 ring-1 ring-white/60", size: 9, z: 20, label: "Soporte SVA" },
@@ -13,7 +13,7 @@ const tierStyle: Record<
 };
 
 const legend: { tier: WorldPin["tier"]; label: string }[] = [
-  { tier: "hub", label: "Casa matriz (CR)" },
+  { tier: "hub", label: "Holding (Panamá)" },
   { tier: "target", label: "Destino · Paraguay" },
   { tier: "office", label: "Oficina / Fábrica" },
   { tier: "sva", label: "Soporte SVA" },

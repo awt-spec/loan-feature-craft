@@ -10,7 +10,7 @@ export const worldPins: WorldPin[] = [
   "name": "Costa Rica",
   "x": 266.7,
   "y": 223.1,
-  "tier": "hub",
+  "tier": "office",
   "flag": "🇨🇷",
   "roles": [
    "HQ",
@@ -58,12 +58,13 @@ export const worldPins: WorldPin[] = [
   "name": "Panamá",
   "x": 277.8,
   "y": 226.4,
-  "tier": "office",
+  "tier": "hub",
   "flag": "🇵🇦",
   "roles": [
    "Holding",
    "Oficina"
-  ]
+  ],
+  "note": "Sociedad holding regional · origen de la red"
  },
  {
   "name": "Colombia",
