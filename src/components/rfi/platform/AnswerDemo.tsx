@@ -253,30 +253,36 @@ const DIAGRAMS: Record<number, Diagram> = {
 /* ------------------------------------------------------------------ *
  * Estilos por tono
  * ------------------------------------------------------------------ */
-const toneBox: Record<Tone, { on: string; off: string; icon: string; iconOn: string }> = {
+/* Nodos sobre lienzo cinematográfico (siempre oscuro): texto blanco en todos
+ * los estados; el tono se comunica con el color del ícono y el glow activo. */
+const toneBox: Record<Tone, { on: string; off: string; icon: string; iconOn: string; glow: string }> = {
   core: {
-    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-primary/60",
-    off: "bg-card text-foreground border border-primary/40",
-    icon: "bg-primary/10 text-primary",
-    iconOn: "bg-white/15 text-white",
+    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-white/50",
+    off: "bg-white/10 text-white ring-1 ring-white/25 backdrop-blur",
+    icon: "bg-white/10 text-rose-200",
+    iconOn: "bg-white/20 text-white",
+    glow: "bg-primary/50",
   },
   ally: {
-    on: "bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400/60",
-    off: "bg-card text-foreground border border-emerald-500/40",
-    icon: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-    iconOn: "bg-white/15 text-white",
+    on: "bg-emerald-500 text-white shadow-lg ring-2 ring-white/50",
+    off: "bg-white/10 text-white ring-1 ring-emerald-300/40 backdrop-blur",
+    icon: "bg-emerald-400/20 text-emerald-200",
+    iconOn: "bg-white/20 text-white",
+    glow: "bg-emerald-400/50",
   },
   ext: {
-    on: "bg-slate-700 text-white shadow-lg ring-2 ring-slate-400/60",
-    off: "bg-card text-foreground border border-border",
-    icon: "bg-muted text-muted-foreground",
-    iconOn: "bg-white/15 text-white",
+    on: "bg-slate-600 text-white shadow-lg ring-2 ring-white/45",
+    off: "bg-white/[0.07] text-white ring-1 ring-white/20 backdrop-blur",
+    icon: "bg-white/10 text-slate-200",
+    iconOn: "bg-white/20 text-white",
+    glow: "bg-slate-300/40",
   },
   plain: {
-    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-primary/60",
-    off: "bg-card text-foreground border border-border",
-    icon: "bg-primary/10 text-primary",
-    iconOn: "bg-white/15 text-white",
+    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-white/50",
+    off: "bg-white/10 text-white ring-1 ring-white/25 backdrop-blur",
+    icon: "bg-white/10 text-amber-200",
+    iconOn: "bg-white/20 text-white",
+    glow: "bg-primary/50",
   },
 };
 
@@ -292,6 +298,16 @@ export function AnswerDemo({ n }: { n: number }) {
   const [picked, setPicked] = useState<string | null>(null);
   const [sev, setSev] = useState("S1");
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Pulsos viajeros (SMIL) solo tras montar y si el usuario permite movimiento
+  const [flow, setFlow] = useState(false);
+  useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) setFlow(true);
+  }, []);
 
   const activeNodes = useMemo(() => {
     if (!diagram) return new Set<string>();
@@ -416,18 +432,41 @@ export function AnswerDemo({ n }: { n: number }) {
       {/* Lienzo del diagrama */}
       <div className="relative mt-4">
         {/* Hint de scroll + fade — solo móvil */}
-        <div className="text-mono pointer-events-none absolute right-2 top-2 z-20 rounded-full border border-border bg-card/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-muted-foreground backdrop-blur sm:hidden">
+        <div className="text-mono pointer-events-none absolute right-2 top-2 z-20 rounded-full border border-white/25 bg-black/40 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-white/90 backdrop-blur sm:hidden">
           Desliza →
         </div>
-        <div className="pointer-events-none absolute inset-y-px right-px z-10 w-10 rounded-r-2xl bg-gradient-to-l from-background/90 to-transparent sm:hidden" />
-      <div className="scrollbar-thin overflow-x-auto rounded-2xl border border-border bg-background/60">
+        <div className="pointer-events-none absolute inset-y-px right-px z-10 w-10 rounded-r-2xl bg-gradient-to-l from-[hsl(348_82%_12%/0.9)] to-transparent sm:hidden" />
+      <div className="scrollbar-thin overflow-x-auto rounded-2xl border border-white/10 bg-cinematic shadow-sysde">
         <div className={`relative min-w-[620px] ${diagram.height}`}>
-          {/* Fondo grid */}
-          <div className="pointer-events-none absolute inset-0 bg-grid-sysde opacity-25 mask-radial-fade" />
+          {/* Atmósfera: grid + blobs + viñeta */}
+          <div className="pointer-events-none absolute inset-0 animate-grid-pan bg-grid-sysde-light opacity-25 mask-radial-fade" />
+          <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 animate-float-slow rounded-full bg-primary/30 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 -right-12 h-72 w-72 animate-float rounded-full bg-[hsl(14_90%_55%/0.20)] blur-3xl" />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "radial-gradient(120% 105% at 50% 42%, transparent 55%, rgba(40,0,10,0.5) 100%)" }}
+          />
+
+          {/* Número fantasma del paso */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-2 -top-6 select-none font-heading text-[9rem] font-black leading-none text-white/[0.06] transition-all duration-500"
+          >
+            {step >= 0 ? String(step + 1).padStart(2, "0") : String(n).padStart(2, "0")}
+          </div>
 
           {/* Conexiones */}
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
-            {diagram.edges.map((e) => {
+            <defs>
+              <filter id="demoBloom" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="1.6" result="b" />
+                <feMerge>
+                  <feMergeNode in="b" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            {diagram.edges.map((e, i) => {
               const a = nodeById[e.from];
               const b = nodeById[e.to];
               const isActive =
@@ -435,17 +474,25 @@ export function AnswerDemo({ n }: { n: number }) {
               const midX = (a.x + b.x) / 2;
               const d = `M ${a.x} ${a.y} C ${midX} ${a.y}, ${midX} ${b.y}, ${b.x} ${b.y}`;
               return (
-                <g key={`${e.from}-${e.to}`}>
+                <g key={`${e.from}-${e.to}`} filter={isActive ? "url(#demoBloom)" : undefined}>
                   <path
+                    id={`demo-e${i}`}
                     d={d}
                     fill="none"
                     vectorEffect="non-scaling-stroke"
-                    stroke={isActive ? "hsl(352 85% 50%)" : "hsl(352 40% 50% / 0.25)"}
-                    strokeWidth={isActive ? 2.5 : 1.5}
+                    stroke={isActive ? "rgba(253,224,71,0.95)" : "rgba(255,255,255,0.28)"}
+                    strokeWidth={isActive ? 2.5 : 1.4}
                     strokeLinecap="round"
                     strokeDasharray={e.dashed || isActive ? "6 6" : undefined}
                     className={isActive ? "arc-flow" : undefined}
                   />
+                  {flow && isActive && (
+                    <circle r={1.1} fill="rgb(253 224 71)" style={{ filter: "drop-shadow(0 0 2px rgba(253,224,71,0.9))" }}>
+                      <animateMotion dur="1.8s" begin={`${i * 0.2}s`} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                        <mpath href={`#demo-e${i}`} />
+                      </animateMotion>
+                    </circle>
+                  )}
                 </g>
               );
             })}
@@ -458,36 +505,49 @@ export function AnswerDemo({ n }: { n: number }) {
             const dimmed = activeNodes !== null && !isOn;
             const Icon = nd.icon;
             return (
-              <button
+              <div
                 key={nd.id}
-                type="button"
-                onClick={() => {
-                  setPlaying(false);
-                  setPicked((p) => (p === nd.id ? null : nd.id));
-                }}
                 className={[
-                  "absolute z-10 w-[132px] -translate-x-1/2 -translate-y-1/2 rounded-xl p-2 text-left shadow-card-soft transition-all duration-300 sm:w-[148px] sm:p-2.5",
-                  isOn ? `${tone.on} scale-105` : tone.off,
-                  dimmed ? "opacity-35" : "opacity-100",
+                  "absolute z-10 -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+                  dimmed ? "opacity-40" : "opacity-100",
                 ].join(" ")}
                 style={{ left: `${nd.x}%`, top: `${nd.y}%` }}
               >
-                <div className="flex items-center gap-2">
+                {/* Glow por tono detrás del nodo activo */}
+                {isOn && (
                   <span
-                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md sm:h-7 sm:w-7 ${isOn ? tone.iconOn : tone.icon}`}
-                  >
-                    <Icon className="h-3.5 w-3.5" strokeWidth={2.25} />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="line-clamp-2 text-[11px] font-bold leading-tight sm:text-xs">{nd.label}</span>
-                    {nd.sub && (
-                      <span className={`line-clamp-2 text-[9px] leading-tight sm:text-[10px] ${isOn ? "text-white/80" : "text-muted-foreground"}`}>
-                        {nd.sub}
-                      </span>
-                    )}
-                  </span>
-                </div>
-              </button>
+                    aria-hidden
+                    className={`animate-glow absolute -inset-2 rounded-2xl blur-xl ${tone.glow}`}
+                  />
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPlaying(false);
+                    setPicked((p) => (p === nd.id ? null : nd.id));
+                  }}
+                  className={[
+                    "relative block w-[132px] rounded-xl p-2 text-left transition-all duration-300 sm:w-[148px] sm:p-2.5",
+                    isOn ? `${tone.on} scale-105` : `${tone.off} hover:ring-white/45`,
+                  ].join(" ")}
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md sm:h-7 sm:w-7 ${isOn ? tone.iconOn : tone.icon}`}
+                    >
+                      <Icon className="h-3.5 w-3.5" strokeWidth={2.25} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="line-clamp-2 text-[11px] font-bold leading-tight text-white sm:text-xs">{nd.label}</span>
+                      {nd.sub && (
+                        <span className={`line-clamp-2 text-[9px] leading-tight sm:text-[10px] ${isOn ? "text-white/85" : "text-white/70"}`}>
+                          {nd.sub}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                </button>
+              </div>
             );
           })}
         </div>

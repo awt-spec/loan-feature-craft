@@ -633,6 +633,8 @@ html:not(.dark) {
   .bg-cinematic .border-white\/30 { border-color: rgb(255 255 255 / 0.2) !important; }
   .bg-cinematic .bg-white\/5,
   .bg-cinematic .bg-white\/10 { background-color: rgb(255 255 255 / 0.08) !important; }
+  .bg-cinematic .bg-white\/15 { background-color: rgb(255 255 255 / 0.12) !important; }
+  .bg-cinematic .bg-white\/20 { background-color: rgb(255 255 255 / 0.16) !important; }
 
   /* Surface tints referencing dark surfaces — lighten */
   .bg-surface-2\/60, .bg-surface-2\/80 { background-color: hsl(var(--surface-2)) !important; }
