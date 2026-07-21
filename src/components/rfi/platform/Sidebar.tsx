@@ -56,6 +56,7 @@ export function Sidebar({
       <aside
         className={[
           "flex h-dvh w-72 shrink-0 flex-col border-r border-border/70 bg-surface-1/95 backdrop-blur-xl",
+          "pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]",
           "fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:z-auto lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         ].join(" ")}

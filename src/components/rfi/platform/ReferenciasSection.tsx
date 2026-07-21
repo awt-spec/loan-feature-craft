@@ -533,7 +533,7 @@ function DetailModal({ r, onClose }: { r: Reference; onClose: () => void }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4 backdrop-blur-md animate-in fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-md animate-in fade-in"
     >
       <div
         onClick={(e) => e.stopPropagation()}

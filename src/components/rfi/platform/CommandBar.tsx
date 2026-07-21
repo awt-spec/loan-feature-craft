@@ -33,7 +33,7 @@ export function CommandBar({
   const days = daysUntil("2026-07-17");
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-border/70 bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
       <div className="flex items-center gap-2 px-4 py-3 sm:gap-3 sm:px-6 md:px-10">
         {/* Mobile menu button */}
         <button

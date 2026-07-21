@@ -70,7 +70,7 @@ export function PlatformShell() {
         <div className="animate-grid-pan absolute inset-0 bg-grid-sysde opacity-[0.35] mask-radial-fade" />
       </div>
 
-      <div className="relative z-10 flex min-h-screen">
+      <div className="relative z-10 flex min-h-screen pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
         <Sidebar
           active={active}
           onSelect={handleNavigate}
@@ -86,7 +86,7 @@ export function PlatformShell() {
           <main
             ref={mainRef}
             key={active}
-            className="scrollbar-thin flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 animate-in fade-in slide-in-from-bottom-2 duration-500"
+            className="scrollbar-thin flex-1 overflow-y-auto px-4 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-8 sm:pb-[calc(2rem+env(safe-area-inset-bottom))] md:px-10 md:pt-10 md:pb-[calc(2.5rem+env(safe-area-inset-bottom))] animate-in fade-in slide-in-from-bottom-2 duration-500"
           >
             <div className="mx-auto max-w-6xl">{content}</div>
           </main>
