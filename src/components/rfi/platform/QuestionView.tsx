@@ -71,10 +71,10 @@ export function QuestionView({
               RFI Banco Atlas · Pregunta {question.n} de 6
             </div>
 
-            <div className="mt-8 flex items-start gap-5">
-              <div className="relative shrink-0">
+            <div className="mt-6 flex flex-col gap-4 sm:mt-8 sm:flex-row sm:items-start sm:gap-5">
+              <div className="relative shrink-0 self-start">
                 <div className="absolute inset-0 animate-glow rounded-2xl bg-primary/40 blur-xl" />
-                <div className="text-mono relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-hero font-heading text-3xl font-black text-white ring-1 ring-white/25 shadow-sysde md:h-24 md:w-24 md:text-4xl">
+                <div className="text-mono relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-hero font-heading text-2xl font-black text-white ring-1 ring-white/25 shadow-sysde sm:h-20 sm:w-20 sm:text-3xl md:h-24 md:w-24 md:text-4xl">
                   {String(question.n).padStart(2, "0")}
                 </div>
               </div>
@@ -82,7 +82,7 @@ export function QuestionView({
                 <div className="text-mono text-[10px] uppercase tracking-[0.28em] text-white/60">
                   Consulta formal
                 </div>
-                <h1 className="mt-2 font-heading text-2xl font-black leading-tight tracking-tight text-white md:text-4xl">
+                <h1 className="mt-2 font-heading text-[22px] font-black leading-snug tracking-tight text-white sm:text-2xl sm:leading-tight md:text-4xl">
                   {question.title}
                 </h1>
               </div>

@@ -109,7 +109,13 @@ export function WorldMap({
           <div className="absolute right-[12%] top-[30%] h-[35%] w-[35%] rounded-full bg-[hsl(14_90%_55%/0.18)] blur-[100px]" />
         </div>
 
-        <div className="relative w-full" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
+        {/* Hint de scroll — solo móvil */}
+        <div className="text-mono pointer-events-none absolute right-3 top-3 z-30 rounded-full border border-white/25 bg-black/35 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-white/90 backdrop-blur sm:hidden">
+          Desliza para explorar →
+        </div>
+
+        <div className="scrollbar-thin overflow-x-auto">
+        <div className="relative min-w-[720px] sm:min-w-0" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
           <svg
             viewBox={`0 0 ${MAP_W} ${MAP_H}`}
             className="map-parallax absolute inset-0 h-full w-full"
@@ -274,7 +280,7 @@ export function WorldMap({
                       if (isClickable) onPick?.(p.name);
                     }}
                     aria-label={p.name}
-                    className={`group relative block -translate-x-1/2 -translate-y-1/2 ${isClickable ? "cursor-pointer" : "cursor-default"}`}
+                    className={`group relative block -translate-x-1/2 -translate-y-1/2 p-3 sm:p-1.5 ${isClickable ? "cursor-pointer" : "cursor-default"}`}
                   >
                     {withPing && !dimmed && (
                       <span
@@ -327,6 +333,7 @@ export function WorldMap({
               );
             })}
           </div>
+        </div>
         </div>
 
         {/* Legend */}

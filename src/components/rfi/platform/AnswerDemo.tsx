@@ -356,13 +356,13 @@ export function AnswerDemo({ n }: { n: number }) {
             onClick={() => jump(-1)}
             disabled={step <= 0}
             aria-label="Paso anterior"
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition hover:border-primary/40 hover:text-primary disabled:opacity-35"
+            className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition hover:border-primary/40 hover:text-primary disabled:opacity-35 sm:h-9 sm:w-9"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             onClick={play}
-            className="sheen inline-flex h-8 items-center gap-1.5 rounded-lg bg-gradient-hero px-3.5 text-xs font-semibold text-white shadow-sysde transition hover:brightness-110"
+            className="sheen inline-flex h-11 items-center gap-1.5 rounded-lg bg-gradient-hero px-4 text-xs font-semibold text-white shadow-sysde transition hover:brightness-110 sm:h-9 sm:px-3.5"
           >
             {playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
             {playing ? "Pausar" : step >= 0 ? "Continuar" : "Reproducir"}
@@ -371,7 +371,7 @@ export function AnswerDemo({ n }: { n: number }) {
             onClick={() => jump(1)}
             disabled={step >= diagram.steps.length - 1}
             aria-label="Paso siguiente"
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition hover:border-primary/40 hover:text-primary disabled:opacity-35"
+            className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition hover:border-primary/40 hover:text-primary disabled:opacity-35 sm:h-9 sm:w-9"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -379,7 +379,7 @@ export function AnswerDemo({ n }: { n: number }) {
             <button
               onClick={reset}
               aria-label="Reiniciar demo"
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+              className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition hover:border-primary/40 hover:text-primary sm:h-9 sm:w-9"
             >
               <RotateCcw className="h-3.5 w-3.5" />
             </button>
@@ -396,7 +396,7 @@ export function AnswerDemo({ n }: { n: number }) {
               key={r.sev}
               onClick={() => setSev(r.sev)}
               className={[
-                "text-mono rounded-lg px-2.5 py-1 text-[11px] font-bold transition",
+                "text-mono inline-flex h-10 items-center rounded-lg px-3.5 text-[11px] font-bold transition sm:h-8 sm:px-2.5",
                 sev === r.sev
                   ? "bg-gradient-hero text-white shadow-sysde"
                   : "border border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-primary",
@@ -414,7 +414,13 @@ export function AnswerDemo({ n }: { n: number }) {
       )}
 
       {/* Lienzo del diagrama */}
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-background/60">
+      <div className="relative mt-4">
+        {/* Hint de scroll + fade — solo móvil */}
+        <div className="text-mono pointer-events-none absolute right-2 top-2 z-20 rounded-full border border-border bg-card/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-muted-foreground backdrop-blur sm:hidden">
+          Desliza →
+        </div>
+        <div className="pointer-events-none absolute inset-y-px right-px z-10 w-10 rounded-r-2xl bg-gradient-to-l from-background/90 to-transparent sm:hidden" />
+      <div className="scrollbar-thin overflow-x-auto rounded-2xl border border-border bg-background/60">
         <div className={`relative min-w-[620px] ${diagram.height}`}>
           {/* Fondo grid */}
           <div className="pointer-events-none absolute inset-0 bg-grid-sysde opacity-25 mask-radial-fade" />
@@ -485,6 +491,7 @@ export function AnswerDemo({ n }: { n: number }) {
             );
           })}
         </div>
+      </div>
       </div>
 
       {/* Narración */}
