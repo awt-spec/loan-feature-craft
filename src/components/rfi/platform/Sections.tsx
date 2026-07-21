@@ -6,6 +6,7 @@ import {
   condiciones,
 } from "@/lib/rfi-content";
 import { CalendarClock, Building2, Mail, Phone, ClipboardCheck, Globe2, ScrollText, Users } from "lucide-react";
+import { Reveal, SpotlightCard } from "./motion";
 
 function PageHeader({
   kicker,
@@ -19,8 +20,9 @@ function PageHeader({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-surface-2/60 p-8 md:p-10">
-      <div className="pointer-events-none absolute inset-0 bg-grid-sysde mask-radial-fade opacity-30" />
+    <Reveal className="relative overflow-hidden rounded-3xl border border-white/10 bg-surface-2/60 p-8 md:p-10">
+      <div className="pointer-events-none absolute inset-0 animate-grid-pan bg-grid-sysde mask-radial-fade opacity-30" />
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 animate-float rounded-full bg-primary/15 blur-3xl" />
       <div className="relative">
         <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.24em] text-primary">
           <Icon className="h-3.5 w-3.5" /> {kicker}
@@ -28,7 +30,7 @@ function PageHeader({
         <h1 className="mt-3 font-heading text-3xl font-black tracking-tight md:text-4xl">{title}</h1>
         {subtitle && <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{subtitle}</p>}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -49,7 +51,8 @@ export function ProcesoSection() {
         title="Datos del proceso"
         subtitle="Parámetros formales del RFI publicado por Banco Atlas S.A."
       />
-      <div className="glass-panel rounded-2xl p-6 md:p-8">
+      <Reveal delay={60}>
+      <SpotlightCard className="glass-panel rounded-2xl p-6 md:p-8">
         <dl className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
           {rows.map(([k, v]) => (
             <div key={k} className="border-b border-white/5 pb-4 last:border-0">
@@ -60,7 +63,8 @@ export function ProcesoSection() {
             </div>
           ))}
         </dl>
-      </div>
+      </SpotlightCard>
+      </Reveal>
     </div>
   );
 }
@@ -75,7 +79,8 @@ export function ProveedorSection() {
         subtitle="Identificación formal de SYSDE Internacional Inc. y su aliado local Inventiva."
       />
 
-      <div className="glass-panel rounded-2xl p-6 md:p-8">
+      <Reveal delay={60}>
+      <SpotlightCard className="glass-panel rounded-2xl p-6 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -131,7 +136,8 @@ export function ProveedorSection() {
             ))}
           </div>
         </div>
-      </div>
+      </SpotlightCard>
+      </Reveal>
     </div>
   );
 }
@@ -146,8 +152,9 @@ export function ContactosSection() {
         subtitle="Interlocutores designados de Banco Atlas y EY para la recepción y consultas del RFI."
       />
       <div className="grid gap-5 md:grid-cols-3">
-        {canales.map((c) => (
-          <div key={c.email} className="glass-panel rounded-2xl p-6">
+        {canales.map((c, i) => (
+          <Reveal key={c.email} delay={i * 80}>
+          <SpotlightCard className="glass-panel h-full rounded-2xl p-6">
             <div className="text-mono flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 font-bold ring-1 ring-white/10">
               {c.iniciales}
             </div>
@@ -159,7 +166,8 @@ export function ContactosSection() {
             >
               <Mail className="h-3 w-3" /> {c.email}
             </a>
-          </div>
+          </SpotlightCard>
+          </Reveal>
         ))}
       </div>
     </div>
@@ -177,10 +185,8 @@ export function InstruccionesSection() {
       />
       <ol className="space-y-4">
         {instrucciones.map((it, i) => (
-          <li
-            key={it.titulo}
-            className="glass-panel flex gap-5 rounded-2xl p-5 md:p-6"
-          >
+          <Reveal as="li" key={it.titulo} delay={i * 70}>
+          <SpotlightCard className="glass-panel flex gap-5 rounded-2xl p-5 md:p-6">
             <div className="text-mono flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-hero text-sm font-bold text-white shadow-sysde">
               0{i + 1}
             </div>
@@ -188,7 +194,8 @@ export function InstruccionesSection() {
               <div className="font-heading text-base font-bold">{it.titulo}</div>
               <div className="mt-1 text-sm leading-relaxed text-foreground/85">{it.detalle}</div>
             </div>
-          </li>
+          </SpotlightCard>
+          </Reveal>
         ))}
       </ol>
 
@@ -247,15 +254,14 @@ export function CondicionesSection() {
       />
       <ol className="space-y-3">
         {condiciones.map((c, i) => (
-          <li
-            key={i}
-            className="glass-panel flex items-start gap-4 rounded-xl p-4 text-sm text-foreground/90"
-          >
+          <Reveal as="li" key={i} delay={i * 45}>
+          <div className="glass-panel flex items-start gap-4 rounded-xl p-4 text-sm text-foreground/90 transition-colors hover:border-primary/30">
             <span className="text-mono mt-0.5 flex h-7 w-7 items-center justify-center rounded-lg bg-white/5 text-[11px] font-bold text-primary ring-1 ring-white/10">
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="leading-relaxed">{c}</span>
-          </li>
+          </div>
+          </Reveal>
         ))}
       </ol>
       <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5 text-[13px] text-amber-100/85">

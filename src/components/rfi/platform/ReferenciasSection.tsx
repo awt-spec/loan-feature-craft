@@ -106,7 +106,7 @@ export function ReferenciasSection() {
   return (
     <div className="space-y-8 pb-16 sm:space-y-10 sm:pb-20">
       {/* ─────────────────── HERO ─────────────────── */}
-      <header className="relative overflow-hidden rounded-2xl border border-border bg-gradient-dark text-white shadow-sysde sm:rounded-3xl">
+      <header className="relative overflow-hidden rounded-2xl border border-border bg-cinematic text-white shadow-sysde sm:rounded-3xl">
         <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-40 mask-radial-fade" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-primary/40 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
@@ -450,7 +450,7 @@ function DetailModal({ r, onClose }: { r: Reference; onClose: () => void }) {
         className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card shadow-2xl animate-in zoom-in-95"
       >
         {/* Head */}
-        <div className="relative overflow-hidden border-b border-border bg-gradient-dark p-6 text-white md:p-8">
+        <div className="relative overflow-hidden border-b border-border bg-cinematic p-6 text-white md:p-8">
           <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-30" />
           <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/40 blur-3xl" />
           <button

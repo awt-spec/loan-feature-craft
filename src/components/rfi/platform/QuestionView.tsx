@@ -1,6 +1,7 @@
 import type { SectionId } from "./PlatformShell";
 import type { Question } from "@/lib/rfi-content";
 import { questions, sla, clientes, otrasInstituciones } from "@/lib/rfi-content";
+import { Reveal } from "./motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -49,7 +50,7 @@ export function QuestionView({
       {/* Main */}
       <article className="min-w-0">
         {/* Cinematic header */}
-        <header className="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark text-white shadow-sysde">
+        <header className="relative overflow-hidden rounded-3xl border border-border bg-cinematic text-white shadow-sysde">
           <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-40 mask-radial-fade" />
           <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-primary/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
@@ -57,7 +58,7 @@ export function QuestionView({
           {/* Ghost number */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-6 -top-10 select-none font-heading text-[14rem] font-black leading-none text-white/[0.06] md:text-[20rem]"
+            className="pointer-events-none absolute -right-6 -top-10 animate-float-slow select-none font-heading text-[14rem] font-black leading-none text-white/[0.06] md:text-[20rem]"
           >
             {String(question.n).padStart(2, "0")}
           </div>
@@ -71,7 +72,7 @@ export function QuestionView({
 
             <div className="mt-8 flex items-start gap-5">
               <div className="relative shrink-0">
-                <div className="absolute inset-0 rounded-2xl bg-primary/40 blur-xl" />
+                <div className="absolute inset-0 animate-glow rounded-2xl bg-primary/40 blur-xl" />
                 <div className="text-mono relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-hero font-heading text-3xl font-black text-white ring-1 ring-white/25 shadow-sysde md:h-24 md:w-24 md:text-4xl">
                   {String(question.n).padStart(2, "0")}
                 </div>
@@ -105,7 +106,7 @@ export function QuestionView({
         </header>
 
         {/* Orientación — quote-styled */}
-        <section className="relative mt-8">
+        <Reveal as="section" className="relative mt-8">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card-soft md:p-7">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/20">
@@ -123,10 +124,10 @@ export function QuestionView({
               </div>
             </div>
           </div>
-        </section>
+        </Reveal>
 
         {/* Answer card */}
-        <section className="mt-8 overflow-hidden rounded-3xl border border-border bg-card shadow-card-soft">
+        <Reveal as="section" delay={80} className="mt-8 overflow-hidden rounded-3xl border border-border bg-card shadow-card-soft">
           <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/40 px-5 py-3 md:px-7">
             <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
               <Sparkles className="h-3.5 w-3.5" />
@@ -326,7 +327,7 @@ export function QuestionView({
               </div>
             </div>
           )}
-        </section>
+        </Reveal>
 
         {/* Pager */}
         <nav className="mt-10 grid gap-3 sm:grid-cols-2">
@@ -346,7 +347,7 @@ export function QuestionView({
           <button
             onClick={() => next && onNavigate(`q${next.n}` as SectionId)}
             disabled={!next}
-            className="group relative overflow-hidden rounded-2xl bg-gradient-hero p-5 text-left text-white shadow-sysde transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40 sm:text-right"
+            className="sheen group relative overflow-hidden rounded-2xl bg-gradient-hero p-5 text-left text-white shadow-sysde transition hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40 sm:text-right"
           >
             <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-30" />
             <div className="relative flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-white/80 sm:justify-end">
@@ -377,7 +378,7 @@ export function QuestionView({
             </div>
             <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-muted">
               <div
-                className="h-full rounded-full bg-gradient-hero transition-all"
+                className="animate-progress h-full rounded-full bg-gradient-hero"
                 style={{ width: `${(question.n / 6) * 100}%` }}
               />
             </div>

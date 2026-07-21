@@ -108,12 +108,15 @@ export function Sidebar({
                 key={q.n}
                 onClick={() => onSelect(`q${q.n}` as SectionId)}
                 className={[
-                  "group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-all",
+                  "group relative flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-all hover:translate-x-0.5",
                   isActive
                     ? "bg-primary/15 text-foreground ring-1 ring-primary/40"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
                 ].join(" ")}
               >
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-full bg-gradient-hero shadow-sysde" />
+                )}
                 <span
                   className={[
                     "text-mono flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[11px] font-semibold",
@@ -192,13 +195,16 @@ function NavItem({
     <button
       onClick={onClick}
       className={[
-        "flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-all",
+        "group relative flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-all hover:translate-x-0.5",
         active
           ? "bg-primary/15 text-foreground ring-1 ring-primary/40"
           : "text-muted-foreground hover:bg-muted hover:text-foreground",
       ].join(" ")}
     >
-      <Icon className="h-4 w-4" />
+      {active && (
+        <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-full bg-gradient-hero shadow-sysde" />
+      )}
+      <Icon className="h-4 w-4 transition-transform group-hover:scale-110" />
       <span className="truncate">{label}</span>
     </button>
   );

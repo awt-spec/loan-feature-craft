@@ -61,8 +61,16 @@ export function PlatformShell() {
   }, [active]);
 
   return (
-    <div className="bg-platform min-h-screen text-foreground">
-      <div className="flex min-h-screen">
+    <div className="bg-platform relative min-h-screen text-foreground">
+      {/* Animated aurora backdrop */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="aurora-1 absolute -left-[10%] top-[-10%] h-[46vw] w-[46vw] rounded-full bg-primary/25 blur-[120px]" />
+        <div className="aurora-2 absolute right-[-12%] top-[12%] h-[40vw] w-[40vw] rounded-full bg-[hsl(220_90%_55%/0.14)] blur-[130px]" />
+        <div className="aurora-3 absolute bottom-[-14%] left-[28%] h-[42vw] w-[42vw] rounded-full bg-primary/18 blur-[130px]" />
+        <div className="animate-grid-pan absolute inset-0 bg-grid-sysde opacity-[0.35] mask-radial-fade" />
+      </div>
+
+      <div className="relative z-10 flex min-h-screen">
         <Sidebar
           active={active}
           onSelect={handleNavigate}
