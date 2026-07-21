@@ -22,7 +22,8 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import { Reveal, SpotlightCard } from "./motion";
+import { Reveal, SpotlightCard, CountUp } from "./motion";
+import { Handshake, MessageCircle, ShieldCheck } from "lucide-react";
 
 function PageHeader({
   kicker,
@@ -221,70 +222,172 @@ export function ProveedorSection() {
         subtitle="Identificación formal de SYSDE Internacional Inc. y su aliado local Inventiva."
       />
 
-      <Reveal delay={60}>
-      <SpotlightCard className="glass-panel rounded-2xl p-6 md:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-6">
-          <div>
-            <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Razón social
-            </div>
-            <div className="mt-1 font-heading text-2xl font-black">{vendor.razon}</div>
-            <div className="mt-1 text-sm text-muted-foreground">
-              {vendor.pais} · {vendor.anios} en el sector financiero
-            </div>
-            <a
-              href={`https://${vendor.web}`}
-              className="text-mono mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-primary"
-            >
-              <Globe2 className="h-3 w-3" /> {vendor.web}
-            </a>
-          </div>
-          <div className="text-mono flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Aliado local
-            </div>
-            <div className="font-heading text-sm font-bold">Inventiva · Paraguay</div>
-          </div>
-        </div>
-
-        <div className="mt-8 border-t border-white/5 pt-6">
-          <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Contactos principales
-          </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {vendor.contactos.map((c) => (
-              <div key={c.email} className="rounded-2xl border border-white/10 bg-surface-2/60 p-5">
-                <div className="flex items-center gap-4">
-                  <div className="text-mono flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-hero text-sm font-bold text-white shadow-sysde">
-                    {c.iniciales}
-                  </div>
-                  <div>
-                    <div className="font-heading text-base font-bold">{c.nombre}</div>
-                    <div className="text-xs text-muted-foreground">{c.cargo}</div>
-                  </div>
+      {/* Identidad SYSDE + aliado Inventiva */}
+      <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
+        <Reveal delay={40}>
+          <SpotlightCard className="glass-panel h-full rounded-2xl p-6 md:p-8">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="relative shrink-0">
+                  <div className="h-14 w-14 rounded-2xl bg-gradient-hero shadow-sysde" />
+                  <div className="pulse-dot absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500" />
                 </div>
-                <div className="mt-4 space-y-1.5 text-xs">
-                  <a
-                    href={`mailto:${c.email}`}
-                    className="text-mono flex items-center gap-2 text-primary hover:underline"
-                  >
-                    <Mail className="h-3 w-3" /> {c.email}
-                  </a>
-                  <div className="text-mono flex items-center gap-2 text-muted-foreground">
-                    <Phone className="h-3 w-3" /> {c.tel}
+                <div>
+                  <div className="text-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                    Razón social
+                  </div>
+                  <div className="font-heading text-2xl font-black">{vendor.razon}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {vendor.pais} · {vendor.anios} en el sector financiero
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              <a
+                href={`https://${vendor.web}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-mono inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-primary transition hover:bg-primary/10"
+              >
+                <Globe2 className="h-3.5 w-3.5" /> {vendor.web}
+              </a>
+            </div>
+
+            {/* KPIs */}
+            <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/5 pt-6 sm:grid-cols-4">
+              <VendorKpi value={10} prefix="USD " suffix="M" label="Facturación anual" />
+              <VendorKpi value={160} label="Especialistas" />
+              <VendorKpi value={800} suffix="+" label="Instituciones" />
+              <VendorKpi value={35} suffix="+" label="Años continuos" />
+            </div>
+
+            {/* Diferenciales */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary ring-1 ring-primary/30">
+                <ShieldCheck className="h-3.5 w-3.5" /> 100% software para el sector financiero
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary ring-1 ring-primary/30">
+                <ShieldCheck className="h-3.5 w-3.5" /> Proveedor independiente · sin conflicto de interés
+              </span>
+            </div>
+          </SpotlightCard>
+        </Reveal>
+
+        <Reveal delay={130}>
+          <SpotlightCard className="relative h-full overflow-hidden rounded-2xl border border-emerald-500/40 bg-card p-6 shadow-card-soft md:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
+            <div className="relative">
+              <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-400">
+                <Handshake className="h-3.5 w-3.5" /> Aliado local · Paraguay
+              </div>
+              <div className="mt-3 font-heading text-xl font-black">Inventiva</div>
+              <a
+                href="https://inventiva.net"
+                target="_blank"
+                rel="noreferrer"
+                className="text-mono mt-1 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-emerald-600 hover:underline dark:text-emerald-400"
+              >
+                <Globe2 className="h-3 w-3" /> inventiva.net
+              </a>
+              <p className="mt-4 text-[13px] leading-relaxed text-foreground/80">
+                Responsable de la presencia en país para la implementación y la atención de primer
+                nivel y en sitio, en horario de Asunción y en idioma español. Inventiva aporta la
+                cercanía y el conocimiento del mercado local; SYSDE aporta la ingeniería de producto
+                y el soporte especializado (N2/N3) desde su estructura regional.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {["Presencia en país", "N1 y soporte en sitio", "Conexión SIPAP · Bancard"].map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </SpotlightCard>
+        </Reveal>
+      </div>
+
+      {/* Contactos principales */}
+      <div>
+        <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+          <Users className="h-3.5 w-3.5" /> Contactos principales · SYSDE
         </div>
-      </SpotlightCard>
-      </Reveal>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          {vendor.contactos.map((c, i) => {
+            const wa = c.tel.replace(/[^\d]/g, "");
+            return (
+              <Reveal key={c.email} delay={i * 90}>
+                <SpotlightCard className="glass-panel h-full rounded-2xl p-5 md:p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="text-mono flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-hero text-base font-bold text-white shadow-sysde">
+                      {c.iniciales}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate font-heading text-lg font-bold">{c.nombre}</div>
+                      <div className="text-xs text-muted-foreground">{c.cargo}</div>
+                    </div>
+                  </div>
+                  <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                    <a
+                      href={`mailto:${c.email}`}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-hero px-3 text-xs font-semibold text-white shadow-sysde transition hover:brightness-110 sm:h-10"
+                    >
+                      <Mail className="h-3.5 w-3.5" /> Correo
+                    </a>
+                    <a
+                      href={`tel:${c.tel.replace(/\s/g, "")}`}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 text-xs font-semibold text-foreground transition hover:border-primary/40 hover:text-primary sm:h-10"
+                    >
+                      <Phone className="h-3.5 w-3.5" /> Llamar
+                    </a>
+                    <a
+                      href={`https://wa.me/${wa}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-3 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/20 dark:text-emerald-300 sm:h-10"
+                    >
+                      <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
+                    </a>
+                  </div>
+                  <div className="text-mono mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+                    <span>{c.email}</span>
+                    <span>{c.tel}</span>
+                  </div>
+                </SpotlightCard>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VendorKpi({
+  value,
+  prefix,
+  suffix,
+  label,
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  label: string;
+}) {
+  return (
+    <div>
+      <div className="text-mono font-heading text-2xl font-black text-gradient-sysde">
+        <CountUp value={value} prefix={prefix} suffix={suffix} />
+      </div>
+      <div className="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
     </div>
   );
 }
 
 export function ContactosSection() {
+  const orgOf = (cargo: string) => (cargo.includes("EY") ? "EY" : "Banco Atlas");
   return (
     <div className="space-y-8 pb-16">
       <PageHeader
@@ -293,24 +396,70 @@ export function ContactosSection() {
         title="Canal oficial de recepción"
         subtitle="Interlocutores designados de Banco Atlas y EY para la recepción y consultas del RFI."
       />
-      <div className="grid gap-5 md:grid-cols-3">
-        {canales.map((c, i) => (
-          <Reveal key={c.email} delay={i * 80}>
-          <SpotlightCard className="glass-panel h-full rounded-2xl p-6">
-            <div className="text-mono flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 font-bold ring-1 ring-white/10">
-              {c.iniciales}
+
+      {/* Reglas del canal (de las instrucciones del RFI) */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Reveal delay={30}>
+          <div className="h-full rounded-2xl border-l-4 border-primary bg-accent/60 p-5">
+            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+              <Mail className="h-3.5 w-3.5" /> Envío de la información
             </div>
-            <div className="mt-4 font-heading text-lg font-bold">{c.nombre}</div>
-            <div className="mt-1 text-xs text-muted-foreground">{c.cargo}</div>
-            <a
-              href={`mailto:${c.email}`}
-              className="text-mono mt-4 inline-flex items-center gap-1.5 text-[11px] text-primary hover:underline"
-            >
-              <Mail className="h-3 w-3" /> {c.email}
-            </a>
-          </SpotlightCard>
-          </Reveal>
-        ))}
+            <p className="mt-2 text-sm leading-relaxed text-foreground">
+              El documento completo debe remitirse en formato editable (Word) al canal definido.
+              Fecha límite: <strong className="text-primary">{proc.cierre}</strong>.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={100}>
+          <div className="h-full rounded-2xl border-l-4 border-primary bg-accent/60 p-5">
+            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+              <MessageCircle className="h-3.5 w-3.5" /> Canal de consultas
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-foreground">
+              Toda consulta debe canalizarse por los contactos oficiales. Las consultas y sus
+              respuestas podrán compartirse de forma consolidada con todos los participantes.
+            </p>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* Interlocutores */}
+      <div className="grid gap-5 md:grid-cols-3">
+        {canales.map((c, i) => {
+          const org = orgOf(c.cargo);
+          return (
+            <Reveal key={c.email} delay={i * 80}>
+              <SpotlightCard className="glass-panel group flex h-full flex-col rounded-2xl p-6">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="text-mono flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 font-bold text-primary ring-1 ring-primary/25 transition-transform duration-300 group-hover:scale-105">
+                    {c.iniciales}
+                  </div>
+                  <span
+                    className={[
+                      "rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ring-1",
+                      org === "EY"
+                        ? "bg-amber-500/10 text-amber-700 ring-amber-500/30 dark:text-amber-300"
+                        : "bg-primary/10 text-primary ring-primary/30",
+                    ].join(" ")}
+                  >
+                    {org}
+                  </span>
+                </div>
+                <div className="mt-4 font-heading text-lg font-bold">{c.nombre}</div>
+                <div className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground">{c.cargo}</div>
+                <a
+                  href={`mailto:${c.email}`}
+                  className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-hero px-4 text-xs font-semibold text-white shadow-sysde transition hover:brightness-110 sm:h-10"
+                >
+                  <Mail className="h-3.5 w-3.5" /> Escribir correo
+                </a>
+                <div className="text-mono mt-2 truncate text-center text-[11px] text-muted-foreground">
+                  {c.email}
+                </div>
+              </SpotlightCard>
+            </Reveal>
+          );
+        })}
       </div>
     </div>
   );
