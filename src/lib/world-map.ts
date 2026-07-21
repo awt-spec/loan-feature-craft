@@ -181,6 +181,20 @@ export const worldPins: WorldPin[] = [
   "flag": "🇪🇨"
  },
  {
+  "name": "Guyana",
+  "x": 336.4,
+  "y": 236.4,
+  "tier": "client",
+  "flag": "🇬🇾"
+ },
+ {
+  "name": "Surinam",
+  "x": 344.4,
+  "y": 239.2,
+  "tier": "client",
+  "flag": "🇸🇷"
+ },
+ {
   "name": "Haití",
   "x": 299.2,
   "y": 197.2,
