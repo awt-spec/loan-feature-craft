@@ -14,13 +14,17 @@ import { WorldMap } from "./WorldMap";
 import { Reveal, SpotlightCard, CountUp } from "./motion";
 import {
   Building2,
+  Check,
   CheckCircle2,
   ChevronRight,
   Clock,
   DollarSign,
   ExternalLink,
+  Factory,
   Filter,
   Globe2,
+  Headset,
+  Landmark,
   Layers,
   MapPin,
   Search,
@@ -38,6 +42,19 @@ function pillForModel(m: string) {
   if (m.includes("/")) return "bg-amber-500/15 text-amber-900 ring-amber-500/40 dark:text-amber-200";
   return modelStyles[m] ?? "bg-muted text-foreground ring-border";
 }
+
+/* Matriz de capacidades de la huella instalada (países × roles) */
+const CAP_COLS: {
+  key: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  match: (roles: string[]) => string | undefined;
+}[] = [
+  { key: "hq", label: "HQ / Holding", icon: Landmark, match: (r) => r.find((x) => x === "HQ" || x === "Holding") },
+  { key: "oficina", label: "Oficina", icon: Building2, match: (r) => r.find((x) => x === "Oficina") },
+  { key: "fabrica", label: "Fábrica", icon: Factory, match: (r) => r.find((x) => x === "Fábrica") },
+  { key: "sva", label: "Soporte SVA", icon: Headset, match: (r) => r.find((x) => x.startsWith("SVA")) },
+];
 
 type FilterKey = "all" | "near-py" | RegionKey | CategoryKey | "implementing";
 
@@ -213,67 +230,107 @@ export function ReferenciasSection() {
           />
         </Reveal>
 
-        {/* Footprint cards */}
+        {/* Huella instalada — matriz de capacidades */}
         <div className="mt-6 flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
           <MapPin className="h-3.5 w-3.5 shrink-0" /> Huella instalada · oficinas, fábricas y soporte
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {footprint.map((f, idx) => (
-            <Reveal key={f.pais} delay={idx * 55}>
-              <SpotlightCard
-                className={[
-                  "group relative h-full overflow-hidden rounded-2xl border p-4 transition",
-                  f.highlight
-                    ? "border-primary/50 bg-gradient-hero text-white shadow-sysde"
-                    : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card-soft",
-                ].join(" ")}
-              >
-                {f.highlight && (
-                  <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-30" />
-                )}
-                <div className="relative flex items-start justify-between">
-                  <div
-                    className={[
-                      "flex h-9 w-9 items-center justify-center rounded-xl ring-1 transition-transform duration-300 group-hover:scale-110",
-                      f.highlight
-                        ? "bg-white/15 ring-white/30"
-                        : "bg-primary/10 text-primary ring-primary/20",
-                    ].join(" ")}
-                  >
-                    <MapPin className="h-4 w-4" strokeWidth={2.25} />
-                  </div>
-                  <span className="text-2xl leading-none">{getFlag(f.pais)}</span>
+        <Reveal delay={60}>
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-card-soft">
+            <div className="min-w-[600px]">
+              {/* Encabezado */}
+              <div className="grid grid-cols-[minmax(160px,1.4fr)_repeat(4,minmax(90px,1fr))] items-end gap-2 border-b border-border bg-muted/40 px-4 py-3">
+                <div className="text-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                  País
                 </div>
-                <div className="relative mt-3 font-heading text-base font-black">{f.pais}</div>
-                <div className="relative mt-2 flex flex-wrap gap-1.5">
-                  {f.roles.map((r) => (
-                    <span
-                      key={r}
-                      className={[
-                        "rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
-                        f.highlight
-                          ? "border-white/40 bg-white/10 text-white"
-                          : "border-border bg-muted/60 text-foreground/80",
-                      ].join(" ")}
-                    >
-                      {r}
+                {CAP_COLS.map((c) => (
+                  <div key={c.key} className="flex flex-col items-center gap-1 text-center">
+                    <c.icon className="h-4 w-4 text-primary" strokeWidth={2.25} />
+                    <span className="text-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
+                      {c.label}
                     </span>
-                  ))}
-                </div>
-                {f.note && (
+                  </div>
+                ))}
+              </div>
+
+              {/* Filas */}
+              {footprint.map((f) => {
+                const isPY = !!f.highlight;
+                return (
                   <div
+                    key={f.pais}
                     className={[
-                      "relative mt-3 text-[11px] leading-snug",
-                      f.highlight ? "text-white/95" : "text-foreground/70",
+                      "grid grid-cols-[minmax(160px,1.4fr)_repeat(4,minmax(90px,1fr))] items-center gap-2 border-b border-border/60 px-4 py-2.5 transition-colors last:border-0 hover:bg-muted/30",
+                      isPY ? "bg-primary/[0.06]" : "",
                     ].join(" ")}
                   >
-                    {f.note}
+                    <div className="flex min-w-0 items-center gap-2.5">
+                      <span className="text-xl leading-none">{getFlag(f.pais)}</span>
+                      <span className="min-w-0">
+                        <span className="block truncate font-heading text-sm font-bold text-foreground">
+                          {f.pais}
+                        </span>
+                        {f.note && (
+                          <span className="block truncate text-[10px] text-muted-foreground">{f.note}</span>
+                        )}
+                      </span>
+                    </div>
+                    {CAP_COLS.map((c) => {
+                      const match = c.match(f.roles);
+                      const viaInventiva = typeof match === "string" && match.includes("Inventiva");
+                      const subLabel =
+                        c.key === "hq" && typeof match === "string"
+                          ? match
+                          : viaInventiva
+                            ? "Inventiva"
+                            : null;
+                      return (
+                        <div key={c.key} className="flex flex-col items-center gap-0.5">
+                          {match ? (
+                            <span
+                              title={`${f.pais} · ${c.label}${viaInventiva ? " vía Inventiva" : ""}`}
+                              className={[
+                                "flex h-6 w-6 items-center justify-center rounded-full text-white shadow-sm",
+                                viaInventiva ? "bg-emerald-500" : "bg-gradient-hero shadow-sysde",
+                              ].join(" ")}
+                            >
+                              <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                            </span>
+                          ) : (
+                            <span
+                              title={`${f.pais} · sin ${c.label}`}
+                              className="h-6 w-6 rounded-full border-2 border-border/70"
+                            />
+                          )}
+                          {subLabel && (
+                            <span
+                              className={`text-mono text-[8px] uppercase tracking-wider ${viaInventiva ? "text-emerald-600 dark:text-emerald-400" : "text-primary"}`}
+                            >
+                              {subLabel}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
-              </SpotlightCard>
-            </Reveal>
-          ))}
-        </div>
+                );
+              })}
+
+              {/* Totales */}
+              <div className="grid grid-cols-[minmax(160px,1.4fr)_repeat(4,minmax(90px,1fr))] items-center gap-2 border-t border-border bg-muted/40 px-4 py-3">
+                <div className="text-mono text-[10px] font-bold uppercase tracking-[0.18em] text-foreground">
+                  Total · {footprint.length} mercados
+                </div>
+                {CAP_COLS.map((c) => (
+                  <div key={c.key} className="text-center">
+                    <span className="text-mono font-heading text-lg font-black text-gradient-sysde">
+                      <CountUp value={footprint.filter((f) => c.match(f.roles)).length} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* ─────────────────── CONTROLS ─────────────────── */}
