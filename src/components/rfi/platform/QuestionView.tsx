@@ -2,6 +2,7 @@ import type { SectionId } from "./PlatformShell";
 import type { Question } from "@/lib/rfi-content";
 import { questions, sla, clientes, otrasInstituciones } from "@/lib/rfi-content";
 import { Reveal } from "./motion";
+import { AnswerDemo } from "./AnswerDemo";
 import {
   ArrowLeft,
   ArrowRight,
@@ -213,6 +214,11 @@ export function QuestionView({
                 );
               })}
             </div>
+          </div>
+
+          {/* Demo interactiva — diagrama de la respuesta */}
+          <div className="border-t border-border bg-muted/20 p-6 md:p-8">
+            <AnswerDemo n={question.n} />
           </div>
 
           {/* Q5: SLA */}
