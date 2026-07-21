@@ -559,10 +559,22 @@ html:not(.dark) {
   .bg-primary.text-primary-foreground,
   .bg-gradient-dark.text-white,
   .bg-cinematic.text-white,
+  .bg-emerald-500.text-white,
+  .bg-emerald-600.text-white,
+  .bg-slate-600.text-white,
+  .bg-slate-700.text-white,
   .bg-gradient-hero .text-primary-foreground,
   .bg-primary .text-primary-foreground {
     color: #fff !important;
   }
+
+  /* Solid tone surfaces (nodos activos de los diagramas) keep white text */
+  .bg-emerald-500 .text-white, .bg-emerald-600 .text-white,
+  .bg-slate-600 .text-white, .bg-slate-700 .text-white { color: #fff !important; }
+  .bg-emerald-500 .text-white\/85, .bg-emerald-600 .text-white\/85,
+  .bg-slate-600 .text-white\/85, .bg-slate-700 .text-white\/85 { color: rgb(255 255 255 / 0.88) !important; }
+  .bg-emerald-500 .bg-white\/20, .bg-emerald-600 .bg-white\/20,
+  .bg-slate-600 .bg-white\/20, .bg-slate-700 .bg-white\/20 { background-color: rgb(255 255 255 / 0.2) !important; }
 
   /* Hero big number ghost on dark → subtle foreground on light */
   .text-white\/5, .text-white\/10 { color: hsl(var(--foreground) / 0.06) !important; }

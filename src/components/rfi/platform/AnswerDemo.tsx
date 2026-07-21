@@ -253,36 +253,36 @@ const DIAGRAMS: Record<number, Diagram> = {
 /* ------------------------------------------------------------------ *
  * Estilos por tono
  * ------------------------------------------------------------------ */
-/* Nodos sobre lienzo cinematográfico (siempre oscuro): texto blanco en todos
- * los estados; el tono se comunica con el color del ícono y el glow activo. */
+/* Nodos sobre lienzo claro: texto del tema en reposo, blanco al activarse;
+ * el tono se comunica con el color del ícono, el borde y el glow activo. */
 const toneBox: Record<Tone, { on: string; off: string; icon: string; iconOn: string; glow: string }> = {
   core: {
-    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-white/50",
-    off: "bg-white/10 text-white ring-1 ring-white/25 backdrop-blur",
-    icon: "bg-white/10 text-rose-200",
+    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-primary/50",
+    off: "bg-card text-foreground border border-primary/40 shadow-card-soft",
+    icon: "bg-primary/10 text-primary",
     iconOn: "bg-white/20 text-white",
-    glow: "bg-primary/50",
+    glow: "bg-primary/35",
   },
   ally: {
-    on: "bg-emerald-500 text-white shadow-lg ring-2 ring-white/50",
-    off: "bg-white/10 text-white ring-1 ring-emerald-300/40 backdrop-blur",
-    icon: "bg-emerald-400/20 text-emerald-200",
+    on: "bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400/60",
+    off: "bg-card text-foreground border border-emerald-500/40 shadow-card-soft",
+    icon: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
     iconOn: "bg-white/20 text-white",
-    glow: "bg-emerald-400/50",
+    glow: "bg-emerald-400/40",
   },
   ext: {
-    on: "bg-slate-600 text-white shadow-lg ring-2 ring-white/45",
-    off: "bg-white/[0.07] text-white ring-1 ring-white/20 backdrop-blur",
-    icon: "bg-white/10 text-slate-200",
+    on: "bg-slate-700 text-white shadow-lg ring-2 ring-slate-400/60",
+    off: "bg-card text-foreground border border-border shadow-card-soft",
+    icon: "bg-muted text-muted-foreground",
     iconOn: "bg-white/20 text-white",
-    glow: "bg-slate-300/40",
+    glow: "bg-slate-400/35",
   },
   plain: {
-    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-white/50",
-    off: "bg-white/10 text-white ring-1 ring-white/25 backdrop-blur",
-    icon: "bg-white/10 text-amber-200",
+    on: "bg-gradient-hero text-white shadow-sysde ring-2 ring-primary/50",
+    off: "bg-card text-foreground border border-border shadow-card-soft",
+    icon: "bg-primary/10 text-primary",
     iconOn: "bg-white/20 text-white",
-    glow: "bg-primary/50",
+    glow: "bg-primary/35",
   },
 };
 
@@ -432,25 +432,21 @@ export function AnswerDemo({ n }: { n: number }) {
       {/* Lienzo del diagrama */}
       <div className="relative mt-4">
         {/* Hint de scroll + fade — solo móvil */}
-        <div className="text-mono pointer-events-none absolute right-2 top-2 z-20 rounded-full border border-white/25 bg-black/40 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-white/90 backdrop-blur sm:hidden">
+        <div className="text-mono pointer-events-none absolute right-2 top-2 z-20 rounded-full border border-border bg-card/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-muted-foreground backdrop-blur sm:hidden">
           Desliza →
         </div>
-        <div className="pointer-events-none absolute inset-y-px right-px z-10 w-10 rounded-r-2xl bg-gradient-to-l from-[hsl(348_82%_12%/0.9)] to-transparent sm:hidden" />
-      <div className="scrollbar-thin overflow-x-auto rounded-2xl border border-white/10 bg-cinematic shadow-sysde">
+        <div className="pointer-events-none absolute inset-y-px right-px z-10 w-10 rounded-r-2xl bg-gradient-to-l from-background/90 to-transparent sm:hidden" />
+      <div className="scrollbar-thin overflow-x-auto rounded-2xl border border-border bg-card shadow-card-soft">
         <div className={`relative min-w-[620px] ${diagram.height}`}>
-          {/* Atmósfera: grid + blobs + viñeta */}
-          <div className="pointer-events-none absolute inset-0 animate-grid-pan bg-grid-sysde-light opacity-25 mask-radial-fade" />
-          <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 animate-float-slow rounded-full bg-primary/30 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-20 -right-12 h-72 w-72 animate-float rounded-full bg-[hsl(14_90%_55%/0.20)] blur-3xl" />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{ background: "radial-gradient(120% 105% at 50% 42%, transparent 55%, rgba(40,0,10,0.5) 100%)" }}
-          />
+          {/* Atmósfera: grid + blobs suaves */}
+          <div className="pointer-events-none absolute inset-0 animate-grid-pan bg-grid-sysde opacity-30 mask-radial-fade" />
+          <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 animate-float-slow rounded-full bg-primary/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 -right-12 h-72 w-72 animate-float rounded-full bg-primary/[0.07] blur-3xl" />
 
           {/* Número fantasma del paso */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-2 -top-6 select-none font-heading text-[9rem] font-black leading-none text-white/[0.06] transition-all duration-500"
+            className="pointer-events-none absolute -right-2 -top-6 select-none font-heading text-[9rem] font-black leading-none text-foreground/[0.05] transition-all duration-500"
           >
             {step >= 0 ? String(step + 1).padStart(2, "0") : String(n).padStart(2, "0")}
           </div>
@@ -480,14 +476,14 @@ export function AnswerDemo({ n }: { n: number }) {
                     d={d}
                     fill="none"
                     vectorEffect="non-scaling-stroke"
-                    stroke={isActive ? "rgba(253,224,71,0.95)" : "rgba(255,255,255,0.28)"}
-                    strokeWidth={isActive ? 2.5 : 1.4}
+                    stroke={isActive ? "hsl(352 85% 48%)" : "hsl(352 30% 45% / 0.25)"}
+                    strokeWidth={isActive ? 2.5 : 1.5}
                     strokeLinecap="round"
                     strokeDasharray={e.dashed || isActive ? "6 6" : undefined}
                     className={isActive ? "arc-flow" : undefined}
                   />
                   {flow && isActive && (
-                    <circle r={1.1} fill="rgb(253 224 71)" style={{ filter: "drop-shadow(0 0 2px rgba(253,224,71,0.9))" }}>
+                    <circle r={1.1} fill="hsl(352 85% 50%)" style={{ filter: "drop-shadow(0 0 2px hsl(352 85% 55% / 0.9))" }}>
                       <animateMotion dur="1.8s" begin={`${i * 0.2}s`} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
                         <mpath href={`#demo-e${i}`} />
                       </animateMotion>
@@ -528,7 +524,7 @@ export function AnswerDemo({ n }: { n: number }) {
                   }}
                   className={[
                     "relative block w-[132px] rounded-xl p-2 text-left transition-all duration-300 sm:w-[148px] sm:p-2.5",
-                    isOn ? `${tone.on} scale-105` : `${tone.off} hover:ring-white/45`,
+                    isOn ? `${tone.on} scale-105` : `${tone.off} hover:border-primary/50`,
                   ].join(" ")}
                 >
                   <div className="flex items-center gap-2">
@@ -538,9 +534,11 @@ export function AnswerDemo({ n }: { n: number }) {
                       <Icon className="h-3.5 w-3.5" strokeWidth={2.25} />
                     </span>
                     <span className="min-w-0">
-                      <span className="line-clamp-2 text-[11px] font-bold leading-tight text-white sm:text-xs">{nd.label}</span>
+                      <span className={`line-clamp-2 text-[11px] font-bold leading-tight sm:text-xs ${isOn ? "text-white" : "text-foreground"}`}>
+                        {nd.label}
+                      </span>
                       {nd.sub && (
-                        <span className={`line-clamp-2 text-[9px] leading-tight sm:text-[10px] ${isOn ? "text-white/85" : "text-white/70"}`}>
+                        <span className={`line-clamp-2 text-[9px] leading-tight sm:text-[10px] ${isOn ? "text-white/85" : "text-muted-foreground"}`}>
                           {nd.sub}
                         </span>
                       )}
