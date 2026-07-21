@@ -915,6 +915,7 @@ export const footprint = [
   { pais: "Costa Rica",           roles: ["HQ", "Oficina", "Fábrica", "SVA"], note: "Casa matriz SYSDE" },
   { pais: "El Salvador",          roles: ["Oficina", "Fábrica", "SVA"] },
   { pais: "México",               roles: ["Oficina", "SVA"] },
+  { pais: "Panamá",               roles: ["Holding", "Oficina"], note: "Sociedad holding regional" },
   { pais: "Colombia",             roles: ["Oficina", "Fábrica", "SVA"] },
   { pais: "Perú",                 roles: ["Oficina", "Fábrica", "SVA"] },
   { pais: "República Dominicana", roles: ["SVA"] },

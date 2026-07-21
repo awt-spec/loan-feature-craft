@@ -10,6 +10,8 @@ import {
   type RegionKey,
   type CategoryKey,
 } from "@/lib/references";
+import { WorldMap } from "./WorldMap";
+import { Reveal, SpotlightCard, CountUp } from "./motion";
 import {
   Building2,
   CheckCircle2,
@@ -120,7 +122,7 @@ export function ReferenciasSection() {
             <h1 className="mt-3 font-heading text-2xl font-black leading-[1.1] tracking-tight sm:text-3xl md:text-5xl">
               Referencias SYSDE ordenadas
               <br className="hidden md:inline" />
-              <span className="text-gradient-sysde"> desde Paraguay hacia afuera</span>
+              <span className="text-shimmer-light"> desde Paraguay hacia afuera</span>
             </h1>
             <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-white/90 sm:text-sm md:text-base">
               Instituciones financieras, AFP, cooperativas y microfinanzas operando sobre las
@@ -138,76 +140,100 @@ export function ReferenciasSection() {
         </div>
       </header>
 
-      {/* ─────────────────── FOOTPRINT ─────────────────── */}
+      {/* ─────────────────── PRESENCIA OPERATIVA + MAPA MUNDI ─────────────────── */}
       <section className="rounded-2xl border border-border bg-card p-5 shadow-card-soft sm:rounded-3xl sm:p-6 md:p-8">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between">
+        <Reveal className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between">
           <div className="min-w-0">
             <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
-              <MapPin className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">Presencia operativa SYSDE</span>
+              <Globe2 className="h-3.5 w-3.5 shrink-0 animate-spin-slow" /> <span className="truncate">Presencia operativa SYSDE</span>
             </div>
             <h2 className="mt-2 font-heading text-lg font-black tracking-tight sm:text-xl md:text-2xl">
-              Huella instalada para atender Paraguay
+              Cobertura global para atender <span className="text-shimmer">Paraguay</span>
             </h2>
+            <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-foreground/70 sm:text-sm">
+              Clientes en 4 continentes, con fábricas de desarrollo, oficinas y soporte
+              hispanohablante desplegados por toda la región latinoamericana.
+            </p>
           </div>
           <div className="text-mono shrink-0 text-[10px] uppercase tracking-wider text-foreground/70">
-            8 mercados · 1 aliado
+            9 mercados operativos · 1 aliado local
           </div>
-        </div>
+        </Reveal>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {footprint.map((f) => (
-            <div
-              key={f.pais}
-              className={[
-                "group relative overflow-hidden rounded-2xl border p-4 transition",
-                f.highlight
-                  ? "border-primary/50 bg-gradient-hero text-white shadow-sysde"
-                  : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card-soft",
-              ].join(" ")}
-            >
-              {f.highlight && (
-                <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-30" />
-              )}
-              <div className="relative flex items-start justify-between">
-                <div
-                  className={[
-                    "flex h-9 w-9 items-center justify-center rounded-xl ring-1",
-                    f.highlight
-                      ? "bg-white/15 ring-white/30"
-                      : "bg-primary/10 text-primary ring-primary/20",
-                  ].join(" ")}
-                >
-                  <MapPin className="h-4 w-4" strokeWidth={2.25} />
-                </div>
-                <span className="text-2xl leading-none">{getFlag(f.pais)}</span>
-              </div>
-              <div className="relative mt-3 font-heading text-base font-black">{f.pais}</div>
-              <div className="relative mt-2 flex flex-wrap gap-1.5">
-                {f.roles.map((r) => (
-                  <span
-                    key={r}
+        {/* Global stat strip */}
+        <Reveal delay={80}>
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <GlobeStat value={400} suffix="+" label="Clientes financieros" />
+            <GlobeStat value={34} label="Países" />
+            <GlobeStat value={4} label="Continentes" />
+            <GlobeStat value={1500} suffix="+" label="Proyectos ejecutados" />
+          </div>
+        </Reveal>
+
+        {/* World map */}
+        <Reveal delay={140} className="mt-6">
+          <WorldMap />
+        </Reveal>
+
+        {/* Footprint cards */}
+        <div className="mt-6 flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+          <MapPin className="h-3.5 w-3.5 shrink-0" /> Huella instalada · oficinas, fábricas y soporte
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {footprint.map((f, idx) => (
+            <Reveal key={f.pais} delay={idx * 55}>
+              <SpotlightCard
+                className={[
+                  "group relative h-full overflow-hidden rounded-2xl border p-4 transition",
+                  f.highlight
+                    ? "border-primary/50 bg-gradient-hero text-white shadow-sysde"
+                    : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card-soft",
+                ].join(" ")}
+              >
+                {f.highlight && (
+                  <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-30" />
+                )}
+                <div className="relative flex items-start justify-between">
+                  <div
                     className={[
-                      "rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                      "flex h-9 w-9 items-center justify-center rounded-xl ring-1 transition-transform duration-300 group-hover:scale-110",
                       f.highlight
-                        ? "border-white/40 bg-white/10 text-white"
-                        : "border-border bg-muted/60 text-foreground/80",
+                        ? "bg-white/15 ring-white/30"
+                        : "bg-primary/10 text-primary ring-primary/20",
                     ].join(" ")}
                   >
-                    {r}
-                  </span>
-                ))}
-              </div>
-              {f.note && (
-                <div
-                  className={[
-                    "relative mt-3 text-[11px] leading-snug",
-                    f.highlight ? "text-white/95" : "text-foreground/70",
-                  ].join(" ")}
-                >
-                  {f.note}
+                    <MapPin className="h-4 w-4" strokeWidth={2.25} />
+                  </div>
+                  <span className="text-2xl leading-none">{getFlag(f.pais)}</span>
                 </div>
-              )}
-            </div>
+                <div className="relative mt-3 font-heading text-base font-black">{f.pais}</div>
+                <div className="relative mt-2 flex flex-wrap gap-1.5">
+                  {f.roles.map((r) => (
+                    <span
+                      key={r}
+                      className={[
+                        "rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                        f.highlight
+                          ? "border-white/40 bg-white/10 text-white"
+                          : "border-border bg-muted/60 text-foreground/80",
+                      ].join(" ")}
+                    >
+                      {r}
+                    </span>
+                  ))}
+                </div>
+                {f.note && (
+                  <div
+                    className={[
+                      "relative mt-3 text-[11px] leading-snug",
+                      f.highlight ? "text-white/95" : "text-foreground/70",
+                    ].join(" ")}
+                  >
+                    {f.note}
+                  </div>
+                )}
+              </SpotlightCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -328,6 +354,17 @@ function Kpi({
         </div>
       </div>
       <div className="text-mono mt-1.5 font-heading text-xl font-black text-white sm:mt-2 sm:text-2xl">{value}</div>
+    </div>
+  );
+}
+
+function GlobeStat({ value, suffix, label }: { value: number; suffix?: string; label: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-background p-4 transition hover:border-primary/40 hover:shadow-card-soft">
+      <div className="text-mono font-heading text-2xl font-black text-gradient-sysde sm:text-3xl">
+        <CountUp value={value} suffix={suffix} />
+      </div>
+      <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
     </div>
   );
 }

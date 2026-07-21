@@ -153,13 +153,13 @@
   background: var(--gradient-dark);
 }
 
-/* Always-dark cinematic surface (theme-independent) — for hero headers
- * that carry white text in both light and dark mode. */
+/* Cinematic surface — deep SYSDE red (theme-independent). Carries white
+ * text in both light and dark mode. Rich crimson → burgundy, never black. */
 @utility bg-cinematic {
   background:
-    radial-gradient(130% 130% at 100% 0%, hsl(352 80% 32% / 0.55), transparent 55%),
-    radial-gradient(120% 120% at 0% 100%, hsl(352 70% 26% / 0.35), transparent 50%),
-    linear-gradient(135deg, hsl(224 46% 11%) 0%, hsl(224 42% 7%) 55%, hsl(352 55% 15%) 100%);
+    radial-gradient(120% 150% at 100% -10%, hsl(352 92% 46% / 0.85), transparent 58%),
+    radial-gradient(110% 120% at -5% 110%, hsl(342 85% 30% / 0.85), transparent 55%),
+    linear-gradient(135deg, hsl(352 80% 34%) 0%, hsl(350 85% 24%) 52%, hsl(348 82% 16%) 100%);
 }
 
 @utility shadow-sysde {
@@ -349,6 +349,46 @@
   animation: gradient-pan 6s linear infinite;
 }
 
+/* Light shimmer for text on dark/red surfaces (white → rose sweep) */
+.text-shimmer-light {
+  background-image: linear-gradient(
+    100deg,
+    hsl(0 0% 100%) 0%,
+    hsl(352 100% 92%) 30%,
+    hsl(14 100% 90%) 50%,
+    hsl(352 100% 92%) 70%,
+    hsl(0 0% 100%) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: gradient-pan 6s linear infinite;
+}
+
+/* --- World map (presencia operativa) ----------------------------- */
+@keyframes map-ping {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  70%, 100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; }
+}
+.map-ping { animation: map-ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@keyframes arc-flow { to { stroke-dashoffset: -60; } }
+.arc-flow { animation: arc-flow 2.2s linear infinite; }
+
+@keyframes arc-draw {
+  from { stroke-dashoffset: var(--arc-len, 600); }
+  to { stroke-dashoffset: 0; }
+}
+.arc-draw { animation: arc-draw 1.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes pin-pop {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  60% { transform: translate(-50%, -50%) scale(1.15); }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+.pin-pop { animation: pin-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
 /* --- Marquee ------------------------------------------------------ */
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -448,9 +488,11 @@
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .aurora-1, .aurora-2, .aurora-3,
   .animate-grid-pan, .animate-float, .animate-float-slow, .animate-spin-slow,
-  .text-shimmer, .marquee-track, .animate-glow, .animate-progress, .pulse-dot, .shimmer {
+  .text-shimmer, .text-shimmer-light, .marquee-track, .animate-glow, .animate-progress,
+  .pulse-dot, .shimmer, .map-ping, .arc-flow, .pin-pop {
     animation: none !important;
   }
+  .arc-draw { animation: none !important; stroke-dashoffset: 0 !important; }
   .card-tilt { transform: none !important; }
 }
 
@@ -493,6 +535,7 @@ html:not(.dark) {
   .bg-primary.text-white,
   .bg-primary.text-primary-foreground,
   .bg-gradient-dark.text-white,
+  .bg-cinematic.text-white,
   .bg-gradient-hero .text-primary-foreground,
   .bg-primary .text-primary-foreground {
     color: #fff !important;

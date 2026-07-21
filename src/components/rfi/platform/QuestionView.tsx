@@ -18,16 +18,16 @@ import {
   Target,
 } from "lucide-react";
 
-const nivelStyles: Record<string, string> = {
-  Sí: "bg-emerald-500/10 text-emerald-700 ring-emerald-500/40 dark:text-emerald-300",
-  Parcial: "bg-amber-500/10 text-amber-800 ring-amber-500/40 dark:text-amber-300",
-  No: "bg-rose-500/10 text-rose-700 ring-rose-500/40 dark:text-rose-300",
+// Icon colors for the (red) cinematic header — pills there are frosted white
+const nivelIcon: Record<string, string> = {
+  Sí: "text-emerald-300",
+  Parcial: "text-amber-300",
+  No: "text-rose-300",
 };
-
-const madurezStyles: Record<string, string> = {
-  Avanzado: "bg-primary/10 text-primary ring-primary/40",
-  Intermedio: "bg-sky-500/10 text-sky-700 ring-sky-500/40 dark:text-sky-300",
-  Básico: "bg-slate-500/10 text-slate-700 ring-slate-500/40 dark:text-slate-300",
+const madurezIcon: Record<string, string> = {
+  Avanzado: "text-amber-200",
+  Intermedio: "text-sky-300",
+  Básico: "text-slate-200",
 };
 
 export function QuestionView({
@@ -89,13 +89,13 @@ export function QuestionView({
 
             <div className="mt-8 flex flex-wrap gap-2">
               {question.cumplimiento && (
-                <Pill className={nivelStyles[question.cumplimiento]}>
-                  <CircleDot className="h-3 w-3" /> Cumplimiento · {question.cumplimiento}
+                <Pill className="bg-white/12 text-white ring-white/30">
+                  <CircleDot className={`h-3 w-3 ${nivelIcon[question.cumplimiento]}`} /> Cumplimiento · {question.cumplimiento}
                 </Pill>
               )}
               {question.madurez && (
-                <Pill className={madurezStyles[question.madurez]}>
-                  <BadgeCheck className="h-3 w-3" /> Madurez · {question.madurez}
+                <Pill className="bg-white/12 text-white ring-white/30">
+                  <BadgeCheck className={`h-3 w-3 ${madurezIcon[question.madurez]}`} /> Madurez · {question.madurez}
                 </Pill>
               )}
               <Pill className="bg-white/10 text-white ring-white/25">
