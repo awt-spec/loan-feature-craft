@@ -20,7 +20,7 @@ const legend: { tier: WorldPin["tier"]; label: string }[] = [
   { tier: "client", label: "Cliente en producción" },
 ];
 
-// Deterministic star field (seeded — identical on server & client, no hydration drift)
+/* Campo de estrellas determinista (idéntico en server y cliente) */
 const STARS = (() => {
   let s = 20260717;
   const rnd = () => {
@@ -35,6 +35,24 @@ const STARS = (() => {
   }));
 })();
 
+/* ------------------------------------------------------------------ *
+ * Regiones — presets de zoom (centro + escala sobre el lienzo 1000×500)
+ * ------------------------------------------------------------------ */
+type RegionKey = "global" | "america" | "africa" | "eurasia";
+
+const REGIONS: { key: RegionKey; label: string; cx: number; cy: number; s: number }[] = [
+  { key: "global", label: "Global", cx: MAP_W / 2, cy: MAP_H / 2, s: 1 },
+  { key: "america", label: "América", cx: 278, cy: 225, s: 2 },
+  { key: "africa", label: "África", cx: 548, cy: 245, s: 2.2 },
+  { key: "eurasia", label: "Europa · Asia", cx: 705, cy: 130, s: 1.9 },
+];
+
+function regionOf(p: { x: number; y: number }): Exclude<RegionKey, "global"> {
+  if (p.x < 430) return "america";
+  if (p.y < 140 || p.x > 680) return "eurasia";
+  return "africa";
+}
+
 export function WorldMap({
   highlightCountries = null,
   clickableCountries,
@@ -47,10 +65,11 @@ export function WorldMap({
   onPick?: (country: string) => void;
 } = {}) {
   const [active, setActive] = useState<string | null>(null);
+  const [region, setRegion] = useState<RegionKey>("global");
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const reduceRef = useRef(false);
 
-  // Traveling pulses / radar rings only after mount + when motion is allowed
+  // Pulsos/anillos SMIL solo tras montar y si el usuario permite movimiento
   const [flow, setFlow] = useState(false);
   useEffect(() => {
     const reduce =
@@ -76,7 +95,24 @@ export function WorldMap({
     });
   }, [hub]);
 
-  // Parallax — write CSS vars directly on the container (no re-render)
+  const counts = useMemo(() => {
+    const c: Record<RegionKey, number> = { global: worldPins.length, america: 0, africa: 0, eurasia: 0 };
+    worldPins.forEach((p) => c[regionOf(p)]++);
+    return c;
+  }, []);
+
+  // Vista actual (zoom-to-point): translate + scale sobre coordenadas del lienzo
+  const view = REGIONS.find((r) => r.key === region)!;
+  const tx = MAP_W / 2 - view.s * view.cx;
+  const ty = MAP_H / 2 - view.s * view.cy;
+  const project = (p: { x: number; y: number }) => ({
+    left: ((tx + view.s * p.x) / MAP_W) * 100,
+    top: ((ty + view.s * p.y) / MAP_H) * 100,
+  });
+  const inView = (pct: { left: number; top: number }) =>
+    pct.left > -2 && pct.left < 102 && pct.top > -3 && pct.top < 103;
+
+  // Parallax con el cursor (CSS vars, sin re-render)
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = wrapRef.current;
     if (!el || reduceRef.current) return;
@@ -91,6 +127,11 @@ export function WorldMap({
     el.style.setProperty("--py", "0");
   };
 
+  const pickRegion = (k: RegionKey) => {
+    setActive(null);
+    setRegion(k);
+  };
+
   return (
     <div className="relative">
       <div
@@ -99,7 +140,7 @@ export function WorldMap({
         onMouseLeave={onLeave}
         className="animate-in fade-in zoom-in-95 relative w-full overflow-hidden rounded-2xl border border-white/10 bg-cinematic duration-700"
       >
-        {/* Atmospheric depth glow (deepest parallax layer) */}
+        {/* Glow atmosférico (capa más profunda del parallax) */}
         <div
           aria-hidden
           className="map-parallax pointer-events-none absolute inset-0"
@@ -109,13 +150,64 @@ export function WorldMap({
           <div className="absolute right-[12%] top-[30%] h-[35%] w-[35%] rounded-full bg-[hsl(14_90%_55%/0.18)] blur-[100px]" />
         </div>
 
+        {/* Selector de región — profundidad funcional */}
+        <div className="relative z-20 flex flex-wrap items-center gap-1.5 border-b border-white/10 px-3 py-2.5 sm:px-4">
+          <span className="text-mono mr-1 hidden text-[9px] uppercase tracking-[0.2em] text-white/50 sm:inline">
+            Enfocar
+          </span>
+          {REGIONS.map((r) => {
+            const isActive = region === r.key;
+            return (
+              <button
+                key={r.key}
+                type="button"
+                onClick={() => pickRegion(r.key)}
+                className={[
+                  "text-mono inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[10px] font-bold uppercase tracking-[0.14em] transition sm:h-8",
+                  isActive
+                    ? "bg-gradient-hero text-white shadow-sysde"
+                    : "border border-white/20 bg-white/5 text-white/80 hover:border-white/40 hover:text-white",
+                ].join(" ")}
+              >
+                {r.label}
+                <span className={isActive ? "text-white/80" : "text-white/50"}>{counts[r.key]}</span>
+              </button>
+            );
+          })}
+          <div className="text-mono ml-auto hidden text-[9px] uppercase tracking-[0.18em] text-white/40 lg:block">
+            {region === "global" ? "Vista completa" : "Zoom activo · vuelve a Global para ver todo"}
+          </div>
+        </div>
+
         {/* Hint de scroll — solo móvil */}
-        <div className="text-mono pointer-events-none absolute right-3 top-3 z-30 rounded-full border border-white/25 bg-black/35 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-white/90 backdrop-blur sm:hidden">
+        <div className="text-mono pointer-events-none absolute right-3 top-[60px] z-30 rounded-full border border-white/25 bg-black/35 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-white/90 backdrop-blur sm:hidden">
           Desliza para explorar →
         </div>
 
         <div className="scrollbar-thin overflow-x-auto">
         <div className="relative min-w-[720px] sm:min-w-0" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
+          {/* Estrellas — capa fija que NO hace zoom (profundidad de fondo) */}
+          <svg
+            viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+            className="map-parallax absolute inset-0 h-full w-full"
+            style={{ ["--depth" as string]: 4 }}
+            preserveAspectRatio="xMidYMid meet"
+            aria-hidden
+          >
+            {STARS.map((st, i) => (
+              <circle
+                key={i}
+                cx={st.x}
+                cy={st.y}
+                r={st.r}
+                fill="#fff"
+                className="twinkle"
+                style={{ animationDelay: `${st.d}s`, opacity: 0.15 }}
+              />
+            ))}
+          </svg>
+
+          {/* Mapa — capa que hace zoom */}
           <svg
             viewBox={`0 0 ${MAP_W} ${MAP_H}`}
             className="map-parallax absolute inset-0 h-full w-full"
@@ -148,105 +240,112 @@ export function WorldMap({
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
+              <filter id="landGlow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="rgba(255,180,190,0.25)" />
+              </filter>
             </defs>
 
-            {/* Twinkling star field (ocean) */}
-            <g>
-              {STARS.map((st, i) => (
-                <circle
-                  key={i}
-                  cx={st.x}
-                  cy={st.y}
-                  r={st.r}
-                  fill="#fff"
-                  className="twinkle"
-                  style={{ animationDelay: `${st.d}s`, opacity: 0.15 }}
-                />
-              ))}
-            </g>
+            {/* Grupo zoomable — transición cinematográfica entre regiones */}
+            <g
+              style={{
+                transform: `translate(${tx}px, ${ty}px) scale(${view.s})`,
+                transition: "transform 900ms cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+            >
+              {/* Tierra con glow suave + dot-matrix */}
+              <path
+                d={worldLandPath}
+                fill="rgba(255,255,255,0.06)"
+                stroke="rgba(255,255,255,0.22)"
+                strokeWidth={0.5}
+                strokeLinejoin="round"
+                vectorEffect="non-scaling-stroke"
+                filter="url(#landGlow)"
+              />
+              <g clipPath="url(#landClip)">
+                <rect width={MAP_W} height={MAP_H} fill="url(#landDots)" />
+              </g>
 
-            {/* Land — faint base + holographic dot-matrix */}
-            <path d={worldLandPath} fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" strokeWidth={0.4} strokeLinejoin="round" />
-            <g clipPath="url(#landClip)">
-              <rect width={MAP_W} height={MAP_H} fill="url(#landDots)" />
-            </g>
-            <rect width={MAP_W} height={MAP_H} fill="url(#mapGlow)" />
+              {/* Anillos de radar */}
+              {flow &&
+                rings.map((p) =>
+                  [0, 1].map((k) => (
+                    <circle
+                      key={`${p.name}-ring-${k}`}
+                      cx={p.x}
+                      cy={p.y}
+                      r={3}
+                      fill="none"
+                      stroke={p.tier === "target" ? "rgba(253,224,71,0.9)" : "rgba(255,255,255,0.9)"}
+                      strokeWidth={0.8}
+                      vectorEffect="non-scaling-stroke"
+                    >
+                      <animate attributeName="r" values="3;22" dur="3s" begin={`${k * 1.5}s`} repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.9;0" dur="3s" begin={`${k * 1.5}s`} repeatCount="indefinite" />
+                    </circle>
+                  )),
+                )}
 
-            {/* Radar rings on hub + destino */}
-            {flow &&
-              rings.map((p) =>
-                [0, 1].map((k) => (
-                  <circle
-                    key={`${p.name}-ring-${k}`}
-                    cx={p.x}
-                    cy={p.y}
-                    r={3}
-                    fill="none"
-                    stroke={p.tier === "target" ? "rgba(253,224,71,0.9)" : "rgba(255,255,255,0.9)"}
-                    strokeWidth={0.8}
-                  >
-                    <animate attributeName="r" values="3;22" dur="3s" begin={`${k * 1.5}s`} repeatCount="indefinite" />
-                    <animate attributeName="stroke-width" values="1.2;0" dur="3s" begin={`${k * 1.5}s`} repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.9;0" dur="3s" begin={`${k * 1.5}s`} repeatCount="indefinite" />
-                  </circle>
-                )),
-              )}
-
-            {/* Connection arcs (with bloom) */}
-            <g filter="url(#bloom)">
-              {arcs.map((a, i) => (
-                <path
-                  key={a.name}
-                  id={`arc-${i}`}
-                  d={a.d}
-                  fill="none"
-                  stroke={a.main ? "rgba(253,224,71,0.95)" : "url(#arcGrad)"}
-                  strokeWidth={a.main ? 1.6 : 0.8}
-                  strokeLinecap="round"
-                  strokeDasharray={a.main ? "5 5" : "3 5"}
-                  className="arc-flow"
-                  style={{ ["--arc-len" as string]: a.len, animationDelay: `${i * 0.12}s`, opacity: a.main ? 1 : 0.7 }}
-                />
-              ))}
-            </g>
-
-            {/* Traveling pulses */}
-            {flow && (
+              {/* Arcos de conexión (bloom) */}
               <g filter="url(#bloom)">
                 {arcs.map((a, i) => (
-                  <circle
-                    key={`pulse-${a.name}`}
-                    r={a.main ? 3.2 : 2}
-                    fill={a.main ? "rgb(253 224 71)" : "#fff"}
-                    opacity={a.main ? 1 : 0.85}
-                  >
-                    <animateMotion
-                      dur={`${a.main ? 2.6 : 3.4}s`}
-                      begin={`${i * 0.25}s`}
-                      repeatCount="indefinite"
-                      rotate="auto"
-                      keyPoints="0;1"
-                      keyTimes="0;1"
-                      calcMode="linear"
-                    >
-                      <mpath href={`#arc-${i}`} />
-                    </animateMotion>
-                  </circle>
+                  <path
+                    key={a.name}
+                    id={`arc-${i}`}
+                    d={a.d}
+                    fill="none"
+                    stroke={a.main ? "rgba(253,224,71,0.95)" : "url(#arcGrad)"}
+                    strokeWidth={a.main ? 1.6 : 0.8}
+                    strokeLinecap="round"
+                    strokeDasharray={a.main ? "5 5" : "3 5"}
+                    vectorEffect="non-scaling-stroke"
+                    className="arc-flow"
+                    style={{ ["--arc-len" as string]: a.len, animationDelay: `${i * 0.12}s`, opacity: a.main ? 1 : 0.7 }}
+                  />
                 ))}
               </g>
-            )}
 
+              {/* Pulsos viajeros */}
+              {flow && (
+                <g filter="url(#bloom)">
+                  {arcs.map((a, i) => (
+                    <circle
+                      key={`pulse-${a.name}`}
+                      r={(a.main ? 3.2 : 2) / view.s}
+                      fill={a.main ? "rgb(253 224 71)" : "#fff"}
+                      opacity={a.main ? 1 : 0.85}
+                    >
+                      <animateMotion
+                        dur={`${a.main ? 2.6 : 3.4}s`}
+                        begin={`${i * 0.25}s`}
+                        repeatCount="indefinite"
+                        rotate="auto"
+                        keyPoints="0;1"
+                        keyTimes="0;1"
+                        calcMode="linear"
+                      >
+                        <mpath href={`#arc-${i}`} />
+                      </animateMotion>
+                    </circle>
+                  ))}
+                </g>
+              )}
+            </g>
+
+            <rect width={MAP_W} height={MAP_H} fill="url(#mapGlow)" />
             <rect width={MAP_W} height={MAP_H} fill="url(#mapVignette)" />
           </svg>
 
-          {/* Light sweep */}
+          {/* Barrido de luz */}
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="map-sweep absolute -inset-y-4 left-0 w-1/4 bg-gradient-to-r from-transparent via-white/12 to-transparent" />
           </div>
 
-          {/* HTML pin layer (crisp dots + tooltips) */}
+          {/* Capa de pines HTML (nítidos, reposicionados con la vista) */}
           <div className="map-parallax absolute inset-0" style={{ ["--depth" as string]: 16 }}>
             {worldPins.map((p, i) => {
+              const pct = project(p);
+              if (!inView(pct)) return null;
               const s = tierStyle[p.tier];
               const isActive = active === p.name;
               const isSelected = selectedCountry === p.name;
@@ -260,10 +359,10 @@ export function WorldMap({
               return (
                 <div
                   key={p.name}
-                  className="pin-pop absolute transition-opacity duration-300"
+                  className="pin-pop absolute transition-[left,top,opacity] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{
-                    left: `${(p.x / MAP_W) * 100}%`,
-                    top: `${(p.y / MAP_H) * 100}%`,
+                    left: `${pct.left}%`,
+                    top: `${pct.top}%`,
                     zIndex: isActive || isSelected ? 60 : s.z,
                     opacity: dimmed ? 0.28 : 1,
                     animationDelay: `${0.4 + i * 0.03}s`,
@@ -336,7 +435,7 @@ export function WorldMap({
         </div>
         </div>
 
-        {/* Legend */}
+        {/* Leyenda */}
         <div className="relative flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 px-4 py-3 sm:px-6">
           {legend.map((l) => {
             const s = tierStyle[l.tier];
