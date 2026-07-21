@@ -11,7 +11,7 @@ function daysUntil(iso: string) {
 
 const labels: Partial<Record<SectionId, string>> = {
   overview: "Panel general",
-  proceso: "Datos del proceso",
+  proceso: "Contexto y proceso",
   proveedor: "Proveedor",
   contactos: "Contactos",
   instrucciones: "Instrucciones",

@@ -31,7 +31,7 @@ export function Sidebar({
 }) {
   const items: { id: SectionId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "overview", label: "Panel general", icon: LayoutDashboard },
-    { id: "proceso", label: "Datos del proceso", icon: CalendarClock },
+    { id: "proceso", label: "Contexto y proceso", icon: CalendarClock },
     { id: "proveedor", label: "Proveedor", icon: Building2 },
     { id: "contactos", label: "Contactos", icon: Users },
     { id: "instrucciones", label: "Instrucciones", icon: ClipboardCheck },

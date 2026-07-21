@@ -4,8 +4,24 @@ import {
   canales,
   instrucciones,
   condiciones,
+  contexto,
 } from "@/lib/rfi-content";
-import { CalendarClock, Building2, Mail, Phone, ClipboardCheck, Globe2, ScrollText, Users } from "lucide-react";
+import {
+  AlertCircle,
+  Building2,
+  CalendarCheck,
+  CalendarClock,
+  Check,
+  ClipboardCheck,
+  FileText,
+  Globe2,
+  Landmark,
+  Mail,
+  Phone,
+  ScrollText,
+  Target,
+  Users,
+} from "lucide-react";
 import { Reveal, SpotlightCard } from "./motion";
 
 function PageHeader({
@@ -35,37 +51,163 @@ function PageHeader({
 }
 
 export function ProcesoSection() {
-  const rows: [string, string][] = [
-    ["Institución", proc.institucion],
-    ["Tipo de proceso", proc.tipo],
-    ["Objeto", proc.objeto],
-    ["Fecha de emisión", proc.emision],
-    ["Fecha de cierre", proc.cierre],
-    ["Canal", proc.canal],
+  const datos = [
+    { icon: Landmark, k: "Institución", v: proc.institucion },
+    { icon: FileText, k: "Tipo de proceso", v: proc.tipo },
+    { icon: Target, k: "Objeto", v: proc.objeto },
+    { icon: CalendarClock, k: "Fecha de emisión", v: proc.emision },
+    { icon: CalendarCheck, k: "Fecha de cierre", v: proc.cierre, destacado: true },
+    { icon: Mail, k: "Canal", v: proc.canal },
   ];
+
   return (
     <div className="space-y-8 pb-16">
       <PageHeader
         icon={CalendarClock}
-        kicker="Sección 1"
-        title="Datos del proceso"
-        subtitle="Parámetros formales del RFI publicado por Banco Atlas S.A."
+        kicker="Secciones 1 · 2"
+        title="Contexto y datos del proceso"
+        subtitle="Por qué existe este RFI, sus parámetros formales y las etapas del camino hacia el RFP."
       />
-      <Reveal delay={60}>
-      <SpotlightCard className="glass-panel rounded-2xl p-6 md:p-8">
-        <dl className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
-          {rows.map(([k, v]) => (
-            <div key={k} className="border-b border-white/5 pb-4 last:border-0">
-              <dt className="text-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                {k}
-              </dt>
-              <dd className="mt-1.5 font-heading text-lg font-bold text-foreground">{v}</dd>
+
+      {/* Contexto y objetivo + aviso */}
+      <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
+        <Reveal delay={40}>
+          <SpotlightCard className="glass-panel h-full rounded-2xl p-6 md:p-8">
+            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+              <FileText className="h-3.5 w-3.5" /> Contexto y objetivo
             </div>
-          ))}
-        </dl>
-      </SpotlightCard>
+            <p className="mt-4 font-heading text-lg font-bold leading-relaxed text-foreground md:text-xl">
+              {contexto.intro}
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-foreground/80 md:text-[15px]">
+              {contexto.proposito}
+            </p>
+          </SpotlightCard>
+        </Reveal>
+        <Reveal delay={130}>
+          <div className="sheen relative h-full overflow-hidden rounded-2xl border-2 border-primary/30 bg-gradient-hero p-6 text-white shadow-sysde md:p-8">
+            <div className="pointer-events-none absolute inset-0 bg-grid-sysde-light opacity-25" />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-12 -right-6 animate-float-slow font-heading text-[11rem] font-black leading-none text-white/10"
+            >
+              !
+            </div>
+            <div className="relative">
+              <AlertCircle className="h-8 w-8 animate-glow" />
+              <div className="mt-3 text-mono text-[10px] font-bold uppercase tracking-[0.25em] text-white/80">
+                Aviso
+              </div>
+              <p className="mt-2 font-heading text-xl font-bold leading-snug md:text-2xl">
+                {contexto.aviso}
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* Datos formales */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {datos.map((d, i) => (
+          <Reveal key={d.k} delay={i * 60}>
+            <SpotlightCard
+              className={[
+                "group h-full rounded-2xl border p-5 transition",
+                d.destacado
+                  ? "border-primary/50 bg-accent/60 shadow-sysde"
+                  : "border-border bg-card shadow-card-soft hover:border-primary/40",
+              ].join(" ")}
+            >
+              <div
+                className={[
+                  "flex h-10 w-10 items-center justify-center rounded-xl ring-1 transition-transform duration-300 group-hover:scale-110",
+                  d.destacado
+                    ? "bg-gradient-hero text-white shadow-sysde ring-white/20"
+                    : "bg-primary/10 text-primary ring-primary/20",
+                ].join(" ")}
+              >
+                <d.icon className="h-5 w-5" strokeWidth={2.25} />
+              </div>
+              <div className="text-mono mt-4 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                {d.k}
+              </div>
+              <div className={`mt-1 font-heading text-base font-bold leading-snug ${d.destacado ? "text-primary" : "text-foreground"}`}>
+                {d.v}
+              </div>
+            </SpotlightCard>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Línea de tiempo del proceso */}
+      <Reveal delay={80}>
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-card-soft md:p-8">
+          <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+            <CalendarClock className="h-3.5 w-3.5" /> Etapas del proceso · rumbo al RFP
+          </div>
+
+          {/* Desktop: stepper horizontal */}
+          <div className="mt-8 hidden md:block">
+            <div className="relative">
+              <div className="absolute left-[10%] right-[10%] top-[14px] h-px bg-border" />
+              <div className="absolute left-[10%] top-[14px] h-px w-[40%] bg-gradient-hero" />
+              <div className="relative grid grid-cols-5 gap-3">
+                {contexto.etapas.map((e) => (
+                  <div key={e.titulo} className="text-center">
+                    <TimelineDot estado={e.estado} />
+                    <div className="mt-3 font-heading text-sm font-bold leading-tight text-foreground">
+                      {e.titulo}
+                    </div>
+                    <div className="mt-1 text-[11px] leading-snug text-muted-foreground">{e.detalle}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Móvil: rail vertical */}
+          <ol className="mt-6 space-y-5 md:hidden">
+            {contexto.etapas.map((e, i) => (
+              <li key={e.titulo} className="relative flex gap-4 pl-1">
+                {i < contexto.etapas.length - 1 && (
+                  <span className="absolute left-[17px] top-8 h-full w-px bg-border" aria-hidden />
+                )}
+                <TimelineDot estado={e.estado} />
+                <div className="min-w-0 pb-1">
+                  <div className="font-heading text-sm font-bold text-foreground">{e.titulo}</div>
+                  <div className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{e.detalle}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </Reveal>
     </div>
+  );
+}
+
+function TimelineDot({ estado }: { estado: "done" | "active" | "next" }) {
+  if (estado === "done") {
+    return (
+      <span className="relative z-10 mx-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-sysde">
+        <Check className="h-4 w-4" strokeWidth={3} />
+      </span>
+    );
+  }
+  if (estado === "active") {
+    return (
+      <span className="relative z-10 mx-auto flex h-8 w-8 shrink-0 items-center justify-center">
+        <span className="map-ping absolute left-1/2 top-1/2 h-8 w-8 rounded-full bg-primary/50" />
+        <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-hero text-white shadow-sysde ring-2 ring-primary/40">
+          <CalendarCheck className="h-4 w-4" strokeWidth={2.5} />
+        </span>
+      </span>
+    );
+  }
+  return (
+    <span className="relative z-10 mx-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-border bg-card text-muted-foreground">
+      <span className="h-2 w-2 rounded-full bg-border" />
+    </span>
   );
 }
 

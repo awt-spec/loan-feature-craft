@@ -48,6 +48,21 @@ export const vendor = {
   ],
 };
 
+export const contexto = {
+  intro:
+    "Banco Atlas S.A., con el acompañamiento de EY, se encuentra en la etapa preliminar del proceso de modernización de su plataforma de Core Bancario.",
+  proposito:
+    "El presente RFI tiene como propósito recopilar información calificada de los proveedores del mercado a fin de determinar cuáles cumplen con los requisitos mínimos para avanzar en una etapa de propuesta formal (RFP). Las respuestas serán utilizadas exclusivamente con fines de análisis y precalificación.",
+  aviso: "Este documento NO representa un compromiso de contratación.",
+  etapas: [
+    { titulo: "Emisión del RFI", detalle: "10 de Julio 2026 · Banco Atlas publica el documento", estado: "done" as const },
+    { titulo: "Consultas", detalle: "Vía contactos oficiales · respuestas consolidadas", estado: "done" as const },
+    { titulo: "Cierre de recepción", detalle: "17 de Julio 2026 · envío por correo en formato editable", estado: "active" as const },
+    { titulo: "Evaluación y precalificación", detalle: "Análisis de claridad, experiencia y capacidad regional", estado: "next" as const },
+    { titulo: "Invitación al RFP", detalle: "Los proveedores que superen la evaluación pasan a propuesta formal", estado: "next" as const },
+  ],
+};
+
 export const canales = [
   {
     nombre: "Carlos Rolón",
