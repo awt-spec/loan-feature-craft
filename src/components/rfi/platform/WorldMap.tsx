@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MAP_W, MAP_H, worldPins, worldLandPath, type WorldPin } from "@/lib/world-map";
 
 const tierStyle: Record<
@@ -22,6 +22,16 @@ const legend: { tier: WorldPin["tier"]; label: string }[] = [
 
 export function WorldMap() {
   const [active, setActive] = useState<string | null>(null);
+  // Traveling pulses are added only after mount and when motion is allowed
+  // (SMIL ignores prefers-reduced-motion; gate it in JS to stay SSR-safe).
+  const [flow, setFlow] = useState(false);
+  useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) setFlow(true);
+  }, []);
 
   const hub = useMemo(() => worldPins.find((p) => p.tier === "hub")!, []);
   // Arcs: hub → target (bold) + hub → every office/sva
@@ -70,6 +80,7 @@ export function WorldMap() {
             {arcs.map((a, i) => (
               <path
                 key={a.name}
+                id={`arc-${i}`}
                 d={a.d}
                 fill="none"
                 stroke={a.main ? "rgba(253,224,71,0.95)" : "rgba(255,255,255,0.5)"}
@@ -80,6 +91,30 @@ export function WorldMap() {
                 style={{ ["--arc-len" as string]: a.len, animationDelay: `${i * 0.12}s`, opacity: a.main ? 1 : 0.7 }}
               />
             ))}
+
+            {/* Traveling pulses along each arc (hub → destino / región) */}
+            {flow &&
+              arcs.map((a, i) => (
+                <circle
+                  key={`pulse-${a.name}`}
+                  r={a.main ? 3.2 : 2}
+                  fill={a.main ? "rgb(253 224 71)" : "#fff"}
+                  opacity={a.main ? 1 : 0.85}
+                  style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.9))" }}
+                >
+                  <animateMotion
+                    dur={`${a.main ? 2.6 : 3.4}s`}
+                    begin={`${i * 0.25}s`}
+                    repeatCount="indefinite"
+                    rotate="auto"
+                    keyPoints="0;1"
+                    keyTimes="0;1"
+                    calcMode="linear"
+                  >
+                    <mpath href={`#arc-${i}`} />
+                  </animateMotion>
+                </circle>
+              ))}
           </svg>
 
           {/* HTML pin layer (crisp dots + tooltips) */}

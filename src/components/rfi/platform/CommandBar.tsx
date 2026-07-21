@@ -1,5 +1,6 @@
 import type { SectionId } from "./PlatformShell";
 import { process } from "@/lib/rfi-content";
+import { ThemeToggle } from "./ThemeToggle";
 import { ChevronRight, Signal, Timer, FileDown, Menu } from "lucide-react";
 
 function daysUntil(iso: string) {
@@ -57,6 +58,7 @@ export function CommandBar({
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
           <StatusPill />
           <DeadlinePill days={days} closes={process.cierre} />
+          <ThemeToggle />
           <button className="hidden items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground md:inline-flex">
             <FileDown className="h-3.5 w-3.5" />
             Exportar .docx
