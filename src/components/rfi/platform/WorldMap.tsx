@@ -35,7 +35,17 @@ const STARS = (() => {
   }));
 })();
 
-export function WorldMap() {
+export function WorldMap({
+  highlightCountries = null,
+  clickableCountries,
+  selectedCountry = null,
+  onPick,
+}: {
+  highlightCountries?: Set<string> | null;
+  clickableCountries?: Set<string>;
+  selectedCountry?: string | null;
+  onPick?: (country: string) => void;
+} = {}) {
   const [active, setActive] = useState<string | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const reduceRef = useRef(false);
@@ -233,15 +243,23 @@ export function WorldMap() {
             {worldPins.map((p, i) => {
               const s = tierStyle[p.tier];
               const isActive = active === p.name;
+              const isSelected = selectedCountry === p.name;
+              const isClickable = !clickableCountries || clickableCountries.has(p.name);
+              const isAnchor = p.tier === "hub" || p.tier === "target";
+              const dimmed =
+                !isAnchor &&
+                !isSelected &&
+                ((highlightCountries !== null && !highlightCountries.has(p.name)) || selectedCountry !== null);
               const withPing = p.tier === "hub" || p.tier === "target" || p.tier === "office";
               return (
                 <div
                   key={p.name}
-                  className="pin-pop absolute"
+                  className="pin-pop absolute transition-opacity duration-300"
                   style={{
                     left: `${(p.x / MAP_W) * 100}%`,
                     top: `${(p.y / MAP_H) * 100}%`,
-                    zIndex: isActive ? 60 : s.z,
+                    zIndex: isActive || isSelected ? 60 : s.z,
+                    opacity: dimmed ? 0.28 : 1,
                     animationDelay: `${0.4 + i * 0.03}s`,
                   }}
                 >
@@ -251,18 +269,27 @@ export function WorldMap() {
                     onMouseLeave={() => setActive((a) => (a === p.name ? null : a))}
                     onFocus={() => setActive(p.name)}
                     onBlur={() => setActive((a) => (a === p.name ? null : a))}
-                    onClick={() => setActive((a) => (a === p.name ? null : p.name))}
+                    onClick={() => {
+                      setActive((a) => (a === p.name ? null : p.name));
+                      if (isClickable) onPick?.(p.name);
+                    }}
                     aria-label={p.name}
-                    className="group relative block -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                    className={`group relative block -translate-x-1/2 -translate-y-1/2 ${isClickable ? "cursor-pointer" : "cursor-default"}`}
                   >
-                    {withPing && (
+                    {withPing && !dimmed && (
                       <span
                         className={`map-ping absolute left-1/2 top-1/2 rounded-full ${s.ping ?? ""}`}
                         style={{ width: s.size, height: s.size }}
                       />
                     )}
+                    {isSelected && (
+                      <span
+                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-amber-300"
+                        style={{ width: s.size + 10, height: s.size + 10 }}
+                      />
+                    )}
                     <span
-                      className={`relative block rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)] transition-transform duration-200 group-hover:scale-125 ${s.dot}`}
+                      className={`relative block rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)] transition-transform duration-200 group-hover:scale-125 ${s.dot} ${isSelected ? "scale-125" : ""}`}
                       style={{ width: s.size, height: s.size }}
                     />
                   </button>
@@ -289,6 +316,11 @@ export function WorldMap() {
                         </div>
                       )}
                       {p.note && <div className="mt-1 text-[10px] leading-snug text-white/70">{p.note}</div>}
+                      {isClickable && (
+                        <div className="text-mono mt-1.5 text-[9px] uppercase tracking-wider text-amber-300">
+                          {isSelected ? "✓ Filtrando · toca para quitar" : "→ Toca para ver referencias"}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

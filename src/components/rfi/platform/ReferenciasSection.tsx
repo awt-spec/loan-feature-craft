@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   references,
   regionMeta,
@@ -64,15 +64,22 @@ function matchFilter(r: Reference, f: FilterKey) {
   return true;
 }
 
+function refCountries(r: Reference): string[] {
+  return r.countries?.length ? r.countries : [r.country];
+}
+
 export function ReferenciasSection() {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [q, setQ] = useState("");
   const [selected, setSelected] = useState<Reference | null>(null);
+  const [country, setCountry] = useState<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
     return references
       .filter((r) => matchFilter(r, filter))
+      .filter((r) => !country || refCountries(r).includes(country))
       .filter(
         (r) =>
           !t ||
@@ -81,7 +88,33 @@ export function ReferenciasSection() {
           r.product.toLowerCase().includes(t),
       )
       .sort((a, b) => a.distanceRank - b.distanceRank);
-  }, [filter, q]);
+  }, [filter, q, country]);
+
+  // Countries that have at least one reference (clickable on the map)
+  const referenceCountries = useMemo(() => {
+    const s = new Set<string>();
+    references.forEach((r) => refCountries(r).forEach((c) => s.add(c)));
+    return s;
+  }, []);
+
+  // Countries matched by the active region/category filter → highlighted on map
+  const highlightCountries = useMemo(() => {
+    if (filter === "all") return null;
+    const s = new Set<string>();
+    references.filter((r) => matchFilter(r, filter)).forEach((r) => refCountries(r).forEach((c) => s.add(c)));
+    return s;
+  }, [filter]);
+
+  const pickCountry = (name: string) => {
+    if (!referenceCountries.has(name)) return;
+    setCountry((c) => (c === name ? null : name));
+    requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
+
+  const selectFilter = (key: FilterKey) => {
+    setFilter(key);
+    setCountry(null);
+  };
 
   // Group by region preserving proximity order
   const grouped = useMemo(() => {
@@ -172,7 +205,12 @@ export function ReferenciasSection() {
 
         {/* World map */}
         <Reveal delay={140} className="mt-6">
-          <WorldMap />
+          <WorldMap
+            highlightCountries={highlightCountries}
+            clickableCountries={referenceCountries}
+            selectedCountry={country}
+            onPick={pickCountry}
+          />
         </Reveal>
 
         {/* Footprint cards */}
@@ -239,7 +277,10 @@ export function ReferenciasSection() {
       </section>
 
       {/* ─────────────────── CONTROLS ─────────────────── */}
-      <section className="rounded-2xl border border-border bg-card p-4 shadow-card-soft sm:rounded-3xl md:p-6">
+      <section
+        ref={resultsRef}
+        className="scroll-mt-24 rounded-2xl border border-border bg-card p-4 shadow-card-soft sm:rounded-3xl md:p-6"
+      >
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="relative w-full md:max-w-md md:flex-1">
             <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
@@ -258,9 +299,21 @@ export function ReferenciasSection() {
               </button>
             )}
           </div>
-          <div className="text-mono flex items-center gap-2 text-[10px] uppercase tracking-wider text-foreground/70">
-            <Filter className="h-3 w-3" />
-            <span className="font-bold text-primary">{filtered.length}</span> de {references.length}
+          <div className="flex items-center gap-3">
+            {country && (
+              <button
+                onClick={() => setCountry(null)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition hover:bg-primary/20"
+                title="Quitar filtro de país"
+              >
+                <span>{getFlag(country)}</span> {country}
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+            <div className="text-mono flex items-center gap-2 text-[10px] uppercase tracking-wider text-foreground/70">
+              <Filter className="h-3 w-3" />
+              <span className="font-bold text-primary">{filtered.length}</span> de {references.length}
+            </div>
           </div>
         </div>
 
@@ -270,7 +323,7 @@ export function ReferenciasSection() {
             return (
               <button
                 key={f.key}
-                onClick={() => setFilter(f.key)}
+                onClick={() => selectFilter(f.key)}
                 title={f.hint}
                 className={[
                   "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
