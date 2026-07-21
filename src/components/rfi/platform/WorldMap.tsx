@@ -82,9 +82,11 @@ export function WorldMap({
 
   const hub = useMemo(() => worldPins.find((p) => p.tier === "hub")!, []);
   const rings = useMemo(() => worldPins.filter((p) => p.tier === "hub" || p.tier === "target"), []);
-  const arcs = useMemo(() => {
-    const targets = worldPins.filter((p) => p.tier === "target" || p.tier === "office" || p.tier === "sva");
-    return targets.map((t) => {
+  // Arcos: la casa matriz conecta con TODOS los países (oficinas/SVA con
+  // trazo fuerte y pulso; clientes con trazo sutil — África, Europa y Asia
+  // incluidos).
+  const { mainArcs, clientArcs } = useMemo(() => {
+    const build = (t: WorldPin) => {
       const x1 = hub.x, y1 = hub.y, x2 = t.x, y2 = t.y;
       const mx = (x1 + x2) / 2;
       const dist = Math.hypot(x2 - x1, y2 - y1);
@@ -92,7 +94,11 @@ export function WorldMap({
       const cy = Math.min(y1, y2) - dist * 0.28 - 8;
       const len = dist * 1.25;
       return { name: t.name, d: `M${x1} ${y1} Q${cx} ${cy} ${x2} ${y2}`, len, main: t.tier === "target" };
-    });
+    };
+    return {
+      mainArcs: worldPins.filter((p) => p.tier === "target" || p.tier === "office" || p.tier === "sva").map(build),
+      clientArcs: worldPins.filter((p) => p.tier === "client").map(build),
+    };
   }, [hub]);
 
   const counts = useMemo(() => {
@@ -286,9 +292,27 @@ export function WorldMap({
                   )),
                 )}
 
-              {/* Arcos de conexión (bloom) */}
+              {/* Arcos sutiles hacia clientes — África, Europa y Asia incluidos */}
+              <g>
+                {clientArcs.map((a, i) => (
+                  <path
+                    key={a.name}
+                    d={a.d}
+                    fill="none"
+                    stroke="rgba(255,255,255,0.38)"
+                    strokeWidth={0.8}
+                    strokeLinecap="round"
+                    strokeDasharray="3 6"
+                    vectorEffect="non-scaling-stroke"
+                    className="arc-flow"
+                    style={{ animationDelay: `${i * 0.18}s`, opacity: 0.8 }}
+                  />
+                ))}
+              </g>
+
+              {/* Arcos de conexión principales (bloom) */}
               <g filter="url(#bloom)">
-                {arcs.map((a, i) => (
+                {mainArcs.map((a, i) => (
                   <path
                     key={a.name}
                     id={`arc-${i}`}
@@ -308,7 +332,7 @@ export function WorldMap({
               {/* Pulsos viajeros */}
               {flow && (
                 <g filter="url(#bloom)">
-                  {arcs.map((a, i) => (
+                  {mainArcs.map((a, i) => (
                     <circle
                       key={`pulse-${a.name}`}
                       r={(a.main ? 3.2 : 2) / view.s}
