@@ -76,7 +76,7 @@ const REGIONS: { key: RegionKey; label: string; cx: number; cy: number; s: numbe
   { key: "global", label: "Global", cx: MAP_W / 2, cy: MAP_H / 2, s: 1 },
   { key: "america", label: "América", cx: 278, cy: 225, s: 2 },
   { key: "africa", label: "África", cx: 548, cy: 245, s: 2.2 },
-  { key: "eurasia", label: "Europa · Asia", cx: 705, cy: 130, s: 1.9 },
+  { key: "eurasia", label: "Europa · Asia", cx: 700, cy: 132, s: 2.15 },
 ];
 
 function regionOf(p: { x: number; y: number }): Exclude<RegionKey, "global"> {
@@ -188,8 +188,10 @@ export function WorldMap({
           <div className="absolute right-[12%] top-[30%] h-[35%] w-[35%] rounded-full bg-[hsl(14_90%_55%/0.18)] blur-[100px]" />
         </div>
 
-        {/* Selector de región — profundidad funcional */}
-        <div className="relative z-20 flex flex-wrap items-center gap-1.5 border-b border-white/10 px-3 py-2.5 sm:px-4">
+        <div className="relative z-10 lg:grid lg:grid-cols-[minmax(0,1fr)_224px]">
+        <div className="min-w-0 lg:flex lg:flex-col lg:justify-center">
+        {/* Selector de región — chips solo en móvil/tablet */}
+        <div className="relative z-20 flex flex-wrap items-center gap-1.5 border-b border-white/10 px-3 py-2.5 sm:px-4 lg:hidden">
           <span className="text-mono mr-1 hidden text-[9px] uppercase tracking-[0.2em] text-white/50 sm:inline">
             Enfocar
           </span>
@@ -212,9 +214,6 @@ export function WorldMap({
               </button>
             );
           })}
-          <div className="text-mono ml-auto hidden text-[9px] uppercase tracking-[0.18em] text-white/40 lg:block">
-            {region === "global" ? "Vista completa" : "Zoom activo · vuelve a Global para ver todo"}
-          </div>
         </div>
 
         {/* Hint de scroll — solo móvil */}
@@ -465,12 +464,12 @@ export function WorldMap({
                         "[text-shadow:0_1px_4px_rgba(0,0,0,0.75)]",
                         labelPos[LABEL_SIDE[p.name] ?? "right"],
                         p.tier === "hub"
-                          ? "text-[10px] font-black tracking-[0.12em] text-white"
+                          ? "text-[11px] font-black tracking-[0.12em] text-white"
                           : p.tier === "target"
-                            ? "text-[10px] font-black tracking-[0.12em] text-amber-300"
+                            ? "text-[11px] font-black tracking-[0.12em] text-amber-300"
                             : p.tier === "client"
-                              ? "text-[8px] font-semibold tracking-[0.08em] text-white/75"
-                              : "text-[9px] font-bold tracking-[0.1em] text-white/90",
+                              ? "text-[9px] font-semibold tracking-[0.08em] text-white/85"
+                              : "text-[10px] font-bold tracking-[0.1em] text-white/95",
                       ].join(" ")}
                     >
                       {SHORT_NAME[p.name] ?? p.name}
@@ -515,8 +514,8 @@ export function WorldMap({
         </div>
         </div>
 
-        {/* Leyenda */}
-        <div className="relative flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 px-4 py-3 sm:px-6">
+        {/* Leyenda inferior — solo móvil/tablet */}
+        <div className="relative flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 px-4 py-3 sm:px-6 lg:hidden">
           {legend.map((l) => {
             const s = tierStyle[l.tier];
             return (
@@ -529,9 +528,77 @@ export function WorldMap({
               </div>
             );
           })}
-          <div className="text-mono ml-auto hidden text-[10px] uppercase tracking-wider text-white/50 sm:block">
-            Toca un punto para ver el detalle
+        </div>
+        </div>
+
+        {/* Panel lateral — estructura desktop */}
+        <aside className="relative z-20 hidden flex-col gap-5 border-l border-white/10 p-4 lg:flex">
+          <div>
+            <div className="text-mono text-[9px] uppercase tracking-[0.22em] text-white/50">
+              Enfocar región
+            </div>
+            <div className="mt-2.5 space-y-1.5">
+              {REGIONS.map((r) => {
+                const isActive = region === r.key;
+                return (
+                  <button
+                    key={r.key}
+                    type="button"
+                    onClick={() => pickRegion(r.key)}
+                    className={[
+                      "group flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left transition",
+                      isActive
+                        ? "bg-gradient-hero text-white shadow-sysde"
+                        : "border border-white/15 bg-white/5 text-white/85 hover:border-white/35 hover:bg-white/10 hover:text-white",
+                    ].join(" ")}
+                  >
+                    <span className="text-mono text-[10px] font-bold uppercase tracking-[0.14em]">
+                      {r.label}
+                    </span>
+                    <span
+                      className={[
+                        "text-mono flex h-6 min-w-6 items-center justify-center rounded-md px-1 text-[10px] font-black",
+                        isActive ? "bg-white/20 text-white" : "bg-white/10 text-white/70",
+                      ].join(" ")}
+                    >
+                      {counts[r.key]}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="text-mono mt-2 text-[9px] uppercase leading-relaxed tracking-[0.14em] text-white/40">
+              {region === "global" ? "Vista completa del despliegue" : "Zoom activo · vuelve a Global"}
+            </div>
           </div>
+
+          <div className="border-t border-white/10 pt-4">
+            <div className="text-mono text-[9px] uppercase tracking-[0.22em] text-white/50">Leyenda</div>
+            <div className="mt-2.5 space-y-2">
+              {legend.map((l) => {
+                const s = tierStyle[l.tier];
+                return (
+                  <div key={l.tier} className="flex items-center gap-2.5">
+                    <span
+                      className={`block shrink-0 rounded-full ${s.dot}`}
+                      style={{ width: Math.min(s.size, 12), height: Math.min(s.size, 12) }}
+                    />
+                    <span className="text-mono text-[10px] uppercase tracking-wider text-white/80">
+                      {l.label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-auto border-t border-white/10 pt-4">
+            <p className="text-[11px] leading-relaxed text-white/60">
+              Pasa el cursor sobre un punto para ver su detalle. Los países con referencias filtran
+              la lista al hacer clic.
+            </p>
+          </div>
+        </aside>
         </div>
       </div>
     </div>
