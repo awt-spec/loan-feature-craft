@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { Lock, ArrowRight, ShieldCheck } from "lucide-react";
 import { unlockSite } from "@/lib/gate.functions";
+import logoSysde from "@/assets/logo-sysde-blanco.png.asset.json";
 
 export const Route = createFileRoute("/unlock")({
   head: () => ({

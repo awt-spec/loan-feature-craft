@@ -11,6 +11,7 @@ import {
   ScrollText,
   X,
 } from "lucide-react";
+import logoSysde from "@/assets/logo-sysde-blanco.png.asset.json";
 
 const nivelDot: Record<string, string> = {
   Sí: "bg-emerald-500",
