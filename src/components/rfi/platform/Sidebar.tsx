@@ -64,7 +64,9 @@ export function Sidebar({
         {/* Brand */}
         <div className="flex items-center gap-3 border-b border-border/70 px-5 py-5">
           <div className="relative">
-            <div className="h-9 w-9 rounded-lg bg-gradient-hero shadow-sysde" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-hero shadow-sysde">
+              <img src={logoSysde.url} alt="SYSDE" className="h-6 w-6 object-contain" />
+            </div>
             <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 pulse-dot" />
           </div>
           <div className="min-w-0 flex-1">
