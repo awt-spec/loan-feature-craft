@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { Lock, ArrowRight, ShieldCheck } from "lucide-react";
 import { unlockSite } from "@/lib/gate.functions";
+import logoSysde from "@/assets/logo-sysde-blanco.png.asset.json";
 
 export const Route = createFileRoute("/unlock")({
   head: () => ({
@@ -54,7 +55,9 @@ function UnlockPage() {
       <div className="relative z-10 w-full max-w-md">
         <div className="mb-6 flex items-center justify-center gap-3">
           <div className="relative">
-            <div className="h-10 w-10 rounded-lg bg-gradient-hero shadow-sysde" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-hero shadow-sysde">
+              <img src={logoSysde.url} alt="SYSDE" className="h-7 w-7 object-contain" />
+            </div>
             <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 pulse-dot" />
           </div>
           <div>
