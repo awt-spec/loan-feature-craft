@@ -5,11 +5,43 @@ const tierStyle: Record<
   WorldPin["tier"],
   { dot: string; size: number; ping?: string; z: number; label: string }
 > = {
-  hub: { dot: "bg-white ring-2 ring-primary", size: 16, ping: "bg-white/70", z: 40, label: "Holding regional" },
-  target: { dot: "bg-amber-300 ring-2 ring-white", size: 15, ping: "bg-amber-300/70", z: 45, label: "Destino · Paraguay" },
-  office: { dot: "bg-primary ring-1 ring-white/70", size: 11, ping: "bg-primary/60", z: 30, label: "Oficina / Fábrica" },
-  sva: { dot: "bg-rose-400 ring-1 ring-white/60", size: 9, z: 20, label: "Soporte SVA" },
-  client: { dot: "bg-primary/60 ring-1 ring-white/30", size: 6, z: 10, label: "Cliente" },
+  hub: { dot: "bg-white ring-2 ring-primary", size: 17, ping: "bg-white/70", z: 40, label: "Holding regional" },
+  target: { dot: "bg-amber-300 ring-2 ring-white", size: 16, ping: "bg-amber-300/70", z: 45, label: "Destino · Paraguay" },
+  office: { dot: "bg-primary ring-2 ring-white/80", size: 12, ping: "bg-primary/60", z: 30, label: "Oficina / Fábrica" },
+  sva: { dot: "bg-rose-400 ring-2 ring-white/70", size: 10, z: 20, label: "Soporte SVA" },
+  client: { dot: "bg-primary/70 ring-1 ring-white/40", size: 7, z: 10, label: "Cliente" },
+};
+
+/* Recorte de franjas polares vacías: los continentes ocupan más pantalla */
+const CROP_Y = 12;
+const CROP_H = 470;
+
+/* Lado de la etiqueta por país (evita colisiones en el clúster centroamericano) */
+const LABEL_SIDE: Record<string, "right" | "left" | "top" | "bottom"> = {
+  "Costa Rica": "left",
+  "El Salvador": "top",
+  "México": "top",
+  "República Dominicana": "top",
+  "Perú": "bottom",
+  Nicaragua: "bottom",
+  "Haití": "left",
+  "Burkina Faso": "top",
+  Togo: "bottom",
+};
+
+const labelPos: Record<"right" | "left" | "top" | "bottom", string> = {
+  right: "left-[11px] top-0 -translate-y-1/2",
+  left: "right-[11px] top-0 -translate-y-1/2 text-right",
+  top: "bottom-[11px] left-0 -translate-x-1/2 text-center",
+  bottom: "top-[11px] left-0 -translate-x-1/2 text-center",
+};
+
+/* En vista global el clúster centroamericano es muy denso: estas etiquetas
+ * solo aparecen al hacer zoom a América. */
+const LABEL_ONLY_ZOOMED = new Set(["Costa Rica", "El Salvador"]);
+
+const SHORT_NAME: Record<string, string> = {
+  "República Dominicana": "Rep. Dominicana",
 };
 
 const legend: { tier: WorldPin["tier"]; label: string }[] = [
@@ -113,7 +145,7 @@ export function WorldMap({
   const ty = MAP_H / 2 - view.s * view.cy;
   const project = (p: { x: number; y: number }) => ({
     left: ((tx + view.s * p.x) / MAP_W) * 100,
-    top: ((ty + view.s * p.y) / MAP_H) * 100,
+    top: ((ty + view.s * p.y - CROP_Y) / CROP_H) * 100,
   });
   const inView = (pct: { left: number; top: number }) =>
     pct.left > -2 && pct.left < 102 && pct.top > -3 && pct.top < 103;
@@ -191,10 +223,10 @@ export function WorldMap({
         </div>
 
         <div className="scrollbar-thin overflow-x-auto">
-        <div className="relative min-w-[720px] sm:min-w-0" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
+        <div className="relative min-w-[720px] sm:min-w-0" style={{ aspectRatio: `${MAP_W} / ${CROP_H}` }}>
           {/* Estrellas — capa fija que NO hace zoom (profundidad de fondo) */}
           <svg
-            viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+            viewBox={`0 ${CROP_Y} ${MAP_W} ${CROP_H}`}
             className="map-parallax absolute inset-0 h-full w-full"
             style={{ ["--depth" as string]: 4 }}
             preserveAspectRatio="xMidYMid meet"
@@ -215,7 +247,7 @@ export function WorldMap({
 
           {/* Mapa — capa que hace zoom */}
           <svg
-            viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+            viewBox={`0 ${CROP_Y} ${MAP_W} ${CROP_H}`}
             className="map-parallax absolute inset-0 h-full w-full"
             style={{ ["--depth" as string]: 10 }}
             preserveAspectRatio="xMidYMid meet"
@@ -422,6 +454,28 @@ export function WorldMap({
                       style={{ width: s.size, height: s.size }}
                     />
                   </button>
+
+                  {/* Etiqueta de localidad — clave siempre en desktop; clientes al hacer zoom */}
+                  {!dimmed &&
+                    (view.s > 1 || (p.tier !== "client" && !LABEL_ONLY_ZOOMED.has(p.name))) && (
+                    <span
+                      aria-hidden
+                      className={[
+                        "text-mono pointer-events-none absolute hidden whitespace-nowrap uppercase leading-none sm:block",
+                        "[text-shadow:0_1px_4px_rgba(0,0,0,0.75)]",
+                        labelPos[LABEL_SIDE[p.name] ?? "right"],
+                        p.tier === "hub"
+                          ? "text-[10px] font-black tracking-[0.12em] text-white"
+                          : p.tier === "target"
+                            ? "text-[10px] font-black tracking-[0.12em] text-amber-300"
+                            : p.tier === "client"
+                              ? "text-[8px] font-semibold tracking-[0.08em] text-white/75"
+                              : "text-[9px] font-bold tracking-[0.1em] text-white/90",
+                      ].join(" ")}
+                    >
+                      {SHORT_NAME[p.name] ?? p.name}
+                    </span>
+                  )}
 
                   {isActive && (
                     <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-max max-w-[200px] -translate-x-1/2 rounded-xl border border-white/15 bg-[hsl(348_60%_10%/0.96)] px-3 py-2 text-left shadow-xl backdrop-blur">
