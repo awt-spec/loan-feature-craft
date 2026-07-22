@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PlatformShell } from "@/components/rfi/platform/PlatformShell";
+import { ensureUnlocked } from "@/lib/gate.functions";
 
 export const Route = createFileRoute("/")({
+  loader: () => ensureUnlocked(),
   head: () => ({
     meta: [
       { title: "RFI Core Bancario — Banco Atlas × SYSDE · Inventiva" },
@@ -18,6 +20,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: Index,
