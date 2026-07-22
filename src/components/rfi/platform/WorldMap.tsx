@@ -426,7 +426,9 @@ export function WorldMap({
                   {isActive && (
                     <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-max max-w-[200px] -translate-x-1/2 rounded-xl border border-white/15 bg-[hsl(348_60%_10%/0.96)] px-3 py-2 text-left shadow-xl backdrop-blur">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-sm leading-none">{p.flag}</span>
+                        <span className="text-mono inline-flex h-5 min-w-7 shrink-0 items-center justify-center rounded-md border border-white/30 bg-white/10 px-1 text-[9px] font-bold leading-none text-white">
+                          {p.flag}
+                        </span>
                         <span className="font-heading text-[13px] font-bold text-white">{p.name}</span>
                       </div>
                       <div className="text-mono mt-0.5 text-[9px] uppercase tracking-[0.16em] text-white/60">

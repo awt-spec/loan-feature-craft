@@ -11,7 +11,7 @@ export const worldPins: WorldPin[] = [
   "x": 266.7,
   "y": 223.1,
   "tier": "office",
-  "flag": "🇨🇷",
+  "flag": "CR",
   "roles": [
    "HQ",
    "Oficina",
@@ -25,7 +25,7 @@ export const worldPins: WorldPin[] = [
   "x": 340,
   "y": 320.3,
   "tier": "target",
-  "flag": "🇵🇾",
+  "flag": "PY",
   "roles": [
    "SVA vía Inventiva"
   ],
@@ -36,7 +36,7 @@ export const worldPins: WorldPin[] = [
   "x": 253.1,
   "y": 211.9,
   "tier": "office",
-  "flag": "🇸🇻",
+  "flag": "SV",
   "roles": [
    "Oficina",
    "Fábrica",
@@ -48,7 +48,7 @@ export const worldPins: WorldPin[] = [
   "x": 215.3,
   "y": 184.4,
   "tier": "office",
-  "flag": "🇲🇽",
+  "flag": "MX",
   "roles": [
    "Oficina",
    "SVA"
@@ -59,7 +59,7 @@ export const worldPins: WorldPin[] = [
   "x": 277.8,
   "y": 226.4,
   "tier": "hub",
-  "flag": "🇵🇦",
+  "flag": "PA",
   "roles": [
    "Holding",
    "Oficina"
@@ -71,7 +71,7 @@ export const worldPins: WorldPin[] = [
   "x": 294.2,
   "y": 237.2,
   "tier": "office",
-  "flag": "🇨🇴",
+  "flag": "CO",
   "roles": [
    "Oficina",
    "Fábrica",
@@ -83,7 +83,7 @@ export const worldPins: WorldPin[] = [
   "x": 291.7,
   "y": 275.6,
   "tier": "office",
-  "flag": "🇵🇪",
+  "flag": "PE",
   "roles": [
    "Oficina",
    "Fábrica",
@@ -95,7 +95,7 @@ export const worldPins: WorldPin[] = [
   "x": 305,
   "y": 198.1,
   "tier": "sva",
-  "flag": "🇩🇴",
+  "flag": "DO",
   "roles": [
    "SVA"
   ]
@@ -105,7 +105,7 @@ export const worldPins: WorldPin[] = [
   "x": 459.7,
   "y": 209.7,
   "tier": "office",
-  "flag": "🇸🇳",
+  "flag": "SN",
   "roles": [
    "Oficina"
   ]
@@ -115,196 +115,196 @@ export const worldPins: WorldPin[] = [
   "x": 204.7,
   "y": 94.2,
   "tier": "client",
-  "flag": "🇨🇦"
+  "flag": "CA"
  },
  {
   "name": "Guatemala",
   "x": 249.4,
   "y": 206.1,
   "tier": "client",
-  "flag": "🇬🇹"
+  "flag": "GT"
  },
  {
   "name": "Honduras",
   "x": 260.6,
   "y": 207.8,
   "tier": "client",
-  "flag": "🇭🇳"
+  "flag": "HN"
  },
  {
   "name": "Nicaragua",
   "x": 263.3,
   "y": 214.2,
   "tier": "client",
-  "flag": "🇳🇮"
+  "flag": "NI"
  },
  {
   "name": "Venezuela",
   "x": 315,
   "y": 232.2,
   "tier": "client",
-  "flag": "🇻🇪"
+  "flag": "VE"
  },
  {
   "name": "Brasil",
   "x": 355.8,
   "y": 289.4,
   "tier": "client",
-  "flag": "🇧🇷"
+  "flag": "BR"
  },
  {
   "name": "Uruguay",
   "x": 345,
   "y": 340.3,
   "tier": "client",
-  "flag": "🇺🇾"
+  "flag": "UY"
  },
  {
   "name": "Chile",
   "x": 301.4,
   "y": 349.2,
   "tier": "client",
-  "flag": "🇨🇱"
+  "flag": "CL"
  },
  {
   "name": "Bolivia",
   "x": 323.3,
   "y": 295.3,
   "tier": "client",
-  "flag": "🇧🇴"
+  "flag": "BO"
  },
  {
   "name": "Ecuador",
   "x": 282.8,
   "y": 255,
   "tier": "client",
-  "flag": "🇪🇨"
+  "flag": "EC"
  },
  {
   "name": "Guyana",
   "x": 336.4,
   "y": 236.4,
   "tier": "client",
-  "flag": "🇬🇾"
+  "flag": "GY"
  },
  {
   "name": "Surinam",
   "x": 344.4,
   "y": 239.2,
   "tier": "client",
-  "flag": "🇸🇷"
+  "flag": "SR"
  },
  {
   "name": "Haití",
   "x": 299.2,
   "y": 197.2,
   "tier": "client",
-  "flag": "🇭🇹"
+  "flag": "HT"
  },
  {
   "name": "Benín",
   "x": 506.4,
   "y": 224.2,
   "tier": "client",
-  "flag": "🇧🇯"
+  "flag": "BJ"
  },
  {
   "name": "Yibuti",
   "x": 618.3,
   "y": 217.2,
   "tier": "client",
-  "flag": "🇩🇯"
+  "flag": "DJ"
  },
  {
   "name": "Gabón",
   "x": 532.2,
   "y": 252.2,
   "tier": "client",
-  "flag": "🇬🇦"
+  "flag": "GA"
  },
  {
   "name": "Guinea",
   "x": 467.2,
   "y": 222.5,
   "tier": "client",
-  "flag": "🇬🇳"
+  "flag": "GN"
  },
  {
   "name": "Níger",
   "x": 522.5,
   "y": 201.1,
   "tier": "client",
-  "flag": "🇳🇪"
+  "flag": "NE"
  },
  {
   "name": "Zambia",
   "x": 577.2,
   "y": 286.4,
   "tier": "client",
-  "flag": "🇿🇲"
+  "flag": "ZM"
  },
  {
   "name": "Mauritania",
   "x": 469.7,
   "y": 191.7,
   "tier": "client",
-  "flag": "🇲🇷"
+  "flag": "MR"
  },
  {
   "name": "Mali",
   "x": 488.9,
   "y": 201.1,
   "tier": "client",
-  "flag": "🇲🇱"
+  "flag": "ML"
  },
  {
   "name": "Togo",
   "x": 502.2,
   "y": 226.1,
   "tier": "client",
-  "flag": "🇹🇬"
+  "flag": "TG"
  },
  {
   "name": "Madagascar",
   "x": 630.3,
   "y": 302.2,
   "tier": "client",
-  "flag": "🇲🇬"
+  "flag": "MG"
  },
  {
   "name": "Tanzania",
   "x": 596.9,
   "y": 267.8,
   "tier": "client",
-  "flag": "🇹🇿"
+  "flag": "TZ"
  },
  {
   "name": "Burkina Faso",
   "x": 495.6,
   "y": 216.1,
   "tier": "client",
-  "flag": "🇧🇫"
+  "flag": "BF"
  },
  {
   "name": "Corea del Sur",
   "x": 855.3,
   "y": 148.6,
   "tier": "client",
-  "flag": "🇰🇷"
+  "flag": "KR"
  },
  {
   "name": "Bulgaria",
   "x": 570.8,
   "y": 131.4,
   "tier": "client",
-  "flag": "🇧🇬"
+  "flag": "BG"
  },
  {
   "name": "Polonia",
   "x": 553.1,
   "y": 105.8,
   "tier": "client",
-  "flag": "🇵🇱"
+  "flag": "PL"
  }
 ];
 

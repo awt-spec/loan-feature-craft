@@ -43,6 +43,23 @@ function pillForModel(m: string) {
   return modelStyles[m] ?? "bg-muted text-foreground ring-border";
 }
 
+/* Chip de código de país (reemplaza banderas emoji, rotas en Windows) */
+function CodeChip({ code, tone = "primary", className = "" }: { code: string; tone?: "primary" | "light"; className?: string }) {
+  return (
+    <span
+      className={[
+        "text-mono inline-flex shrink-0 items-center justify-center rounded-md border font-bold leading-none",
+        tone === "light"
+          ? "border-white/30 bg-white/10 text-white"
+          : "border-primary/30 bg-primary/10 text-primary",
+        className,
+      ].join(" ")}
+    >
+      {code}
+    </span>
+  );
+}
+
 /* Matriz de capacidades de la huella instalada (países × roles) */
 const CAP_COLS: {
   key: string;
@@ -264,7 +281,7 @@ export function ReferenciasSection() {
                     ].join(" ")}
                   >
                     <div className="flex min-w-0 items-center gap-2.5">
-                      <span className="text-xl leading-none">{getFlag(f.pais)}</span>
+                      <CodeChip code={getFlag(f.pais)} className="h-6 min-w-8 px-1 text-[10px]" />
                       <span className="min-w-0">
                         <span className="block truncate font-heading text-sm font-bold text-foreground">
                           {f.pais}
@@ -363,7 +380,7 @@ export function ReferenciasSection() {
                 className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition hover:bg-primary/20"
                 title="Quitar filtro de país"
               >
-                <span>{getFlag(country)}</span> {country}
+                <CodeChip code={getFlag(country)} className="h-5 min-w-7 px-1 text-[9px]" /> {country}
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
@@ -507,7 +524,7 @@ function ReferenceCard({
       <div className="relative">
         {/* Head */}
         <div className="flex items-start gap-3">
-          <div className="shrink-0 text-2xl leading-none">{getFlag(r.country)}</div>
+          <CodeChip code={getFlag(r.country)} className="mt-0.5 h-7 min-w-9 px-1.5 text-[11px]" />
           <div className={["min-w-0 flex-1", highlight ? "pr-12 sm:pr-16" : ""].join(" ")}>
             <h3 className="font-heading text-[15px] font-black leading-tight text-foreground transition group-hover:text-primary sm:text-base">
               {r.name}
@@ -608,7 +625,7 @@ function DetailModal({ r, onClose }: { r: Reference; onClose: () => void }) {
           </button>
 
           <div className="relative flex items-start gap-3">
-            <div className="text-4xl leading-none">{getFlag(r.country)}</div>
+            <CodeChip code={getFlag(r.country)} tone="light" className="mt-1 h-9 min-w-12 px-2 text-sm" />
             <div className="min-w-0 flex-1 pr-10">
               <div className="text-mono text-[10px] uppercase tracking-[0.24em] text-white/70">
                 {regionMeta[r.region].label} · #{r.distanceRank.toString().padStart(2, "0")}
@@ -640,7 +657,7 @@ function DetailModal({ r, onClose }: { r: Reference; onClose: () => void }) {
                   key={c}
                   className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[11px] text-white ring-1 ring-white/20"
                 >
-                  <span>{getFlag(c)}</span> {c}
+                  <CodeChip code={getFlag(c)} tone="light" className="h-5 min-w-6 px-1 text-[9px]" /> {c}
                 </span>
               ))}
             </div>

@@ -555,7 +555,7 @@ export function AnswerDemo({ n }: { n: number }) {
       {/* Narración */}
       <div className="mt-3 flex items-start gap-3 rounded-xl border border-border bg-card p-3.5">
         <div className="text-mono flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-hero text-[11px] font-black text-white shadow-sysde">
-          {pickedNode ? "i" : step >= 0 ? String(step + 1).padStart(2, "0") : "▶"}
+          {pickedNode ? "i" : step >= 0 ? String(step + 1).padStart(2, "0") : <Play className="h-3.5 w-3.5" />}
         </div>
         <div className="min-w-0 flex-1">
           {pickedNode ? (

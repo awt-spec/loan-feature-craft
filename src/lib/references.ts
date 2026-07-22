@@ -61,44 +61,47 @@ export const categoryMeta: Record<CategoryKey, { label: string }> = {
   corporativo:    { label: "Corporativo" },
 };
 
-export const countryFlags: Record<string, string> = {
-  Paraguay: "🇵🇾",
-  Uruguay: "🇺🇾",
-  Argentina: "🇦🇷",
-  Chile: "🇨🇱",
-  Bolivia: "🇧🇴",
-  Brasil: "🇧🇷",
-  Perú: "🇵🇪",
-  Colombia: "🇨🇴",
-  Ecuador: "🇪🇨",
-  Venezuela: "🇻🇪",
-  México: "🇲🇽",
-  Guatemala: "🇬🇹",
-  "El Salvador": "🇸🇻",
-  Honduras: "🇭🇳",
-  Nicaragua: "🇳🇮",
-  "Costa Rica": "🇨🇷",
-  Panamá: "🇵🇦",
-  "República Dominicana": "🇩🇴",
-  Cuba: "🇨🇺",
-  "Puerto Rico": "🇵🇷",
-  "Trinidad y Tobago": "🇹🇹",
-  "Estados Unidos": "🇺🇸",
-  Ruanda: "🇷🇼",
-  Yibuti: "🇩🇯",
-  Mali: "🇲🇱",
-  Guinea: "🇬🇳",
-  Senegal: "🇸🇳",
-  Tanzania: "🇹🇿",
-  "Burkina Faso": "🇧🇫",
-  Centroamérica: "🌎",
-  Global: "🌐",
+// Códigos ISO 3166-1 alfa-2 (los emojis de bandera se rompen en Windows)
+export const countryCodes: Record<string, string> = {
+  Paraguay: "PY",
+  Uruguay: "UY",
+  Argentina: "AR",
+  Chile: "CL",
+  Bolivia: "BO",
+  Brasil: "BR",
+  Perú: "PE",
+  Colombia: "CO",
+  Ecuador: "EC",
+  Venezuela: "VE",
+  México: "MX",
+  Guatemala: "GT",
+  "El Salvador": "SV",
+  Honduras: "HN",
+  Nicaragua: "NI",
+  "Costa Rica": "CR",
+  Panamá: "PA",
+  "República Dominicana": "DO",
+  Cuba: "CU",
+  "Puerto Rico": "PR",
+  "Trinidad y Tobago": "TT",
+  "Estados Unidos": "US",
+  Ruanda: "RW",
+  Yibuti: "DJ",
+  Mali: "ML",
+  Guinea: "GN",
+  Senegal: "SN",
+  Tanzania: "TZ",
+  "Burkina Faso": "BF",
+  Guyana: "GY",
+  Surinam: "SR",
+  Centroamérica: "CAM",
+  Global: "GLB",
 };
 
 export function getFlag(country: string): string {
-  if (countryFlags[country]) return countryFlags[country];
-  for (const [k, f] of Object.entries(countryFlags)) if (country.includes(k)) return f;
-  return "🌎";
+  if (countryCodes[country]) return countryCodes[country];
+  for (const [k, c] of Object.entries(countryCodes)) if (country.includes(k)) return c;
+  return "INT";
 }
 export function getFlags(r: Reference): string[] {
   return r.countries?.length ? r.countries.map(getFlag) : [getFlag(r.country)];
