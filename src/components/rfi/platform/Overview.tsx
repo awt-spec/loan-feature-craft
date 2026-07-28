@@ -17,6 +17,10 @@ import {
   Layers3,
   ClipboardCheck,
   BookOpenCheck,
+  Target,
+  PackageCheck,
+  Check,
+  Sparkles,
   History,
   Users,
 } from "lucide-react";
