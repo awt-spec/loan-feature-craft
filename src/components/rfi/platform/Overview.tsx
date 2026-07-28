@@ -17,6 +17,10 @@ import {
   Layers3,
   ClipboardCheck,
   BookOpenCheck,
+  Target,
+  PackageCheck,
+  Check,
+  Sparkles,
   History,
   Users,
 } from "lucide-react";
@@ -99,6 +103,101 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
           </Reveal>
         </div>
       </section>
+
+      {/* Propuesta de valor directa */}
+      <section>
+        <SectionHeader
+          kicker="Propuesta de valor"
+          title="Por qué SYSDE, en tres líneas"
+          subtitle="Sin rodeos: qué hacemos distinto, qué incluye y cuánto cuesta."
+        />
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <Reveal delay={0}>
+            <SpotlightCard className="glass-panel group relative h-full overflow-hidden rounded-2xl p-6">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/10 blur-2xl transition group-hover:bg-primary/25" />
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+                <Target className="h-5 w-5" strokeWidth={2.25} />
+              </div>
+              <div className="text-mono mt-4 text-[10px] uppercase tracking-[0.22em] text-primary">
+                Precisión SYSDE
+              </div>
+              <h3 className="mt-1 font-heading text-xl font-bold leading-tight">
+                Un core, un runtime, un foco: banca.
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                35+ años dedicados exclusivamente a software financiero. SAF+ corre 100% sobre .NET 10 LTS,
+                microservicios contenerizados y API-First — sin capas heredadas, sin JVM, sin middleware de terceros.
+                800+ instituciones en producción respaldan cada decisión de ingeniería.
+              </p>
+            </SpotlightCard>
+          </Reveal>
+
+          <Reveal delay={90}>
+            <SpotlightCard className="glass-panel group relative h-full overflow-hidden rounded-2xl p-6">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/10 blur-2xl transition group-hover:bg-primary/25" />
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+                <PackageCheck className="h-5 w-5" strokeWidth={2.25} />
+              </div>
+              <div className="text-mono mt-4 text-[10px] uppercase tracking-[0.22em] text-primary">
+                Modelo todo incluido
+              </div>
+              <h3 className="mt-1 font-heading text-xl font-bold leading-tight">
+                Una sola cuota. Cero letra chica.
+              </h3>
+              <ul className="mt-3 space-y-1.5 text-sm text-foreground">
+                {[
+                  "Licenciamiento SAF+ completo (banca universal)",
+                  "Infraestructura cloud gestionada (Azure)",
+                  "Soporte N1/N2/N3 en español · SYSDE + Inventiva",
+                  "Actualizaciones, parches y nuevas versiones",
+                  "Monitoreo 24/7, DR y respaldos grado bancario",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2.5} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </SpotlightCard>
+          </Reveal>
+
+          <Reveal delay={180}>
+            <SpotlightCard className="glass-panel group relative h-full overflow-hidden rounded-2xl border-primary/30 p-6">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-hero opacity-[0.08] transition group-hover:opacity-[0.14]" />
+              <div className="pointer-events-none absolute -right-16 -bottom-16 h-40 w-40 rounded-full bg-primary/30 blur-3xl" />
+              <div className="relative">
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-mono text-[10px] uppercase tracking-[0.2em] text-primary">
+                  <Sparkles className="h-3 w-3" strokeWidth={2.5} /> Pricing SYSDE
+                </div>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="font-heading text-5xl font-black leading-none tracking-tight text-foreground">
+                    USD 14,999
+                  </span>
+                </div>
+                <div className="text-mono mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  por mes · todo incluido
+                </div>
+                <div className="mt-4 h-px w-full bg-gradient-to-r from-primary/40 via-primary/10 to-transparent" />
+                <ul className="mt-4 space-y-1.5 text-sm text-foreground">
+                  <li className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2.5} />
+                    <span>Sin costos ocultos por módulo ni por transacción</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2.5} />
+                    <span>Sin inversión inicial en licencias ni hardware</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2.5} />
+                    <span>Contrato mensual, previsible y escalable</span>
+                  </li>
+                </ul>
+              </div>
+            </SpotlightCard>
+          </Reveal>
+        </div>
+      </section>
+
 
       {/* KPI Grid */}
       <section>
