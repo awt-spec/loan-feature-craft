@@ -47,7 +47,7 @@ export function QuestionView({
     .filter(Boolean) as { i: number; text: string }[];
 
   return (
-    <div className="grid gap-6 pb-20 xl:grid-cols-[minmax(0,1fr)_300px] xl:gap-10">
+    <div className="grid w-full gap-6 pb-20 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
       {/* Main */}
       <article className="min-w-0">
         {/* Cinematic header */}
@@ -189,7 +189,7 @@ export function QuestionView({
                 }
                 // ul — feature list cards
                 return (
-                  <ul key={i} className="grid gap-2.5 sm:grid-cols-2">
+                  <ul key={i} className="grid gap-2.5 sm:grid-cols-2 2xl:grid-cols-3">
                     {b.items.map((it, j) => (
                       <li
                         key={j}
