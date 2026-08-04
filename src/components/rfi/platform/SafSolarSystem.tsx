@@ -41,7 +41,7 @@ import {
   MousePointerClick,
 } from "lucide-react";
 import { Reveal } from "./motion";
-import { LoanFunctionality } from "./LoanFunctionality";
+import { LoanEntryButton, LoanDiagram } from "./LoanFunctionality";
 
 type SubModule = { icon: LucideIcon; title: string };
 
@@ -166,10 +166,15 @@ function pos(index: number, total: number, radius: number) {
 
 export function SafSolarSystem() {
   const [selected, setSelected] = useState<MainModule | null>(null);
+  const [loansView, setLoansView] = useState(false);
   const SelectedIcon = selected?.icon;
 
   const mainRadius = 250;
   const subRadius = 165;
+
+  if (loansView) {
+    return <LoanDiagram onBack={() => setLoansView(false)} />;
+  }
 
   return (
     <section>
@@ -296,7 +301,7 @@ export function SafSolarSystem() {
         </div>
       </Reveal>
 
-      <LoanFunctionality />
+      <LoanEntryButton onOpen={() => setLoansView(true)} />
     </section>
   );
 }
