@@ -353,8 +353,10 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
             </SpotlightCard>
             </Reveal>
           ))}
+          </div>
         </div>
       </section>
+
 
       {/* Process + Vendor summary two-column */}
       <section className="grid gap-5 lg:grid-cols-3">
