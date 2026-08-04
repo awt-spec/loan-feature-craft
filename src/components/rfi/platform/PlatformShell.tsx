@@ -27,6 +27,7 @@ export type SectionId =
 export function PlatformShell() {
   const [active, setActive] = useState<SectionId>("overview");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
   const handleNavigate = (id: SectionId) => {
