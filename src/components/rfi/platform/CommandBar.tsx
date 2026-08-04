@@ -1,7 +1,7 @@
 import type { SectionId } from "./PlatformShell";
 import { process } from "@/lib/rfi-content";
 import { ThemeToggle } from "./ThemeToggle";
-import { ChevronRight, Signal, Timer, FileDown, Menu } from "lucide-react";
+import { ChevronRight, Signal, Timer, FileDown, Menu, PanelLeftOpen, PanelLeftClose } from "lucide-react";
 
 function daysUntil(iso: string) {
   const d = new Date(iso).getTime();
