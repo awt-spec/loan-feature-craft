@@ -6,12 +6,14 @@ import {
   Search,
   Workflow,
   BarChart3,
-  ChevronDown,
+  ChevronRight,
   ShieldCheck,
   SlidersHorizontal,
   TrendingUp,
   Lock,
   ListChecks,
+  ArrowLeft,
+  Layers,
 } from "lucide-react";
 import { Reveal } from "./motion";
 
@@ -213,120 +215,221 @@ const pillars = [
   { icon: Lock, title: "Cumplimiento normativo", text: "y controles regulatorios integrados." },
 ];
 
-export function LoanFunctionality() {
-  const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState<string | null>("procesos");
+const totalItems = areas.reduce(
+  (acc, a) => acc + a.blocks.reduce((s, b) => s + b.items.length, 0),
+  0,
+);
 
-  const totalItems = areas.reduce(
-    (acc, a) => acc + a.blocks.reduce((s, b) => s + b.items.length, 0),
-    0,
+function orbit(index: number, total: number, radius: number) {
+  const angle = (index * 2 * Math.PI) / total - Math.PI / 2;
+  return { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius };
+}
+
+/* ------------------------------------------------------------------ *
+ * Entry button — swaps the ecosystem view for the loans diagram.
+ * ------------------------------------------------------------------ */
+export function LoanEntryButton({ onOpen }: { onOpen: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group mt-6 flex w-full items-center gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-4 py-4 text-left transition hover:border-primary/50 hover:from-primary/15 md:px-6"
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde">
+        <ListChecks className="h-5 w-5 text-white" strokeWidth={2.25} />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-heading text-base font-black tracking-tight md:text-lg">
+          Ver funcionalidad completa de Préstamos y Créditos
+        </span>
+        <span className="text-mono block text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+          {areas.length} áreas · {totalItems} funcionalidades documentadas
+        </span>
+      </span>
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-hero text-white shadow-sysde transition group-hover:scale-105">
+        <ChevronRight className="h-5 w-5 text-white" strokeWidth={2.5} />
+      </span>
+    </button>
   );
+}
+
+/* ------------------------------------------------------------------ *
+ * Loans diagram — radial map of the 5 functional areas.
+ * ------------------------------------------------------------------ */
+export function LoanDiagram({ onBack }: { onBack: () => void }) {
+  const [areaId, setAreaId] = useState<string | null>(null);
+  const [blockTitle, setBlockTitle] = useState<string | null>(null);
+
+  const area = areas.find((a) => a.id === areaId) ?? null;
+  const AreaIcon = area?.icon;
+  const block = area?.blocks.find((b) => b.title === blockTitle) ?? null;
+
+  const radius = 235;
+  const subRadius = 175;
+
+  const nodes = area
+    ? area.blocks.map((b) => ({ key: b.title, label: b.title, meta: `${b.items.length}` }))
+    : areas.map((a) => ({ key: a.id, label: a.title, meta: `${a.blocks.reduce((s, b) => s + b.items.length, 0)}` }));
 
   return (
-    <div className="mt-6">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="group flex w-full items-center gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-4 py-4 text-left transition hover:border-primary/50 hover:from-primary/15 md:px-6"
-      >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde">
-          <ListChecks className="h-5 w-5 text-white" strokeWidth={2.25} />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-heading text-base font-black tracking-tight md:text-lg">
-            Ver funcionalidad completa de Préstamos y Créditos
-          </span>
-          <span className="text-mono block text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-            {areas.length} áreas · {totalItems} funcionalidades documentadas
-          </span>
-        </span>
-        <ChevronDown
-          className={`h-5 w-5 shrink-0 text-primary transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-          strokeWidth={2.5}
-        />
-      </button>
+    <section>
+      <div className="flex flex-col gap-2">
+        <div className="text-mono inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-primary">
+          <Layers className="h-3.5 w-3.5" strokeWidth={2.25} />
+          Módulo de préstamos · mapa funcional
+        </div>
+        <h2 className="font-heading text-2xl font-black tracking-tight md:text-3xl">
+          Funcionalidad completa de <span className="text-shimmer">Préstamos y Créditos</span>
+        </h2>
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+          {area
+            ? `${area.summary} Toca un grupo para ver su detalle.`
+            : `${areas.length} áreas y ${totalItems} funcionalidades documentadas. Toca un área para desplegar sus grupos.`}
+        </p>
+      </div>
 
-      {open && (
-        <div className="mt-4 space-y-3 animate-[fade-in_0.35s_ease-out]">
-          {areas.map((area) => {
-            const Icon = area.icon;
-            const isOpen = expanded === area.id;
-            return (
-              <Reveal key={area.id}>
-                <section className="overflow-hidden rounded-2xl border border-border/70 bg-surface-2/60 backdrop-blur">
-                  <button
-                    type="button"
-                    onClick={() => setExpanded(isOpen ? null : area.id)}
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-primary/5 md:px-6"
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/15">
-                      <Icon className="h-5 w-5 text-white" strokeWidth={2.25} />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-heading text-sm font-black uppercase tracking-[0.08em] md:text-base">
-                        {area.title}
-                      </span>
-                      <span className="block text-xs leading-snug text-muted-foreground md:text-sm">
-                        {area.summary}
-                      </span>
-                    </span>
-                    <ChevronDown
-                      className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                      strokeWidth={2.5}
-                    />
-                  </button>
+      <Reveal>
+        <div className="relative mt-6 overflow-hidden rounded-3xl border border-white/10 bg-surface-2/60 px-2 py-6 md:px-8 md:py-10">
+          <div className="pointer-events-none absolute inset-0 bg-grid-sysde mask-radial-fade opacity-30" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
 
-                  {isOpen && (
-                    <div className="border-t border-border/60 px-4 py-5 md:px-6">
-                      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-                        {area.blocks.map((b) => (
-                          <div
-                            key={b.title}
-                            className="rounded-xl border border-border/60 bg-background/50 p-4 transition hover:border-primary/40"
-                          >
-                            <div className="text-mono mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-                              {b.title}
-                            </div>
-                            <ul className="space-y-1.5">
-                              {b.items.map((it) => (
-                                <li key={it} className="flex gap-2 text-[13px] leading-snug text-muted-foreground">
-                                  <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
-                                  <span>{it}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </section>
-              </Reveal>
-            );
-          })}
-
-          <div className="grid gap-3 pt-1 sm:grid-cols-2 xl:grid-cols-4">
-            {pillars.map((p) => {
-              const Icon = p.icon;
-              return (
+          <div className="relative flex items-center justify-center">
+            <div className="origin-center scale-[0.52] sm:scale-[0.7] md:scale-90 lg:scale-100">
+              <div
+                key={areaId ?? "root"}
+                className="relative animate-[fade-in_0.4s_ease-out]"
+                style={{ width: radius * 2 + 140, height: radius * 2 + 120 }}
+              >
                 <div
-                  key={p.title}
-                  className="flex items-start gap-3 rounded-2xl border border-border/70 bg-surface-2/60 p-4"
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/25">
-                    <Icon className="h-4 w-4" strokeWidth={2.25} />
-                  </span>
-                  <p className="text-[13px] leading-snug text-muted-foreground">
-                    <span className="font-semibold text-foreground">{p.title}</span> {p.text}
-                  </p>
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-primary/25"
+                  style={{ width: (area ? subRadius : radius) * 2, height: (area ? subRadius : radius) * 2 }}
+                />
+                <div
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/10"
+                  style={{ width: radius * 1.3, height: radius * 1.3 }}
+                />
+
+                {/* Core */}
+                <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+                  <div className="flex h-36 w-36 flex-col items-center justify-center gap-1 rounded-full bg-gradient-hero px-4 text-center text-white shadow-sysde ring-1 ring-white/20">
+                    {AreaIcon ? (
+                      <AreaIcon className="h-7 w-7 text-white" strokeWidth={2.25} />
+                    ) : (
+                      <ListChecks className="h-7 w-7 text-white" strokeWidth={2.25} />
+                    )}
+                    <span className="font-heading text-sm font-black leading-tight text-white">
+                      {area ? area.title : "PRÉSTAMOS"}
+                    </span>
+                    <span className="text-mono text-[9px] uppercase tracking-[0.2em] text-white/80">
+                      {area ? `${area.blocks.length} grupos` : `${totalItems} func.`}
+                    </span>
+                  </div>
                 </div>
-              );
-            })}
+
+                {nodes.map((n, i) => {
+                  const p = orbit(i, nodes.length, area ? subRadius : radius);
+                  const active = area ? blockTitle === n.key : false;
+                  const Icon = area ? Layers : areas[i].icon;
+                  return (
+                    <button
+                      key={n.key}
+                      type="button"
+                      onClick={() => (area ? setBlockTitle(active ? null : n.key) : (setAreaId(n.key), setBlockTitle(null)))}
+                      className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
+                      style={{ left: `calc(50% + ${p.x}px)`, top: `calc(50% + ${p.y}px)` }}
+                    >
+                      <div
+                        className={`flex h-16 w-16 items-center justify-center rounded-full shadow-sysde ring-1 transition-transform duration-300 group-hover:scale-110 ${
+                          area && !active
+                            ? "border border-primary/30 bg-surface-2 text-primary shadow-sm ring-transparent"
+                            : "bg-gradient-hero text-white ring-white/15"
+                        }`}
+                      >
+                        <Icon
+                          className={`h-7 w-7 ${area && !active ? "" : "text-white"}`}
+                          strokeWidth={2.25}
+                        />
+                      </div>
+                      <div className="absolute left-1/2 top-full mt-2 w-40 -translate-x-1/2">
+                        <span className="inline-block rounded-full border border-white/10 bg-surface-2/90 px-2 py-1 text-xs font-semibold text-foreground shadow-sm backdrop-blur">
+                          {n.label}
+                        </span>
+                        <span className="text-mono mt-1 block text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          {n.meta} ítems
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="relative mt-2 flex flex-wrap justify-center gap-3">
+            {area ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setAreaId(null);
+                  setBlockTitle(null);
+                }}
+                className="inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-surface-2 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+              >
+                <ArrowLeft className="h-4 w-4" strokeWidth={2.5} /> Todas las áreas
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={onBack}
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-hero px-4 py-2 text-sm font-semibold text-white shadow-sysde transition hover:opacity-90"
+            >
+              <ArrowLeft className="h-4 w-4 text-white" strokeWidth={2.5} /> Volver al ecosistema SAF+
+            </button>
           </div>
         </div>
+      </Reveal>
+
+      {area && (
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {(block ? [block] : area.blocks).map((b) => (
+            <div
+              key={b.title}
+              className="rounded-xl border border-border/60 bg-surface-2/60 p-4 transition hover:border-primary/40"
+            >
+              <div className="text-mono mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+                {b.title}
+              </div>
+              <ul className="space-y-1.5">
+                {b.items.map((it) => (
+                  <li key={it} className="flex gap-2 text-[13px] leading-snug text-muted-foreground">
+                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       )}
-    </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {pillars.map((p) => {
+          const Icon = p.icon;
+          return (
+            <div
+              key={p.title}
+              className="flex items-start gap-3 rounded-2xl border border-border/70 bg-surface-2/60 p-4"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/25">
+                <Icon className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <p className="text-[13px] leading-snug text-muted-foreground">
+                <span className="font-semibold text-foreground">{p.title}</span> {p.text}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
