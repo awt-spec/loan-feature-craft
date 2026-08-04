@@ -25,9 +25,9 @@ function passwordMatches(input: string, expected: string): boolean {
 
 export const ensureUnlocked = createServerFn({ method: "GET" }).handler(async () => {
   const session = await useSession<GateSession>(sessionConfig);
-  if (!session.data.unlocked) throw redirect({ to: "/unlock" });
-  return { ok: true as const };
+  return { unlocked: session.data.unlocked === true };
 });
+
 
 export const unlockSite = createServerFn({ method: "POST" })
   .inputValidator((data: { password: string }) => data)
