@@ -129,22 +129,23 @@ export function QuestionView({
 
         {/* Answer card */}
         <Reveal as="section" delay={80} className="mt-8 overflow-hidden rounded-3xl border border-border bg-card shadow-card-soft">
-          <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/40 px-5 py-3 md:px-7">
-            <div className="flex items-center gap-2 text-mono text-[10px] uppercase tracking-[0.22em] text-primary">
-              <Sparkles className="h-3.5 w-3.5" />
-              Respuesta formal · SYSDE + Inventiva
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-border bg-muted/40 px-5 py-3.5 md:px-8 md:py-4">
+            <div className="flex min-w-0 items-center gap-2 text-mono text-[10px] uppercase tracking-[0.18em] text-primary sm:tracking-[0.22em]">
+              <Sparkles className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">Respuesta formal · SYSDE + Inventiva</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 ring-1 ring-emerald-500/30 dark:text-emerald-300">
+            <div className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 ring-1 ring-emerald-500/30 dark:text-emerald-300">
               <CheckCircle2 className="h-3 w-3" strokeWidth={2.5} />
               Verificable
             </div>
           </div>
 
-          <div className="relative p-6 md:p-8">
+          <div className="relative px-5 py-6 sm:px-6 md:px-8 md:py-8">
             {/* Left accent rail */}
-            <div className="pointer-events-none absolute left-6 top-8 bottom-8 hidden w-px bg-gradient-to-b from-primary/40 via-border to-transparent md:block" />
+            <div className="pointer-events-none absolute left-8 top-8 bottom-8 hidden w-px bg-gradient-to-b from-primary/40 via-border to-transparent md:block" />
 
-            <div className="space-y-6 md:pl-6">
+            <div className="space-y-6 md:pl-8">
+
               {question.blocks.map((b, i) => {
                 if (b.kind === "p") {
                   return (
