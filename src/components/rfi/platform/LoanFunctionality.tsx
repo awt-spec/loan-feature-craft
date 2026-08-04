@@ -209,10 +209,10 @@ const areas: Area[] = [
 ];
 
 const pillars = [
-  { icon: ShieldCheck, title: "Cobertura integral", text: "de todo el ciclo de vida del crédito." },
-  { icon: SlidersHorizontal, title: "Flexibilidad y control", text: "mediante reglas de negocio parametrizables." },
-  { icon: TrendingUp, title: "Información oportuna", text: "para una mejor toma de decisiones." },
-  { icon: Lock, title: "Cumplimiento normativo", text: "y controles regulatorios integrados." },
+  { icon: ShieldCheck, title: "Cobertura integral", text: "Todo el ciclo de vida del crédito en un solo módulo." },
+  { icon: SlidersHorizontal, title: "Flexibilidad y control", text: "Reglas de negocio parametrizables sin desarrollo a medida." },
+  { icon: TrendingUp, title: "Información oportuna", text: "Indicadores en tiempo real para decidir mejor." },
+  { icon: Lock, title: "Cumplimiento normativo", text: "Controles regulatorios integrados de origen." },
 ];
 
 const totalItems = areas.reduce(
