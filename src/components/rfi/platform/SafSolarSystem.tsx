@@ -166,10 +166,15 @@ function pos(index: number, total: number, radius: number) {
 
 export function SafSolarSystem() {
   const [selected, setSelected] = useState<MainModule | null>(null);
+  const [loansView, setLoansView] = useState(false);
   const SelectedIcon = selected?.icon;
 
   const mainRadius = 250;
   const subRadius = 165;
+
+  if (loansView) {
+    return <LoanDiagram onBack={() => setLoansView(false)} />;
+  }
 
   return (
     <section>
