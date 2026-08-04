@@ -209,10 +209,10 @@ const areas: Area[] = [
 ];
 
 const pillars = [
-  { icon: ShieldCheck, title: "Cobertura integral", text: "de todo el ciclo de vida del crédito." },
-  { icon: SlidersHorizontal, title: "Flexibilidad y control", text: "mediante reglas de negocio parametrizables." },
-  { icon: TrendingUp, title: "Información oportuna", text: "para una mejor toma de decisiones." },
-  { icon: Lock, title: "Cumplimiento normativo", text: "y controles regulatorios integrados." },
+  { icon: ShieldCheck, title: "Cobertura integral", text: "Todo el ciclo de vida del crédito en un solo módulo." },
+  { icon: SlidersHorizontal, title: "Flexibilidad y control", text: "Reglas de negocio parametrizables sin desarrollo a medida." },
+  { icon: TrendingUp, title: "Información oportuna", text: "Indicadores en tiempo real para decidir mejor." },
+  { icon: Lock, title: "Cumplimiento normativo", text: "Controles regulatorios integrados de origen." },
 ];
 
 const totalItems = areas.reduce(
@@ -418,14 +418,17 @@ export function LoanDiagram({ onBack }: { onBack: () => void }) {
           return (
             <div
               key={p.title}
-              className="flex items-start gap-3 rounded-2xl border border-border/70 bg-surface-2/60 p-4"
+              className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-surface-2/60 p-5"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/25">
-                <Icon className="h-4 w-4" strokeWidth={2.25} />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/25">
+                <Icon className="h-5 w-5" strokeWidth={2.25} />
               </span>
-              <p className="text-[13px] leading-snug text-muted-foreground">
-                <span className="font-semibold text-foreground">{p.title}</span> {p.text}
-              </p>
+              <div className="space-y-1">
+                <p className="font-heading text-sm font-bold leading-snug text-foreground">
+                  {p.title}
+                </p>
+                <p className="text-[13px] leading-relaxed text-muted-foreground">{p.text}</p>
+              </div>
             </div>
           );
         })}
