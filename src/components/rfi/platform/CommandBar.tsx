@@ -1,7 +1,7 @@
 import type { SectionId } from "./PlatformShell";
 import { process } from "@/lib/rfi-content";
 import { ThemeToggle } from "./ThemeToggle";
-import { ChevronRight, Signal, Timer, FileDown, Menu } from "lucide-react";
+import { ChevronRight, Signal, Timer, FileDown, Menu, PanelLeftOpen, PanelLeftClose } from "lucide-react";
 
 function daysUntil(iso: string) {
   const d = new Date(iso).getTime();
@@ -23,10 +23,14 @@ export function CommandBar({
   active,
   onNavigate,
   onOpenMenu,
+  onToggleSidebar,
+  sidebarCollapsed = false,
 }: {
   active: SectionId;
   onNavigate: (id: SectionId) => void;
   onOpenMenu?: () => void;
+  onToggleSidebar?: () => void;
+  sidebarCollapsed?: boolean;
 }) {
   const isQuestion = active.startsWith("q");
   const label = isQuestion ? `Pregunta ${active.slice(1)}` : (labels[active] ?? "Panel");
@@ -44,6 +48,18 @@ export function CommandBar({
         >
           <Menu className="h-4 w-4" />
         </button>
+
+        {/* Desktop sidebar toggle */}
+        <button
+          type="button"
+          aria-label={sidebarCollapsed ? "Mostrar menú lateral" : "Ocultar menú lateral"}
+          aria-pressed={!sidebarCollapsed}
+          onClick={onToggleSidebar}
+          className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition hover:text-foreground lg:inline-flex"
+        >
+          {sidebarCollapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+        </button>
+
 
         {/* Breadcrumb (compact on mobile) */}
         <button

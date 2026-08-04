@@ -27,6 +27,7 @@ export type SectionId =
 export function PlatformShell() {
   const [active, setActive] = useState<SectionId>("overview");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
   const handleNavigate = (id: SectionId) => {
@@ -77,13 +78,17 @@ export function PlatformShell() {
           onSelect={handleNavigate}
           mobileOpen={menuOpen}
           onCloseMobile={() => setMenuOpen(false)}
+          collapsed={sidebarCollapsed}
         />
         <div className="flex min-w-0 flex-1 flex-col">
           <CommandBar
             active={active}
             onNavigate={handleNavigate}
             onOpenMenu={() => setMenuOpen(true)}
+            onToggleSidebar={() => setSidebarCollapsed((v) => !v)}
+            sidebarCollapsed={sidebarCollapsed}
           />
+
           <main
             ref={mainRef}
             key={active}

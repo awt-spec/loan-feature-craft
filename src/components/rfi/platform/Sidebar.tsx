@@ -24,11 +24,13 @@ export function Sidebar({
   onSelect,
   mobileOpen = false,
   onCloseMobile,
+  collapsed = false,
 }: {
   active: SectionId;
   onSelect: (id: SectionId) => void;
   mobileOpen?: boolean;
   onCloseMobile?: () => void;
+  collapsed?: boolean;
 }) {
   const items: { id: SectionId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "overview", label: "Panel general", icon: LayoutDashboard },
@@ -55,13 +57,18 @@ export function Sidebar({
       )}
 
       <aside
+        aria-hidden={collapsed && !mobileOpen ? undefined : undefined}
         className={[
           "flex h-dvh w-72 shrink-0 flex-col border-r border-border/70 bg-surface-1/95 backdrop-blur-xl",
           "pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]",
-          "fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:z-auto lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 transition-all duration-300 lg:sticky lg:top-0 lg:h-screen lg:z-auto",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          collapsed
+            ? "lg:pointer-events-none lg:w-0 lg:-translate-x-full lg:overflow-hidden lg:border-r-0 lg:opacity-0"
+            : "lg:pointer-events-auto lg:opacity-100",
         ].join(" ")}
       >
+
         {/* Brand */}
         <div className="flex items-center gap-3 border-b border-border/70 px-5 py-5">
           <div className="relative">
