@@ -41,6 +41,7 @@ import {
   MousePointerClick,
 } from "lucide-react";
 import { Reveal } from "./motion";
+import { LoanFunctionality } from "./LoanFunctionality";
 
 type SubModule = { icon: LucideIcon; title: string };
 
@@ -294,6 +295,8 @@ export function SafSolarSystem() {
           )}
         </div>
       </Reveal>
+
+      <LoanFunctionality />
     </section>
   );
 }
