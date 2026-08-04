@@ -390,19 +390,30 @@ export function LoanDiagram({ onBack }: { onBack: () => void }) {
       </Reveal>
 
       {area && (
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          {(block ? [block] : area.blocks).map((b) => (
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {(block ? [block] : area.blocks).map((b, i) => (
             <div
               key={b.title}
-              className="rounded-xl border border-border/60 bg-surface-2/60 p-4 transition hover:border-primary/40"
+              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-surface-2/70 p-5 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-sysde"
             >
-              <div className="text-mono mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-                {b.title}
+              <span className="absolute inset-x-0 top-0 h-[3px] bg-gradient-hero opacity-70 transition group-hover:opacity-100" />
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <span className="text-mono block text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                    {String(i + 1).padStart(2, "0")} · Grupo
+                  </span>
+                  <span className="mt-0.5 block font-heading text-sm font-black leading-snug text-foreground">
+                    {b.title}
+                  </span>
+                </div>
+                <span className="text-mono shrink-0 rounded-full border border-primary/25 bg-primary/10 px-2 py-1 text-[10px] font-bold text-primary">
+                  {b.items.length}
+                </span>
               </div>
-              <ul className="space-y-1.5">
+              <ul className="space-y-2 border-t border-border/60 pt-3">
                 {b.items.map((it) => (
-                  <li key={it} className="flex gap-2 text-[13px] leading-snug text-muted-foreground">
-                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
+                  <li key={it} className="flex gap-2.5 text-[13px] leading-relaxed text-muted-foreground">
+                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
                     <span>{it}</span>
                   </li>
                 ))}
@@ -412,23 +423,29 @@ export function LoanDiagram({ onBack }: { onBack: () => void }) {
         </div>
       )}
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {pillars.map((p) => {
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {pillars.map((p, i) => {
           const Icon = p.icon;
           return (
             <div
               key={p.title}
-              className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-surface-2/60 p-5"
+              className="group relative overflow-hidden rounded-2xl border border-border/70 bg-surface-2/70 p-5 transition duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-sysde"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/25">
-                <Icon className="h-5 w-5" strokeWidth={2.25} />
-              </span>
-              <div className="space-y-1">
-                <p className="font-heading text-sm font-bold leading-snug text-foreground">
-                  {p.title}
-                </p>
-                <p className="text-[13px] leading-relaxed text-muted-foreground">{p.text}</p>
+              <span className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-primary/10 blur-xl transition group-hover:bg-primary/20" />
+              <div className="relative flex items-center justify-between">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde">
+                  <Icon className="h-5 w-5 text-white" strokeWidth={2.25} />
+                </span>
+                <span className="text-mono text-[11px] font-bold text-primary/50">
+                  0{i + 1}
+                </span>
               </div>
+              <p className="relative mt-4 font-heading text-sm font-black leading-snug text-foreground">
+                {p.title}
+              </p>
+              <p className="relative mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
+                {p.text}
+              </p>
             </div>
           );
         })}
