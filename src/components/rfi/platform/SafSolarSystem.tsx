@@ -41,7 +41,7 @@ import {
   MousePointerClick,
 } from "lucide-react";
 import { Reveal } from "./motion";
-import { LoanFunctionality } from "./LoanFunctionality";
+import { LoanEntryButton, LoanDiagram } from "./LoanFunctionality";
 
 type SubModule = { icon: LucideIcon; title: string };
 
