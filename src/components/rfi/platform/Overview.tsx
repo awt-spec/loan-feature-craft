@@ -186,6 +186,15 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
                       </li>
                     ))}
                   </ul>
+                  <div className="mt-4 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2">
+                    <div className="text-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                      TCO a 5 años
+                    </div>
+                    <div className="text-mono mt-0.5 text-xs text-foreground">
+                      USD 899,940 · 60 meses sin costos adicionales de licencias, infraestructura, soporte ni
+                      actualizaciones
+                    </div>
+                  </div>
                 </div>
               </SpotlightCard>
             </Reveal>
