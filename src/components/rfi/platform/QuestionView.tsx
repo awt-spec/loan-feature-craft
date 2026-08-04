@@ -304,7 +304,7 @@ export function QuestionView({
                 <MapPin className="h-3.5 w-3.5" />
                 Clientes prioritarios · referencias verificables
               </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 {clientes.map((c) => (
                   <div
                     key={c.n}
@@ -369,7 +369,7 @@ export function QuestionView({
       </article>
 
       {/* Sidebar */}
-      <aside className="hidden xl:block">
+      <aside className="hidden lg:block">
         <div className="sticky top-24 space-y-4">
           {/* Progress */}
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-card-soft">
