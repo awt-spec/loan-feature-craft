@@ -240,7 +240,7 @@ export function LoanEntryButton({ onOpen }: { onOpen: () => void }) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block font-heading text-base font-black tracking-tight md:text-lg">
-          Ver funcionalidad completa de Préstamos y Créditos
+          Ver funcionalidad súper detallada de Préstamos y Créditos
         </span>
         <span className="text-mono block text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
           {areas.length} áreas · {totalItems} funcionalidades documentadas
