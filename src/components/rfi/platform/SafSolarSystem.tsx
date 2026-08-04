@@ -301,7 +301,7 @@ export function SafSolarSystem() {
         </div>
       </Reveal>
 
-      <LoanFunctionality />
+      <LoanEntryButton onOpen={() => setLoansView(true)} />
     </section>
   );
 }
