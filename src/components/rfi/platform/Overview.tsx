@@ -146,50 +146,67 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
       {/* Sistema solar modular */}
       <SafSolarSystem />
 
-      {/* Propuesta de valor directa */}
+      {/* Los 3 pilares */}
 
       <section>
         <SectionHeader
           kicker="Propuesta de valor"
-          title="Por qué SYSDE, en tres líneas"
-          subtitle="Sin rodeos: qué hacemos distinto, qué incluye y cuánto cuesta."
+          title="Los 3 pilares de la solución"
+          subtitle="Experiencia comprobada, suscripción ilimitada y un precio único mensual."
         />
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <Reveal delay={0}>
             <SpotlightCard className="glass-panel group relative h-full overflow-hidden rounded-2xl p-6">
               <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/10 blur-2xl transition group-hover:bg-primary/25" />
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
-                <Target className="h-5 w-5" strokeWidth={2.25} />
+              <div className="flex items-center gap-3">
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+                  <Target className="h-5 w-5" strokeWidth={2.25} />
+                </div>
+                <span className="text-mono rounded-full border border-primary/25 bg-primary/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                  Pilar 01
+                </span>
               </div>
-              <div className="text-mono mt-4 text-[10px] uppercase tracking-[0.22em] text-primary">
-                Precisión SYSDE
-              </div>
-              <h3 className="mt-1 font-heading text-xl font-bold leading-tight">
-                Un core, un runtime, un foco: banca.
-              </h3>
+              <h3 className="mt-4 font-heading text-xl font-bold leading-tight">Experiencia</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                35+ años dedicados exclusivamente a software financiero. SAF+ corre 100% sobre .NET 10 LTS,
-                microservicios contenerizados y API-First — sin capas heredadas, sin JVM, sin middleware de terceros.
-                800+ instituciones en producción respaldan cada decisión de ingeniería.
+                35+ años dedicados exclusivamente a software financiero y 800+ instituciones en producción.
+                SAF+ corre 100% sobre .NET 10 LTS, microservicios contenerizados y API-First — sin capas
+                heredadas ni middleware de terceros.
               </p>
+              <ul className="mt-4 space-y-1.5 text-sm text-foreground">
+                {[
+                  "35+ años de operación continua",
+                  "800+ instituciones financieras",
+                  "160 especialistas técnicos",
+                ].map((i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2.5} />
+                    <span>{i}</span>
+                  </li>
+                ))}
+              </ul>
             </SpotlightCard>
           </Reveal>
 
           <Reveal delay={90}>
             <SpotlightCard className="glass-panel group relative h-full overflow-hidden rounded-2xl p-6">
               <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/10 blur-2xl transition group-hover:bg-primary/25" />
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
-                <PackageCheck className="h-5 w-5" strokeWidth={2.25} />
+              <div className="flex items-center gap-3">
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+                  <PackageCheck className="h-5 w-5" strokeWidth={2.25} />
+                </div>
+                <span className="text-mono rounded-full border border-primary/25 bg-primary/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                  Pilar 02
+                </span>
               </div>
-              <div className="text-mono mt-4 text-[10px] uppercase tracking-[0.22em] text-primary">
-                Modelo todo incluido
-              </div>
-              <h3 className="mt-1 font-heading text-xl font-bold leading-tight">
-                Una sola cuota. Cero letra chica.
-              </h3>
-              <ul className="mt-3 space-y-1.5 text-sm text-foreground">
+              <h3 className="mt-4 font-heading text-xl font-bold leading-tight">Suscripción ilimitada</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Todos los módulos, usuarios y transacciones incluidos. Sin costos por módulo, por usuario
+                ni por volumen transaccional.
+              </p>
+              <ul className="mt-4 space-y-1.5 text-sm text-foreground">
                 {[
                   "Licenciamiento SAF+ completo (banca universal)",
+                  "Usuarios y transacciones ilimitados",
                   "Infraestructura cloud gestionada (Azure)",
                   "Soporte N1/N2/N3 en español · SYSDE + Inventiva",
                   "Actualizaciones, parches y nuevas versiones",
@@ -209,10 +226,16 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
               <div className="pointer-events-none absolute inset-0 bg-gradient-hero opacity-[0.08] transition group-hover:opacity-[0.14]" />
               <div className="pointer-events-none absolute -right-16 -bottom-16 h-40 w-40 rounded-full bg-primary/30 blur-3xl" />
               <div className="relative">
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-mono text-[10px] uppercase tracking-[0.2em] text-primary">
-                  <Sparkles className="h-3 w-3" strokeWidth={2.5} /> Pricing SYSDE
+                <div className="flex items-center gap-3">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+                    <Sparkles className="h-5 w-5" strokeWidth={2.25} />
+                  </div>
+                  <span className="text-mono rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                    Pilar 03
+                  </span>
                 </div>
-                <div className="mt-4 flex items-baseline gap-1">
+                <h3 className="mt-4 font-heading text-xl font-bold leading-tight">Precio</h3>
+                <div className="mt-3 flex items-baseline gap-1">
                   <span className="font-heading text-5xl font-black leading-none tracking-tight text-foreground">
                     USD 14,999
                   </span>
@@ -242,6 +265,7 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
       </section>
 
 
+
       {/* KPI Grid */}
       <section>
         <SectionHeader
@@ -257,14 +281,38 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
         </div>
       </section>
 
-      {/* Question matrix */}
-      <section>
-        <SectionHeader
-          kicker="Matriz de respuestas"
-          title="Las 6 preguntas del RFI"
-          subtitle="Cumplimiento y nivel de madurez declarado en cada eje."
-        />
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+      {/* Ver RFI — tab con todo el contenido del RFI */}
+      <section className="overflow-hidden rounded-3xl border border-white/10 bg-surface-2/60">
+        <div className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3 md:px-6">
+          <span className="inline-flex items-center gap-2 rounded-xl bg-gradient-hero px-3 py-1.5 text-xs font-semibold text-white shadow-sysde">
+            <BookOpenCheck className="h-3.5 w-3.5" strokeWidth={2.5} /> Ver RFI
+          </span>
+          {[
+            { id: "proceso", label: "Proceso" },
+            { id: "instrucciones", label: "Instrucciones" },
+            { id: "condiciones", label: "Condiciones" },
+            { id: "referencias", label: "Referencias" },
+          ].map((t) => (
+            <button
+              key={t.id}
+              onClick={() => onNavigate(t.id as SectionId)}
+              className="rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            >
+              {t.label}
+            </button>
+          ))}
+          <span className="text-mono ml-auto hidden text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:inline">
+            6 preguntas · respuestas completas
+          </span>
+        </div>
+        <div className="p-4 md:p-6">
+          <SectionHeader
+            kicker="Matriz de respuestas"
+            title="Las 6 preguntas del RFI"
+            subtitle="Cumplimiento y nivel de madurez declarado en cada eje. Abre cada pregunta para ver la respuesta formal."
+          />
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+
           {questions.map((q, idx) => (
             <Reveal key={q.n} delay={idx * 70}>
             <SpotlightCard
@@ -305,8 +353,10 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
             </SpotlightCard>
             </Reveal>
           ))}
+          </div>
         </div>
       </section>
+
 
       {/* Process + Vendor summary two-column */}
       <section className="grid gap-5 lg:grid-cols-3">
