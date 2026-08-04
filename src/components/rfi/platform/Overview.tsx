@@ -281,14 +281,38 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
         </div>
       </section>
 
-      {/* Question matrix */}
-      <section>
-        <SectionHeader
-          kicker="Matriz de respuestas"
-          title="Las 6 preguntas del RFI"
-          subtitle="Cumplimiento y nivel de madurez declarado en cada eje."
-        />
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+      {/* Ver RFI — tab con todo el contenido del RFI */}
+      <section className="overflow-hidden rounded-3xl border border-white/10 bg-surface-2/60">
+        <div className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3 md:px-6">
+          <span className="inline-flex items-center gap-2 rounded-xl bg-gradient-hero px-3 py-1.5 text-xs font-semibold text-white shadow-sysde">
+            <BookOpenCheck className="h-3.5 w-3.5" strokeWidth={2.5} /> Ver RFI
+          </span>
+          {[
+            { id: "proceso", label: "Proceso" },
+            { id: "instrucciones", label: "Instrucciones" },
+            { id: "condiciones", label: "Condiciones" },
+            { id: "referencias", label: "Referencias" },
+          ].map((t) => (
+            <button
+              key={t.id}
+              onClick={() => onNavigate(t.id as SectionId)}
+              className="rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            >
+              {t.label}
+            </button>
+          ))}
+          <span className="text-mono ml-auto hidden text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:inline">
+            6 preguntas · respuestas completas
+          </span>
+        </div>
+        <div className="p-4 md:p-6">
+          <SectionHeader
+            kicker="Matriz de respuestas"
+            title="Las 6 preguntas del RFI"
+            subtitle="Cumplimiento y nivel de madurez declarado en cada eje. Abre cada pregunta para ver la respuesta formal."
+          />
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+
           {questions.map((q, idx) => (
             <Reveal key={q.n} delay={idx * 70}>
             <SpotlightCard
