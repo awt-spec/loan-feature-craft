@@ -47,7 +47,7 @@ export function QuestionView({
     .filter(Boolean) as { i: number; text: string }[];
 
   return (
-    <div className="grid gap-6 pb-20 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
+    <div className="grid gap-6 pb-20 xl:grid-cols-[minmax(0,1fr)_300px] xl:gap-10">
       {/* Main */}
       <article className="min-w-0">
         {/* Cinematic header */}
@@ -369,7 +369,7 @@ export function QuestionView({
       </article>
 
       {/* Sidebar */}
-      <aside className="hidden lg:block">
+      <aside className="hidden xl:block">
         <div className="sticky top-24 space-y-4">
           {/* Progress */}
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-card-soft">
