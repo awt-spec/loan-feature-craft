@@ -1,7 +1,7 @@
 import type { SectionId } from "./PlatformShell";
 import { process } from "@/lib/rfi-content";
 import { ThemeToggle } from "./ThemeToggle";
-import { ChevronRight, Signal, Timer, FileDown, Menu, PanelLeftOpen, PanelLeftClose } from "lucide-react";
+import { ChevronRight, Timer, FileDown, Menu, PanelLeftOpen, PanelLeftClose } from "lucide-react";
 
 function daysUntil(iso: string) {
   const d = new Date(iso).getTime();
@@ -72,7 +72,6 @@ export function CommandBar({
         <div className="min-w-0 truncate font-heading text-sm font-semibold">{label}</div>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
-          <StatusPill />
           <DeadlinePill days={days} closes={process.cierre} />
           <ThemeToggle />
           <button className="hidden items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground md:inline-flex">
@@ -85,14 +84,6 @@ export function CommandBar({
   );
 }
 
-function StatusPill() {
-  return (
-    <div className="hidden items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-700 md:inline-flex dark:text-emerald-300">
-      <Signal className="h-3 w-3 pulse-dot" />
-      <span className="text-mono uppercase tracking-[0.18em]">En preparación</span>
-    </div>
-  );
-}
 
 function DeadlinePill({ days, closes }: { days: number; closes: string }) {
   return (
