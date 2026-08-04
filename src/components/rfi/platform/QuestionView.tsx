@@ -370,7 +370,7 @@ export function QuestionView({
 
       {/* Sidebar */}
       <aside className="hidden lg:block">
-        <div className="sticky top-24 space-y-4">
+        <div className="scrollbar-thin sticky top-4 max-h-[calc(100vh-6rem)] space-y-4 overflow-y-auto overscroll-contain pr-1">
           {/* Progress */}
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-card-soft">
             <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />

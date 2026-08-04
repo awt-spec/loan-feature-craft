@@ -105,44 +105,6 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
         </div>
       </section>
 
-      {/* El producto: SAF+ */}
-      <section>
-        <SectionHeader
-          kicker="El producto"
-          title="SAF+ — core bancario modular"
-          subtitle="Una sola plataforma, módulos independientes que se activan según el negocio del banco."
-        />
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {[
-            {
-              icon: Layers3,
-              title: "Arquitectura modular",
-              text: "Colocación, captación, canales digitales, tesorería, seguridad, BI, facturación y notificaciones operan como módulos desacoplados sobre un core común, con datos y contabilidad unificados.",
-            },
-            {
-              icon: Code2,
-              title: "API-First y contenerizado",
-              text: "Microservicios en .NET 10 LTS, Docker y API Gateway. Cada módulo se despliega, escala y actualiza sin detener la operación del resto del core.",
-            },
-            {
-              icon: PackageCheck,
-              title: "Activación por etapas",
-              text: "El banco enciende solo los módulos que necesita hoy y suma los demás después, sin migraciones nuevas ni reimplementación del core.",
-            },
-          ].map((c, idx) => (
-            <Reveal key={c.title} delay={idx * 90}>
-              <SpotlightCard className="glass-panel h-full rounded-2xl p-6">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
-                  <c.icon className="h-5 w-5" strokeWidth={2.25} />
-                </div>
-                <h3 className="mt-4 font-heading text-lg font-bold leading-tight">{c.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.text}</p>
-              </SpotlightCard>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       {/* Sistema solar modular + propuesta de valor (todo junto) */}
       <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-surface-2/40 p-4 md:p-8">
         <div className="pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
@@ -245,6 +207,44 @@ export function Overview({ onNavigate }: { onNavigate: (id: SectionId) => void }
               </SpotlightCard>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* El producto: SAF+ */}
+      <section>
+        <SectionHeader
+          kicker="El producto"
+          title="SAF+ — core bancario modular"
+          subtitle="Una sola plataforma, módulos independientes que se activan según el negocio del banco."
+        />
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {[
+            {
+              icon: Layers3,
+              title: "Arquitectura modular",
+              text: "Colocación, captación, canales digitales, tesorería, seguridad, BI, facturación y notificaciones operan como módulos desacoplados sobre un core común, con datos y contabilidad unificados.",
+            },
+            {
+              icon: Code2,
+              title: "API-First y contenerizado",
+              text: "Microservicios en .NET 10 LTS, Docker y API Gateway. Cada módulo se despliega, escala y actualiza sin detener la operación del resto del core.",
+            },
+            {
+              icon: PackageCheck,
+              title: "Activación por etapas",
+              text: "El banco enciende solo los módulos que necesita hoy y suma los demás después, sin migraciones nuevas ni reimplementación del core.",
+            },
+          ].map((c, idx) => (
+            <Reveal key={c.title} delay={idx * 90}>
+              <SpotlightCard className="glass-panel h-full rounded-2xl p-6">
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-hero text-white shadow-sysde ring-1 ring-white/10">
+                  <c.icon className="h-5 w-5" strokeWidth={2.25} />
+                </div>
+                <h3 className="mt-4 font-heading text-lg font-bold leading-tight">{c.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.text}</p>
+              </SpotlightCard>
+            </Reveal>
+          ))}
         </div>
       </section>
 
