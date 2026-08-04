@@ -89,7 +89,7 @@ export function PlatformShell() {
             key={active}
             className="scrollbar-thin flex-1 overflow-y-auto px-4 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-8 sm:pb-[calc(2rem+env(safe-area-inset-bottom))] md:px-10 md:pt-10 md:pb-[calc(2.5rem+env(safe-area-inset-bottom))] animate-in fade-in slide-in-from-bottom-2 duration-500"
           >
-            <div className="mx-auto max-w-6xl">
+            <div className="mx-auto w-full max-w-[1560px]">
               {content}
               {/* Espacio para el bottom nav móvil de preguntas */}
               {active.startsWith("q") && <div aria-hidden className="h-20 lg:hidden" />}
