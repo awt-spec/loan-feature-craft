@@ -165,7 +165,7 @@ export function QuestionView({
                 if (b.kind === "h") {
                   return (
                     <div key={i} id={`q${question.n}-h${i}`} className="relative mt-8 first:mt-0">
-                      <div className="absolute -left-6 top-1.5 hidden h-3 w-3 rounded-full bg-primary ring-4 ring-primary/15 md:block" />
+                      <div className="absolute -left-8 top-1.5 hidden h-3 w-3 -translate-x-[5px] rounded-full bg-primary ring-4 ring-primary/15 md:block" />
                       <h3 className="font-heading text-lg font-black uppercase tracking-wider text-primary md:text-xl">
                         {b.text}
                       </h3>
